@@ -1,10 +1,18 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { Sunny, Moon } from '@element-plus/icons-vue'
 import IconGithub from '@/components/icons/IconGithub.vue'
-import { ElButton } from 'element-plus'
 import { useGlobalStore } from '@/stores/global'
 
+import { useDark, useToggle } from '@vueuse/core'
+
 const globalStore = useGlobalStore()
+
+// 切换主题
+function changeTheme() {
+	useToggle(useDark())()
+}
+
 const title = ref(globalStore.pageTitle)
 
 function openGithub() {
@@ -13,23 +21,30 @@ function openGithub() {
 </script>
 
 <template>
-	<header class="flex items-center justify-between px-4 py-2 bg-dark-600 text-light-50">
+	<header
+		class="app-header border-b-solid border-b-1px">
 		<div class="flex items-center">
-			<IconGithub class="github-icon mx-4 cursor-pointer"
-				:class="true ? 'text-white' : 'text-black'"
-				@click="openGithub" />
-			<h1 class="text-xl font-bold hidden sm:inline">{{ title }}</h1>
+			<IconGithub class="github-icon" @click="openGithub" />
+			<h1 class="text-xl font-bold">{{ title }}</h1>
 		</div>
-		<ElButton
-			type="primary"
-			size="small"
-			class="ml-auto sm:ml-0">
-			登录
-		</ElButton>
+
+		<div class="flex justify-end items-center">
+			<el-switch
+				class="mr-4"
+				size="large"
+				:active-icon="Moon"
+				:inactive-icon="Sunny"
+				:inline-prompt="true"
+				v-model="globalStore.isDark"
+				@change="changeTheme" />
+		</div>
 	</header>
 </template>
 <style lang="scss" scoped>
+.app-header {
+	@apply h-58px w-full flex-center flex-between flex-nowrap el-theme
+}
 .github-icon {
-	fill: currentColor;
+	@apply mx-4 cursor-pointer color-[var(--el-text-color-primary)]
 }
 </style>

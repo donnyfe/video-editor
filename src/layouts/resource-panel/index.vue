@@ -29,7 +29,7 @@ function onCollapse(visible: boolean) {
 </script>
 
 <template>
-	<div class="flex h-full overflow-hidden relative bg-dark-200">
+	<div class="flex h-full overflow-hidden relative">
 		<AppAside @toggle="toggle" />
 
 		<MenuPanel :title="selected.name"

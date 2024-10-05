@@ -17,7 +17,8 @@ const limitSize = reactive({
 </script>
 
 <template>
-	<div class="controls-panel flex flex-col overflow-hidden relative select-none bg-dark-300"
+	<div
+		class="controls-panel flex flex-col overflow-hidden relative select-none el-theme border-t-solid border-t-1px"
 		:style="panelStyle">
 
 		<SplitLine class="top-0 left-0 right-0"

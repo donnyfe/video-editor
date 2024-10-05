@@ -72,11 +72,11 @@ let enableMove = false
 
 
 function mouseEnterHandler() {
-	splitLineEl.value.classList.add('bg-active')
+	splitLineEl.value.classList.add('line-active')
 }
 
 function mouseLeaveHandler() {
-	splitLineEl.value.classList.remove('bg-active')
+	splitLineEl.value.classList.remove('line-active')
 }
 
 
@@ -85,7 +85,7 @@ function mouseDownHandler() {
 		return
 	}
 
-	splitLineEl.value.classList.add('bg-active')
+	splitLineEl.value.classList.add('line-active')
 	const { left, top } = splitLineEl.value.getBoundingClientRect()
 	posState.left = parseInt(left)
 	posState.top = parseInt(top)
@@ -118,14 +118,14 @@ function mouseDownHandler() {
 		enableMove = false
 		document.onmouseup = null
 		document.onmousemove = null
-		splitLineEl.value.classList.remove('bg-active')
+		splitLineEl.value.classList.remove('line-active')
 	}
 }
 </script>
 
 <template>
 	<div ref="splitLineEl"
-		class="flex absolute justify-center items-center hover:bg-cyan-200"
+		class="flex absolute justify-center items-center hover:bg-gray-300"
 		:class="[
 			disabled ? 'cursor-no-drop' : isVertical ? 'cursor-col-resize' : 'cursor-row-resize',
 			isVertical ? 'w-0.5 h-full flex-col' : 'h-0.5 w-full flex-row'
@@ -139,7 +139,7 @@ function mouseDownHandler() {
 	</div>
 </template>
 <style scoped>
-.bg-active {
+.line-active {
 	background-color: rgb(165 243 252 / var(200))
 }
 </style>

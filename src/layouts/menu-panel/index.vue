@@ -38,12 +38,13 @@ function toggle() {
 
 <template>
 	<div
-		class="bg-dark-400 flex flex-col transition-all duration-200 overflow-xhidden dark:border-r-2 dark:border-darker border-gray-300 border-r"
+		class="flex flex-col transition-all duration-200 overflow-x-hidden el-theme border-r-solid border-r-1px"
 		:class="visible ? 'w-80' : 'w-0'">
-		<div class="min-h-full flex flex-col overflow-hidden dark:border-darker border-gray-300">
-			<div class="h-10 px-3 dark:border-darker border-gray-300 flex items-center justify-between">
+		<div class="min-h-full flex flex-col overflow-hidden ">
+			<div
+				class="h-10 px-3 flex-between border-b-solid border-b-1px el-theme-border">
 				<span class="inline leading-10 select-none">{{ title }}</span>
-				<IconDArrowLeft class="w-4 h-4" @click="toggle" />
+				<IconDArrowLeft class="w-4 h-4 hover:cursor-pointer" @click="toggle" />
 			</div>
 		</div>
 	</div>
