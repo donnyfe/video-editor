@@ -126,7 +126,9 @@ export default [
 			// 禁止出现未使用过的变量
 			'no-unused-vars': 'error',
 			// 要求 switch 语句中有 default 分支
-			'default-case': 'error',
+			'default-case': 'off',
+			// switch 冒号后要有空格
+			'switch-colon-spacing': ['error', { before: false, after: true }],
 			// 大括号风格 ["error", "1tbs"]
 			'brace-style': ['error', '1tbs', { allowSingleLine: true }],
 			// 对象中不允许出现重复的键
@@ -175,8 +177,7 @@ export default [
 			'keyword-spacing': 'error',
 			// 一行最后不允许有空格
 			'no-trailing-spaces': 'error',
-			// switch 冒号后要有空格
-			'switch-colon-spacing': ['error', { before: false, after: true }],
+
 			// 不允许出现多余的空格
 			'no-multi-spaces': 'error',
 		},

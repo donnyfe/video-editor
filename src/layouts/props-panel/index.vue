@@ -18,7 +18,7 @@ const limitSize = reactive({
 	<div class="select-none relative el-theme border-l-solid border-l-1px"
 		:style="panelStyle">
 
-		<SplitLine class="top-0 left-0 bottom-0"
+		<SplitLine class="top-0 bottom-0 left-0"
 			direction="vertical"
 			:limit-size="limitSize"
 			v-model:newWidth="globalStore.propsPanelWidth" />
