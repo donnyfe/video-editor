@@ -13,8 +13,7 @@ export default defineConfig({
 	},
 	shortcuts: {
 		'wh-full': 'w-full h-full',
-		center: 'flex items-center justify-center',
-		'flex-center': 'flex flex-row items-center',
+		'flex-center': 'flex flex-row items-center justify-center',
 		'flex-between': 'flex flex-row items-center justify-between',
 		// element plus
 		'el-theme-bg': 'bg-[var(--el-bg-color)]',
