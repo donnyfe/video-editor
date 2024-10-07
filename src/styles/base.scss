@@ -31,3 +31,11 @@ body {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
+
+body.page-loading .loading-overlay {
+  display: flex;
+}
+
+.loading-overlay {
+  display: none;
+}
