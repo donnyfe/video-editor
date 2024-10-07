@@ -30,7 +30,7 @@ onMounted(() => {
 			</video>
 		</li> -->
 
-		<li class="video-list__item w-90% h-120px mb-4 border-1px border-solid el-theme-border bg-dark">
+		<!-- <li class="video-list__item w-90% h-120px mb-4 border-1px border-solid el-theme-border bg-dark">
 			<video ref="videoRef"
 				class="wh-full"
 				src="./test.mp4"
@@ -42,7 +42,7 @@ onMounted(() => {
 				src="./test2.mp4"
 				controls>
 			</video>
-		</li>
+		</li> -->
 	</ul>
 </template>
 
