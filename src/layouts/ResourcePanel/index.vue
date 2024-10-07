@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref, nextTick } from 'vue'
-import AppAside from '@/layouts/app-aside/index.vue'
-import MenuPanel from '@/layouts/menu-panel/index.vue'
-import { useGlobalStore } from '@/stores/global'
-import type { MenuItem } from '@/types/global'
+import AppAside from '@/layouts/AppAside/index.vue'
+import MenuPanel from '@/layouts/MenuPanel/index.vue'
+import { useGlobalStore } from '@/stores'
+import type { MenuItem } from '@/types'
 
 const globalStore = useGlobalStore()
 

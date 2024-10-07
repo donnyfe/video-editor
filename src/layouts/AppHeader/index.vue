@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { Sunny, Moon } from '@element-plus/icons-vue'
-import IconGithub from '@/components/icons/IconGithub.vue'
-import { useGlobalStore } from '@/stores/global'
+import IconGithub from '@/components/Icons/IconGithub.vue'
+import { useGlobalStore } from '@/stores'
 
 import { useDark, useToggle } from '@vueuse/core'
 
@@ -21,16 +21,15 @@ function openGithub() {
 </script>
 
 <template>
-	<header
-		class="app-header border-b-solid border-b-1px">
+	<header class="app-header border-b-solid border-b-1px">
 		<div class="flex items-center">
-			<IconGithub class="github-icon" @click="openGithub" />
+			<IconGithub class="github-icon"
+				@click="openGithub" />
 			<h1 class="text-xl font-bold">{{ title }}</h1>
 		</div>
 
 		<div class="flex justify-end items-center">
-			<el-switch
-				class="mr-4"
+			<el-switch class="mr-4"
 				size="large"
 				:active-icon="Moon"
 				:inactive-icon="Sunny"
@@ -44,6 +43,7 @@ function openGithub() {
 .app-header {
 	@apply h-58px w-full flex-center flex-between flex-nowrap el-theme
 }
+
 .github-icon {
 	@apply mx-4 cursor-pointer color-[var(--el-text-color-primary)]
 }

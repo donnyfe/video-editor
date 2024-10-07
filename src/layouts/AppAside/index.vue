@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import AsideItem from '@/layouts/app-aside/aside-item.vue'
-import type { MenuItem } from '@/types/global.ts'
+import AsideItem from './AsideItem.vue'
+import type { MenuItem } from '@/types'
 
 const emit = defineEmits({
 	toggle: (data: MenuItem) => typeof data === 'object'
@@ -32,7 +32,8 @@ function toggle(item: MenuItem) {
 				:key="item.type"
 				@click="toggle(item)">
 
-				<AsideItem :name="item.name" :type="item.type" />
+				<AsideItem :name="item.name"
+					:type="item.type" />
 			</div>
 		</div>
 	</div>

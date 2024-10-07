@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import { ref, watch, defineEmits, defineProps } from 'vue'
+import { ref, watch, computed, defineEmits, defineProps } from 'vue'
 import IconDArrowLeft from '@/components/Icons/IconDArrowLeft.vue'
-import VideoPanel from '@/components/VideoPanel/index.vue'
-import AudioPanel from '@/components/AudioPanel/index.vue'
-import ImagePanel from '@/components/ImagePanel/index.vue'
-import TextPanel from '@/components/TextPanel/index.vue'
+import resourceTypes from '@/components/resource'
+import { capitalize } from '@/utils'
 
 const props = defineProps({
 	acitve: {
@@ -38,6 +36,13 @@ function toggle() {
 	visible.value = !visible.value
 	emit('collapse', visible.value)
 }
+
+
+const resourcePanel = computed(() => {
+	const resource = resourceTypes[props.acitve as keyof typeof resourceTypes]
+	return resource[`${capitalize(props.acitve)}Panel` as keyof typeof resource]
+})
+
 </script>
 
 <template>
@@ -49,11 +54,7 @@ function toggle() {
 				<IconDArrowLeft class="w-4 h-4 hover:cursor-pointer"
 					@click="toggle" />
 			</div>
-
-			<VideoPanel v-if="acitve === 'video'" />
-			<AudioPanel v-if="acitve === 'audio'" />
-			<ImagePanel v-if="acitve === 'image'" />
-			<TextPanel v-if="acitve === 'text'" />
+			<component :is="resourcePanel" />
 		</div>
 	</div>
 </template>

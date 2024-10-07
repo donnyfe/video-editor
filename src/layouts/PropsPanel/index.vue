@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed, reactive } from 'vue'
-import { useGlobalStore } from '@/stores/global'
-import SplitLine from '@/layouts/split-line.vue'
+import SplitLine from '@/layouts/SplitLine.vue'
+import { useGlobalStore } from '@/stores'
+
 const globalStore = useGlobalStore()
 
 const panelStyle = computed(() => ({
