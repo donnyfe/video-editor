@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { ref, watch, computed, defineEmits, defineProps } from 'vue'
 import IconDArrowLeft from '@/components/Icons/IconDArrowLeft.vue'
-import resourceTypes from '@/components/resource'
-import { capitalize } from '@/utils'
+import resourceTypes from './resourceTypes'
 
 const props = defineProps({
 	acitve: {
@@ -37,10 +36,8 @@ function toggle() {
 	emit('collapse', visible.value)
 }
 
-
 const resourcePanel = computed(() => {
-	const resource = resourceTypes[props.acitve as keyof typeof resourceTypes]
-	return resource[`${capitalize(props.acitve)}Panel` as keyof typeof resource]
+	return resourceTypes[props.acitve as keyof typeof resourceTypes]
 })
 
 </script>
