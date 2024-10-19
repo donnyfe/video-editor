@@ -4,7 +4,7 @@
 			<div class="progress"
 				:style="{ width: `${progress}%` }"></div>
 		</div>
-		<p class="progress-text">Loading...{{ progress }}%</p>
+		<p class="progress-text">正在加载中...{{ progress }}%</p>
 	</div>
 </template>
 
@@ -31,12 +31,12 @@ onMounted(() => {
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background-color: rgba(0, 0, 0, 0.5);
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	z-index: 9999;
+	@apply bg-dark-300;
 }
 
 .progress-bar {

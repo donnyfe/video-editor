@@ -15,7 +15,7 @@ const videoList = ref([
 const videoRef = ref<HTMLVideoElement>()
 
 onMounted(() => {
-	console.log(videoRef.value)
+
 })
 </script>
 

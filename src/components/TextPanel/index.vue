@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import { reactive } from 'vue'
 import TextList from './TextList.vue'
 import type { TextStyle } from './TextList.vue'
-import { TextTrack } from '@/components/text/TextTrack'
+import { TextTrack } from '@/classes/TextTrack'
 import { usePlayerStore, useTrackStore } from '@/stores'
 
 
@@ -12,7 +13,6 @@ function createTrack(style: TextStyle) {
 	addTrack(style)
 }
 
-
 function addTrack(style: TextStyle) {
 	const textOptions = {
 		name: '文本',
@@ -21,7 +21,9 @@ function addTrack(style: TextStyle) {
 		fontFamily: 'Arial',
 		...style
 	}
-	trackStore.addTrack(new TextTrack(textOptions, playerStore.playStartFrame))
+
+	const textTrack = reactive(new TextTrack(textOptions, playerStore.playFrame))
+	trackStore.addTrack(textTrack)
 }
 
 

@@ -1,60 +1,63 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { UploadFilled } from '@element-plus/icons-vue'
-import { ElMessage } from 'element-plus'
+import { ref, reactive } from 'vue'
+import type { MP4Clip } from '@webav/av-cliper'
 import type { UploadUserFile } from 'element-plus'
+import { UploadFilled } from '@element-plus/icons-vue'
 import VideoList from './VideoList.vue'
-import { VideoTrack } from '@/components/video/VideoTrack'
+import { VideoTrack } from '@/classes'
 import { usePlayerStore, useTrackStore } from '@/stores'
-import { getMD5, videoDecoder } from '@/utils'
-
-const fileList = ref<UploadUserFile[]>([])
+import { getMD5, decodeVideo } from '@/utils'
 
 const trackStore = useTrackStore()
 const playerStore = usePlayerStore()
+
 
 async function onUpload(userFile: UploadUserFile) {
 	const file = userFile.raw as File
 
 	// TODO：性能优化-计算文件MD5可通过woker进行
 	console.time('生成md5耗时')
-	const id = await getMD5(await file.arrayBuffer())
+	const md5 = await getMD5(await file.arrayBuffer())
 	console.timeEnd('生成md5耗时')
-	// 解析视频
-	console.time('解析视频耗时')
-	const clip = await videoDecoder.decode({ id, stream: file.stream(), type: file.type })
-	console.timeEnd('解析视频耗时')
 
-	if (!clip) {
-		return ElMessage.error('解析视频失败')
-	}
+	const clip = await decodeVideo(md5, file) as MP4Clip
 
+	addTrack(md5, file, clip)
+}
 
-	// 创建视频轨道
-	const videoTrack = new VideoTrack({
+/**
+ * 添加视频轨道
+ * @param id
+ * @param file
+ * @param clip
+ */
+function addTrack(id: string, file: File, clip: MP4Clip) {
+	const width = clip.meta.width
+	const height = clip.meta.height
+	const duration = Math.round(clip.meta.duration / 1e6)
+
+	const trackOptions = {
 		id,
 		url: URL.createObjectURL(file), // 返回一个blob URL，可以用来引用内存中的文件数据。
 		name: file.name,
 		format: file.type,
-		width: clip.meta.width,
-		height: clip.meta.height,
-		duration: Math.round(clip.meta.duration / 1e6)
-	}, playerStore.playStartFrame)
+		width,
+		height,
+		duration
+	}
 
-	videoTrack.resize({
-		width: playerStore.playerWidth,
-		height: playerStore.playerHeight
-	})
+	// 创建视频轨道
+	const videoTrack = reactive(new VideoTrack(trackOptions, playerStore.playFrame))
 
 	trackStore.addTrack(videoTrack)
 }
+
 </script>
 
 <template>
 	<div class="video-panel mx-4 my-4">
 		<el-upload ref="uploadRef"
 			class="video-uploader"
-			v-model:file-list="fileList"
 			drag
 			accept=".mp4"
 			:multiple="false"
@@ -67,7 +70,7 @@ async function onUpload(userFile: UploadUserFile) {
 				拖拽文件到此处 或 <em>点击上传</em>
 			</div>
 			<template #tip>
-				<div class="el-upload__tip">提示: 此处是上传提示</div>
+				<div class="el-upload__tip">上传提示: xxxx</div>
 			</template>
 		</el-upload>
 

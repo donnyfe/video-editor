@@ -1,59 +1,58 @@
 import { ImgClip, OffscreenSprite } from '@webav/av-cliper'
 import { uniqueId } from 'lodash-es'
-import { imageDecoder } from '@/utils/webcodecs'
-import type { TrackType, ImageSource } from '@/types'
-import BaseTrack from '../BaseTrack'
-const UnitFrame2μs = 1e6 / 30
+import { imageDecoder } from '@/utils'
+import BaseTrack from './BaseTrack'
+import { usePlayerStore } from '@/stores'
+import type { ResourceType, ImageSource, Size } from '@/types'
 
-/**
- * 解析文件不能放在片段中：
- * 1. 文件解析是一个耗时操作，需要提前解析好，然后传递给片段
- * 2. 文件可能是网络资源，也可能是本地资源，在片段对象中要收束
- * 3. 不同片段可能共享同一个文件，解析一次即可
- * 4. 片段信息需要转换为文本进行存储（草稿）
- */
 export class ImageTrack extends BaseTrack {
 	id: string
-	type: TrackType = 'image'
 	source: ImageSource
+	type: ResourceType = 'image'
 	name: string
+	url: string
 	format: string
-	frameCount: number
-	start: number
-	end: any
-	centerX: number
-	centerY: number
-	scale: number
-	height: number
 	width: number
+	height: number
+	scale: number = 100
+	rotate: number = 0
+	centerX: number = 0
+	centerY: number = 0
+	offsetX: number = 0
+	offsetY: number = 0
+	playerStore: ReturnType<typeof usePlayerStore>
+
 	get drawHeight() {
 		return (this.height * this.scale) / 100
 	}
 	get drawWidth() {
 		return (this.width * this.scale) / 100
 	}
-	constructor(source: ImageSource, currentFrame: number) {
-		super('image', '图像')
 
+	constructor(source: ImageSource, cutFrame: number) {
+		super('image', '图像')
+		this.playerStore = usePlayerStore()
 		// 设置ID
 		this.id = uniqueId()
 		// 设置图片信息
 		this.source = source
 		// 获取文件名称
 		this.name = source.name
+		this.url = source.url
 		// 获取文件类型
 		this.format = source.format
-		// 设置轨道信息
-		this.frameCount = 30 * 60
-		this.start = currentFrame
-		this.end = this.start + this.frameCount
 
 		// 设置绘制信息
-		this.centerX = 0
-		this.centerY = 0
-		this.scale = 100
-		this.height = source.height
 		this.width = source.width
+		this.height = source.height
+		this.scale = 100
+		this.offsetX = this.getDrawX(this.playerStore.playerWidth)
+		this.offsetY = this.getDrawY(this.playerStore.playerHeight)
+
+		// 设置轨道信息
+		this.frameCount = 120
+		this.start = cutFrame
+		this.end = this.start + this.frameCount
 	}
 	getDrawX(width: number) {
 		return width / 2 - this.drawWidth / 2 + this.centerX
@@ -61,13 +60,9 @@ export class ImageTrack extends BaseTrack {
 	getDrawY(height: number) {
 		return height / 2 - this.drawHeight / 2 + this.centerY
 	}
-	draw(
-		ctx: CanvasRenderingContext2D,
-		{ width, height }: { width: number; height: number },
-		frameIndex: number,
-	) {
+	draw(ctx: CanvasRenderingContext2D, { width, height }: Size, frameIndex: number) {
 		const frame = Math.max(frameIndex - this.start, 0) // 默认展示首帧
-		return imageDecoder.getFrame(this.source.format, this.source.id, frame).then((vf) => {
+		return imageDecoder.getFrame(this.source.format, this.source.id, frame).then(async (vf) => {
 			if (vf) {
 				ctx.drawImage(
 					vf,
@@ -83,7 +78,7 @@ export class ImageTrack extends BaseTrack {
 			}
 		})
 	}
-	resize({ width, height }: { width: number; height: number }) {
+	resize({ width, height }: Size) {
 		// 视频、图片元素，在添加到画布中时，需要缩放为合适的尺寸，目标是能在画布中完整显示内容
 		let scale = 1
 		if (this.source.width > width) {
@@ -96,19 +91,28 @@ export class ImageTrack extends BaseTrack {
 		this.height = this.source.height * scale
 	}
 	// 生成合成对象
-	async combine(playerSize: { width: number; height: number }, outputRatio: number) {
+	async combine(playerSize: Size, outputRatio: number) {
+		outputRatio = outputRatio ?? 1
+
 		const frames = await imageDecoder.decode({ id: this.source.id })
 		if (!frames) {
 			throw new Error('frames is not ready')
 		}
 		const clip = new ImgClip(frames)
 		const spr = new OffscreenSprite(clip)
-		// TODO：需要支持裁剪
-		spr.time = { offset: this.start * UnitFrame2μs, duration: this.frameCount * UnitFrame2μs }
-		spr.rect.x = this.getDrawX(playerSize.width) * outputRatio
-		spr.rect.y = this.getDrawY(playerSize.height) * outputRatio
+
+		const baseFps = 30
+		const UnitFrame2μs = 1e6 / baseFps
+
+		spr.time = {
+			offset: this.start * UnitFrame2μs,
+			duration: this.frameCount * UnitFrame2μs,
+		}
+
 		spr.rect.w = this.drawWidth * outputRatio
 		spr.rect.h = this.drawHeight * outputRatio
+		spr.rect.x = this.getDrawX(playerSize.width) * outputRatio
+		spr.rect.y = this.getDrawY(playerSize.height) * outputRatio
 
 		return spr
 	}
