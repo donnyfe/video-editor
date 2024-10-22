@@ -47,8 +47,8 @@ function addTrack(id: string, file: File, clip: MP4Clip) {
 	}
 
 	// 创建视频轨道
-	const videoTrack = reactive(new VideoTrack(trackOptions, playerStore.playFrame))
-
+	const videoTrack = new VideoTrack(trackOptions, playerStore.playFrame)
+	videoTrack.resize({ width: playerStore.playerWidth, height: playerStore.playerHeight })
 	trackStore.addTrack(videoTrack)
 }
 
