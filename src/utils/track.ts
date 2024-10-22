@@ -1,12 +1,12 @@
-import { VideoTrack } from '@/components/video/VideoTrack'
-import { AudioTrack } from '@/components/audio/AudioTrack'
+import { VideoTrack } from '@/classes/VideoTrack'
+import { AudioTrack } from '@/classes'
 import { getTextRect } from './text'
-import type { BaseTrack, Track, TrackLineItem } from '@/types'
+import type { Resource, TrackListItem, Size } from '@/types'
 
 /**
  * 检查 checkItem 是否与当前 trackList 存在帧重叠部分
  * */
-export function checkTrackItemOverlap(trackList: BaseTrack[], checkItem: BaseTrack) {
+export function checkTrackItemOverlap(trackList: any[], checkItem: any) {
 	const { start: insertStart, end: insertEnd } = checkItem
 	let overLapIndex = -1
 	let insertIndex = 0
@@ -47,7 +47,7 @@ export function isOfCanPlayType(value: unknown): value is VideoTrack | AudioTrac
 }
 
 export const getCurrentTrackItemList = <T>(
-	trackList: TrackLineItem[],
+	trackList: TrackListItem[],
 	currentFrame: number,
 	isOfType: TypeGuard<T>,
 ): T[] => {
@@ -70,13 +70,14 @@ export const getCurrentTrackItemList = <T>(
  * 2. 重叠的index
  * 3. 插入的index
  */
-export function checkTrackListOverlap(trackList: Track[], checkItem: Track, moveIndex = -1) {
+export function checkTrackListOverlap(trackList: Resource[], checkItem: Resource, moveIndex = -1) {
 	const { start: insertStart, end: insertEnd } = checkItem
 	let overLapIndex = -1
 	let insertIndex = 0
+
 	const hasOverlap = trackList.some((trackItem, index) => {
+		// 行内移动情况下忽略掉移动元素
 		if (moveIndex !== -1 && index === moveIndex) {
-			// 行内移动情况下忽略掉移动元素
 			return false
 		}
 		const { start, end } = trackItem
@@ -102,12 +103,13 @@ export function checkTrackListOverlap(trackList: Track[], checkItem: Track, move
 	}
 }
 
-interface CanvasSize {
-	width: number
-	height: number
-}
-
-export function calcTrackItemAttr(trackItem: Record<string, any>, canvasSize: CanvasSize) {
+/**
+ * 计算轨道元素属性
+ * @param trackItem
+ * @param canvasSize
+ * @returns
+ */
+export function calcTrackItemAttr(trackItem: Record<string, any>, canvasSize: Size) {
 	const {
 		width: sourceWidth,
 		height: sourceHeight,
@@ -139,7 +141,6 @@ export function calcTrackItemAttr(trackItem: Record<string, any>, canvasSize: Ca
 
 	if (type === 'text') {
 		const rect = getTextRect({ text, fontSize })
-		console.log('🚀 ~ calcTrackItemAttr ~ rect:', rect)
 		if (rect) {
 			defaultW = rect.width
 			defaultH = rect.height

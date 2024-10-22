@@ -1,3 +1,12 @@
+/**
+ * 实现首字母大写
+ * @param str
+ * @returns
+ */
+export function capitalize(str: string) {
+	return str.charAt(0).toUpperCase() + str.slice(1)
+}
+
 interface TextItem {
 	fill: string // 填充颜色
 	stroke?: string // 描边颜色
@@ -28,16 +37,6 @@ export function calcTextStyle(item: TextItem) {
 	return style
 }
 
-/**
- * 实现首字母大写
- * @param str
- * @returns
- */
-export function capitalize(str: string) {
-	return str.charAt(0).toUpperCase() + str.slice(1)
-}
-
-
 // export function getTextRect({ text = 'Hello World', fontSize = 40 }) {
 //     const canvas = document.createElement('canvas');
 //     const ctx = canvas.getContext('2d');
@@ -51,14 +50,11 @@ export function capitalize(str: string) {
 //     }
 //     return null;
 // }
-
-
-interface TextProps {
+interface TextOptions {
 	text: string
 	fontSize: number
 	fontFamily?: string
 }
-
 /**
  * 获取文本的宽高
  * @param text
@@ -66,7 +62,7 @@ interface TextProps {
  * @param fontFamily
  * @returns
  */
-export function getTextRect({ text = 'Hello World', fontSize = 40, fontFamily }: TextProps) {
+export function getTextRect({ text = 'Hello World', fontSize = 40, fontFamily }: TextOptions) {
 	const padding = 4
 	const canvas = new OffscreenCanvas(1000, 1000)
 	const ctx = canvas.getContext('2d')

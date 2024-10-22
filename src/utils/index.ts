@@ -13,6 +13,7 @@ export * from './image'
 export * from './text'
 export * from './color'
 export * from './canvas'
+export * from './webcodecs'
 // other
 export * from './track'
 export * from './other'
