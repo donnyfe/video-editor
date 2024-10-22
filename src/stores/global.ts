@@ -10,6 +10,8 @@ export const useGlobalStore = defineStore('globalStore', () => {
 	// 初始化暗黑模式
 	isDark.value = localStorage.isDark === undefined ? true : JSON.parse(localStorage.isDark)
 
+	// 激活的资源类型
+	const activeResourceType = ref(localStorage.activeResourceType || 'video')
 	// 显示菜单面板
 	const showMenuPanel = ref(JSON.parse(localStorage.showMenuPanel || true))
 	// 属性面板款度
@@ -30,5 +32,6 @@ export const useGlobalStore = defineStore('globalStore', () => {
 		propsPanelWidth,
 		controlsPanelHeight,
 		showMenuPanel,
+		activeResourceType,
 	}
 })
