@@ -1,38 +1,38 @@
 <script setup lang="ts">
-import { ref, reactive, computed, watch } from 'vue'
+import { ref, reactive, toRaw, watch } from 'vue'
+import { storeToRefs } from 'pinia'
 import { useTrackStore } from '@/stores'
 import { ImageTrack } from '@/classes'
 
+// 激活折叠面板
 const activeCollapse = ref(['位置大小'])
 
+const trackStore = useTrackStore()
+const { selectResource, selectedTrack, trackList } = storeToRefs(trackStore);
+
 const form = reactive({
-	scale: 0,
-	offsetX: 0,
-	offsetY: 0,
+	scale: 100,
+	centerX: 0,
+	centerY: 0,
 })
 
-const trackStore = useTrackStore()
-//
-const resource = trackStore.selectResource as ImageTrack
+if (selectResource.value && selectResource.value.type === 'image') {
+	Object.assign(form, { ...toRaw(selectResource.value) })
+}
 
-// 监听 resource 的变化,并更新 form
-watch(() => resource, (newResource) => {
-	console.log('watch __image__ resource: ', newResource)
+// 监听轨道和资源变化
+watch([() => selectedTrack.value, () => selectResource.value], (newValue) => {
+
+	const newResource = newValue[1] as ImageTrack
 	if (newResource) {
-		Object.assign(form, {
-			scale: newResource?.scale ?? 0,
-			offsetX: (newResource?.offsetX ?? 0).toFixed(0),
-			offsetY: (newResource?.offsetY ?? 0).toFixed(0),
-		})
+		Object.assign(form, { ...toRaw(newResource) })
 	}
-}, { immediate: true, deep: true })
+}, { immediate: true, deep: true, flush: 'post' })
 
-//
-function onUpdate(key: string, value: any) {
-	console.log('Key: ', key, 'Value: ', value)
-	if (key in resource) {
-		(resource as any)[key] = value
-	}
+// 监听属性变化
+function onChange(key: string, value: any) {
+	const track = trackList.value[selectedTrack.value.line].list[selectedTrack.value.index] as Record<string, any>
+	track[key] = value
 }
 </script>
 
@@ -51,42 +51,27 @@ function onUpdate(key: string, value: any) {
 								show-input
 								:min="0"
 								:max="500"
-								@change="onUpdate('scale', $event)"
-								@input="onUpdate('scale', $event)" />
+								@change="onChange('scale', $event)"
+								@input="onChange('scale', $event)"></el-slider>
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-row>
 					<el-col :span="12">
 						<el-form-item label="X">
-							<el-input class="form-item"
-								type="number"
-								v-model="form.offsetX"
-								placeholder="0"
-								@input="onUpdate('offsetX', $event)"></el-input>
+							<el-input-number class="form-item"
+								v-model="form.centerX"
+								@change="onChange('centerX', $event)"></el-input-number>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="Y">
-							<el-input class="form-item"
-								type="number"
-								v-model="form.offsetY"
-								placeholder="0"
-								@input="onUpdate('offsetY', $event)"></el-input>
+							<el-input-number class="form-item"
+								v-model="form.centerY"
+								@change="onChange('centerY', $event)"></el-input-number>
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<!-- <el-row>
-					<el-col :span="12">
-						<el-form-item label="旋转">
-							<el-input class="form-item"
-								type="number"
-								v-model="form.rotate"
-								placeholder="0"
-								@change="onUpdate('rotate', $event)"></el-input>
-						</el-form-item>
-					</el-col>
-				</el-row> -->
 			</el-collapse-item>
 		</el-collapse>
 	</el-form>

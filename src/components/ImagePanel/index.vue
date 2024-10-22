@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref } from 'vue'
 import { uniqueId } from 'lodash-es'
 import type { UploadUserFile } from 'element-plus'
 import { UploadFilled } from '@element-plus/icons-vue'
@@ -13,6 +13,7 @@ import { datas } from './mock'
 const trackStore = useTrackStore()
 const playerStore = usePlayerStore()
 
+const imageList = ref<{ id: string, src: string }[]>(datas)
 
 function onSelect(file: File) {
 	dillImage(file)
@@ -21,7 +22,7 @@ function onSelect(file: File) {
 function onUpload(userFile: UploadUserFile) {
 	const file = userFile.raw as File
 	// 添加图片
-	datas.push({
+	imageList.value.push({
 		id: uniqueId(),
 		src: URL.createObjectURL(file),
 	})
@@ -65,7 +66,8 @@ function addTrack(md5: string, file: File, frames: Frames) {
 		width,
 		height
 	}
-	const imageTrack = reactive(new ImageTrack(trackOptions, playerStore.playFrame))
+	const imageTrack = new ImageTrack(trackOptions, playerStore.playFrame)
+	imageTrack.resize({ width: playerStore.playerWidth, height: playerStore.playerHeight })
 	trackStore.addTrack(imageTrack)
 }
 
@@ -76,11 +78,12 @@ function addTrack(md5: string, file: File, frames: Frames) {
 		<div class="flex-1 overflow-hidden">
 			<div class="h-full py-2 flex flex-col">
 				<el-upload ref="uploadRef"
-					class="image-uploader"
+					class="image-uploader mb-4"
 					drag
 					accept="images/*"
 					:multiple="false"
 					:auto-upload="false"
+					:show-file-list="false"
 					:on-change="onUpload">
 					<el-icon class="el-icon--upload">
 						<UploadFilled />
@@ -91,7 +94,7 @@ function addTrack(md5: string, file: File, frames: Frames) {
 				</el-upload>
 
 				<div class="flex-1 overflow-hidden">
-					<ImageList v-model:list="datas"
+					<ImageList v-model:list="imageList"
 						@select="onSelect" />
 				</div>
 			</div>
