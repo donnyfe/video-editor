@@ -244,3 +244,28 @@ class AudioDecoder {
 	}
 }
 export const audioDecoder = new AudioDecoder()
+
+
+/**
+ * 解析音频
+ * @param md5
+ * @param file
+ * @returns
+ */
+export function decodeAudio(id: string, file: File): Promise<any> {
+	return new Promise((resolve, reject) => {
+		console.time('解析音频耗时')
+		audioDecoder
+			.decode({ id, stream: file.stream(), type: file.type })
+			.then((frames) => {
+				console.timeEnd('解析音频耗时')
+				if (!frames) {
+					return ElMessage.error('解析音频失败')
+				}
+				resolve(frames)
+			})
+			.catch((err) => {
+				reject(err)
+			})
+	})
+}
