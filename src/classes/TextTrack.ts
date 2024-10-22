@@ -2,9 +2,7 @@ import { uniqueId } from 'lodash-es'
 import { ImgClip, OffscreenSprite } from '@webav/av-cliper'
 import BaseTrack from './BaseTrack'
 import { getTextRect } from '@/utils'
-import type { ResourceType, TextSource, Size } from '@/types'
-
-export type CanvasContext = CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D
+import type { ResourceType, TextSource, Size, CanvasContext } from '@/types'
 
 export interface DrawRoundRectOptions {
 	x: number
@@ -26,10 +24,7 @@ export class TextTrack extends BaseTrack {
 	height: number = 0
 	scale: number = 100
 	rotate: number = 0
-	centerY: number = 0
-	centerX: number = 0
-	offsetX: number = 0
-	offsetY: number = 0
+
 	// 绘制信息
 	_content: string = ''
 	_fontSize: number = 24

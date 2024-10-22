@@ -3,7 +3,7 @@ import { OffscreenSprite } from '@webav/av-cliper'
 import BaseTrack from './BaseTrack'
 import { videoDecoder, splitClip } from '@/utils'
 import type { ResourceType, VideoSource, Size } from '@/types'
-import type { MP4Clip, AudioClip } from '@webav/av-cliper'
+import type { MP4Clip } from '@webav/av-cliper'
 
 const baseFps = 30
 const UnitFrame2μs = 1e6 / baseFps
@@ -42,6 +42,7 @@ export class VideoTrack extends BaseTrack {
 		// 设置绘制信息
 		this.width = source.width
 		this.height = source.height
+		this.scale = 100
 
 		// 设置轨道信息
 		this.frameCount = source.duration * 30
@@ -153,11 +154,10 @@ export class VideoTrack extends BaseTrack {
 			throw new Error('clip is not ready')
 		}
 		const spr = new OffscreenSprite(clip)
-		// TODO：需支持裁剪
-		spr.time = {
-			offset: this.start * UnitFrame2μs,
-			duration: (this.end - this.start) * UnitFrame2μs,
-		}
+		const offset = this.start * UnitFrame2μs
+		const duration = (this.end - this.start) * UnitFrame2μs
+
+		spr.time = { offset, duration }
 		spr.rect.x = this.getDrawX(playerSize.width) * outputRatio
 		spr.rect.y = this.getDrawY(playerSize.height) * outputRatio
 		spr.rect.w = this.drawWidth * outputRatio

@@ -2,7 +2,6 @@ import { ImgClip, OffscreenSprite } from '@webav/av-cliper'
 import { uniqueId } from 'lodash-es'
 import { imageDecoder } from '@/utils'
 import BaseTrack from './BaseTrack'
-import { usePlayerStore } from '@/stores'
 import type { ResourceType, ImageSource, Size } from '@/types'
 
 export class ImageTrack extends BaseTrack {
@@ -16,11 +15,6 @@ export class ImageTrack extends BaseTrack {
 	height: number
 	scale: number = 100
 	rotate: number = 0
-	centerX: number = 0
-	centerY: number = 0
-	offsetX: number = 0
-	offsetY: number = 0
-	playerStore: ReturnType<typeof usePlayerStore>
 
 	get drawHeight() {
 		return (this.height * this.scale) / 100
@@ -31,7 +25,6 @@ export class ImageTrack extends BaseTrack {
 
 	constructor(source: ImageSource, cutFrame: number) {
 		super('image', '图像')
-		this.playerStore = usePlayerStore()
 		// 设置ID
 		this.id = uniqueId()
 		// 设置图片信息
@@ -46,8 +39,6 @@ export class ImageTrack extends BaseTrack {
 		this.width = source.width
 		this.height = source.height
 		this.scale = 100
-		this.offsetX = this.getDrawX(this.playerStore.playerWidth)
-		this.offsetY = this.getDrawY(this.playerStore.playerHeight)
 
 		// 设置轨道信息
 		this.frameCount = 120
