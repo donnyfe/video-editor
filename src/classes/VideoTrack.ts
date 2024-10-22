@@ -65,11 +65,7 @@ export class VideoTrack extends BaseTrack {
 	getDrawY(height: number) {
 		return height / 2 - this.drawHeight / 2 + this.centerY
 	}
-	/**
-	 * 渲染需要优化
-	 * TODO: 优化画布渲染
-	 * TODO: 不需要每一次都去解码
-	 */
+
 	draw(ctx: CanvasRenderingContext2D, { width, height }: Size, frameIndex: number) {
 		// 默认展示特定帧
 		const frame = Math.max(frameIndex - this.start + this.offsetL, 1)
@@ -89,7 +85,6 @@ export class VideoTrack extends BaseTrack {
 						this.drawWidth,
 						this.drawHeight,
 					)
-					vf?.close()
 				} else {
 					console.warn(`未能获取帧 ${frame} 的数据`)
 				}

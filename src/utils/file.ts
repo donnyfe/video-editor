@@ -1,6 +1,34 @@
 import { file as opfsFile, write } from 'opfs-tools'
 
 /**
+ * 将字节数格式化为文件大小
+ * @param bytes 字节数
+ * @returns 格式化后的文件大小
+ */
+export function formatFileSize(bytes: number) {
+	if (bytes === 0) {
+		return '0 B'
+	}
+	const k = 1024
+	const i = Math.floor(Math.log(bytes) / Math.log(k))
+	const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+
+	return `${parseFloat((bytes / k ** i).toFixed(2))} ${units[i]}`
+}
+
+/**
+ * 比较文件大小，第一个参数为文件大小，为纯数字，第二个参数为目标大小，是一个数字+单位的字符串，如'1MB'
+ * @param size
+ * @param target
+ */
+export const compareSize = (size: number, target: string): boolean => {
+	const k = 1024
+	const sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+	const i = sizes.findIndex((item) => item === target.replace(/\d+/, ''))
+	return size > parseInt(target) * k ** i
+}
+
+/**
  * 将数据流写入opfs
  */
 export async function writeFile(id: string, stream?: ReadableStream<Uint8Array>) {
@@ -41,18 +69,6 @@ export async function createFileWriter(extName = 'mp4'): Promise<FileSystemWrita
 		suggestedName: `WebAV-export-${Date.now()}.${extName}`,
 	})
 	return fileHandle.createWritable()
-}
-
-/**
- * 比较文件大小，第一个参数为文件大小，为纯数字，第二个参数为目标大小，是一个数字+单位的字符串，如'1MB'
- * @param size
- * @param target
- */
-export const compareSize = (size: number, target: string): boolean => {
-	const k = 1024
-	const sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
-	const i = sizes.findIndex((item) => item === target.replace(/\d+/, ''))
-	return size > parseInt(target) * k ** i
 }
 
 interface FileUploadOptions {
@@ -113,111 +129,6 @@ export const selectFile = (options: FileUploadOptions): Promise<File[]> => {
 }
 
 /**
- * 将文件转换为DataURL
- * @param file 要转换的文件
- * @returns 转换后的DataURL
- */
-export const fileAsDataUrl = (file: File): Promise<string> => {
-	return new Promise((resolve, reject) => {
-		const reader = new FileReader()
-		reader.onload = () => {
-			resolve(reader.result as string)
-		}
-		reader.onerror = () => {
-			reject(reader.error)
-		}
-		reader.readAsDataURL(file)
-	})
-}
-
-/**
- * 通过OSS获取视频封面URL
- * @param url 视频URL
- * @returns 视频封面URL
- */
-export const getVideoCoverUrl = (url: string) => {
-	return `${url}?x-oss-process=video/snapshot,t_0,f_png,w_720,m_fast,ar_auto`
-}
-
-/**
- * 将字节数格式化为文件大小
- * @param bytes 字节数
- * @returns 格式化后的文件大小
- */
-export function formatFileSize(bytes: number) {
-	if (bytes === 0) {
-		return '0 B'
-	}
-	const k = 1024
-	const i = Math.floor(Math.log(bytes) / Math.log(k))
-	const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
-
-	return `${parseFloat((bytes / k ** i).toFixed(2))} ${units[i]}`
-}
-
-/**
- * 将 Blob 转换为 File 对象
- * @param blob 要转换的 Blob 对象
- * @param fileName 文件名
- * @returns 转换后的 File 对象
- */
-export function blobToFile(blob: Blob, fileName: string) {
-	return new File([blob], fileName, { type: blob.type })
-}
-
-/**
- * 将Base64数据转换为Blob对象
- * @param base64Data Base64编码的数据字符串
- * @param contentType 内容类型
- * @returns Blob对象
- */
-export function base64ToBlob(base64Data: string, contentType = ''): Blob {
-	const byteCharacters = atob(base64Data)
-	const byteArrays = new Uint8Array(byteCharacters.length)
-
-	for (let i = 0; i < byteCharacters.length; i++) {
-		byteArrays[i] = byteCharacters.charCodeAt(i)
-	}
-
-	return new Blob([byteArrays], { type: contentType })
-}
-
-// // 将Base64数据转换为Blob对象
-// export function base64ToBlob(base64Data: string, contentType: string) {
-// 	contentType = contentType || ''
-// 	const sliceSize = 1024
-// 	const byteCharacters = atob(base64Data)
-// 	const byteArrays = []
-
-// 	for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-// 		const slice = byteCharacters.slice(offset, offset + sliceSize)
-// 		const byteNumbers = new Array(slice.length)
-// 		for (let i = 0; i < slice.length; i++) {
-// 			byteNumbers[i] = slice.charCodeAt(i)
-// 		}
-
-// 		const byteArray = new Uint8Array(byteNumbers)
-// 		byteArrays.push(byteArray)
-// 	}
-// 	return new Blob(byteArrays, { type: contentType })
-// }
-
-// const fontList = fontJson
-
-// // 下载贴图字体
-// export function downStickerFont(layers) {
-//   return Promise.all(
-//     layers.map((item: any) => {
-//       if (item.fontFamily && fontList.find((font) => font.name === item.fontFamily)) {
-//         const font = new FontFaceObserver(item.fontFamily)
-//         return font.load(null, 150000)
-//       }
-//       return Promise.resolve()
-//     }),
-//   )
-// }
-
-/**
  * 获取资源类型
  * @param url 资源URL
  * @returns 资源类型
@@ -248,3 +159,71 @@ export function downloadFileUrl(href: string, fileName: string) {
 	window.URL.revokeObjectURL(href) // 释放掉blob对象
 	link.href = ''
 }
+
+
+/**
+ * 将文件转换为DataURL
+ * @param file 要转换的文件
+ * @returns 转换后的DataURL
+ */
+export const fileAsDataUrl = (file: File): Promise<string> => {
+	return new Promise((resolve, reject) => {
+		const reader = new FileReader()
+		reader.onload = () => {
+			resolve(reader.result as string)
+		}
+		reader.onerror = () => {
+			reject(reader.error)
+		}
+		reader.readAsDataURL(file)
+	})
+}
+
+/**
+ * 将 Blob 转换为 File 对象
+ * @param blob 要转换的 Blob 对象
+ * @param fileName 文件名
+ * @returns 转换后的 File 对象
+ */
+export function blobToFile(blob: Blob, fileName: string) {
+	return new File([blob], fileName, { type: blob.type })
+}
+
+/**
+ * 将Base64数据转换为Blob对象
+ * @param base64Data Base64编码的数据字符串
+ * @param contentType 内容类型
+ * @returns Blob对象
+ */
+export function base64ToBlob(base64Data: string, contentType = ''): Blob {
+	const byteCharacters = atob(base64Data)
+	const byteArrays = new Uint8Array(byteCharacters.length)
+
+	for (let i = 0; i < byteCharacters.length; i++) {
+		byteArrays[i] = byteCharacters.charCodeAt(i)
+	}
+
+	return new Blob([byteArrays], { type: contentType })
+}
+
+
+// // 将Base64数据转换为Blob对象
+// export function base64ToBlob(base64Data: string, contentType: string) {
+// 	contentType = contentType || ''
+// 	const sliceSize = 1024
+// 	const byteCharacters = atob(base64Data)
+// 	const byteArrays = []
+
+// 	for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+// 		const slice = byteCharacters.slice(offset, offset + sliceSize)
+// 		const byteNumbers = new Array(slice.length)
+// 		for (let i = 0; i < slice.length; i++) {
+// 			byteNumbers[i] = slice.charCodeAt(i)
+// 		}
+
+// 		const byteArray = new Uint8Array(byteNumbers)
+// 		byteArrays.push(byteArray)
+// 	}
+// 	return new Blob(byteArrays, { type: contentType })
+// }
+

@@ -26,7 +26,7 @@ export class TextTrack extends BaseTrack {
 	rotate: number = 0
 
 	// 绘制信息
-	_content: string = ''
+	_content: string = '文本内容'
 	_fontSize: number = 24
 	_fontFamily: string = 'Arial'
 	fill: string
