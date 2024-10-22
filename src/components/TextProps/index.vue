@@ -10,7 +10,7 @@ const trackStore = useTrackStore()
 const { selectResource, selectedTrack, trackList } = storeToRefs(trackStore);
 
 const form = reactive({
-	content: '',
+	content: '文本内容',
 	fontSize: 24,
 	scale: 100,
 	centerX: 0,
@@ -39,8 +39,9 @@ function onChange(key: string, value: any) {
 </script>
 
 <template>
+	<div class="flex flex-center justify-start px-5 py-2">文本属性</div>
 	<el-form ref="formRef"
-		class="px-5 py-5 flex flex-col"
+		class="px-5 flex flex-col"
 		v-model="form"
 		label-width="42px">
 		<el-collapse v-model="activeCollapse">

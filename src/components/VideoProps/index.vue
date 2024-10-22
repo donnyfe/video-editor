@@ -36,8 +36,9 @@ function onChange(key: string, value: any) {
 </script>
 
 <template>
+	<div class="flex flex-center justify-start px-5 py-2">视频属性</div>
 	<el-form ref="formRef"
-		class="px-5 py-5 flex flex-col"
+		class="px-5 flex flex-col"
 		:model="form"
 		label-width="42px">
 		<el-collapse v-model="activeCollapse">
