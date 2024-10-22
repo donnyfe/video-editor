@@ -2,13 +2,52 @@
 import { ref, nextTick, reactive, computed, watch } from 'vue'
 import Moveable from 'vue3-moveable'
 import { usePlayerStore, useTrackStore } from '@/stores'
-import type { MoveableItem } from '@/types'
+import type { MoveableTrack } from '@/types'
 
-import type { VideoTrack } from '@/classes/VideoTrack'
-import type { ImageTrack } from '@/components/image/ImageTrack'
-import type { TextTrack } from '@/classes/TextTrack'
+const playerStore = usePlayerStore()
+const trackStore = useTrackStore()
 
-export type TrackItem = VideoTrack | ImageTrack | TextTrack
+const canvasCover = ref()
+const moveable = ref()
+const moveTarget = ref()
+
+
+const isCanvasItemVisible = (item: any) =>
+	playerStore.playFrame >= item.start &&
+	playerStore.playFrame <= item.end &&
+	item.draw;
+
+const movableList = computed(() => {
+	if (playerStore.playerWidth === 0 && playerStore.playerHeight === 0) {
+		return []
+	}
+	return trackStore.trackList.flatMap(({ list }, lineIndex) => {
+		const trackItem = list.find(isCanvasItemVisible);
+
+		if (!trackItem) return [];
+
+		const { id, width: w, height: h, scale, centerX, centerY } = trackItem as any;
+		const scaleFactor = scale / 100;
+
+		if (moveable.value) {
+			moveable.value.updateRect()
+		}
+
+		return [{
+			id,
+			lineIndex,
+			itemIndex: list.indexOf(trackItem),
+			x: centerX,
+			y: centerY,
+			w,
+			h,
+			scale: scaleFactor,
+			left: playerStore.playerWidth / 2 - w / 2,
+			top: playerStore.playerHeight / 2 - h / 2
+		}];
+	});
+})
+
 
 const defaultMoveOptions = {
 	draggable: true,
@@ -37,62 +76,6 @@ const defaultMoveOptions = {
 	pinchable: false // 捏合开关
 }
 
-
-const playerStore = usePlayerStore()
-const trackStore = useTrackStore()
-
-const canvasCover = ref()
-const moveable = ref()
-const moveTarget = ref()
-
-const playerWidth = computed(() => playerStore.playerWidth)
-const playerHeight = computed(() => playerStore.playerHeight)
-
-const movableList = computed(() => {
-	if (playerHeight.value === 0 && playerWidth.value === 0) {
-		return []
-	}
-
-	const moveableItems: MoveableItem[] = []
-
-	trackStore.trackList.forEach(({ list }, lineIndex) => {
-		const index = list.findIndex((item) => {
-			if (playerStore.playFrame >= item.start && playerStore.playFrame <= item.end && item.draw) {
-				return true
-			}
-			return false
-		})
-
-		const trackItem = list[index] as any
-		console.log('movableList - trackItem: ', trackItem)
-
-		if (trackItem) {
-
-			const scale = trackItem.scale / 100
-			const w = trackItem.width * scale
-			const h = trackItem.height * scale
-
-			moveableItems.unshift({
-				id: trackItem.id,
-				lineIndex,
-				itemIndex: index,
-				x: trackItem.centerX,
-				y: trackItem.centerY,
-				w: w,
-				h: h,
-				scale,
-				left: playerStore.playerWidth / 2 - w / 2,
-				top: playerStore.playerHeight / 2 - h / 2
-			})
-		}
-	})
-
-	if (moveable.value) {
-		moveable.value.updateRect()
-	}
-	return moveableItems
-})
-
 const moveableOptions = reactive({
 	target: moveTarget,
 	className: 'target-move',
@@ -101,40 +84,44 @@ const moveableOptions = reactive({
 })
 
 function selectItem(eleId: string) {
-	console.log('🚀 ~ selectItem ~ eleId:', eleId)
 	playerStore.isPause = true
 	trackStore.selectTrackById(eleId)
 }
 
+function updateTrackItem(lineIndex: number, itemIndex: number, updates: Partial<MoveableTrack>) {
+	const item = trackStore.trackList[lineIndex].list[itemIndex];
+	Object.assign(item, updates);
+}
+
 /**
- * 备注：
- * 拖拽只放大了选框，未放大图片元素，选框放大与图案元素变大不成比例
+ * 处理拖拽事件
+ * @param params 拖拽事件参数
  */
 function onDrag(params: Record<string, any>) {
 	let { target, transform, translate } = params
 	const { lineindex, itemindex } = target.dataset
 	const [x, y] = translate
-	//
-	const trackItem = trackStore.trackList[lineindex].list[itemindex] as TrackItem
-	trackItem.centerX = x
-	trackItem.centerY = y
-	trackItem.offsetX = parseInt(playerStore.playerWidth / 2 - (trackItem.width * trackItem.scale / 100) / 2 + x)
-	trackItem.offsetY = parseInt(playerStore.playerHeight / 2 - (trackItem.height * trackItem.scale / 100) / 2 + y)
-
+	updateTrackItem(lineindex, itemindex, { centerX: x, centerY: y })
 	target.style.transform = transform
-	console.log(11, 'onDrag: ', params)
 }
 
+/**
+ * 处理缩放事件
+ * @param params 缩放事件参数
+ */
 function onScale(params: Record<string, any>) {
 	let { target, scale, transform } = params
 	const { lineindex, itemindex } = target.dataset
 	const newScale = Math.max(Math.round(scale[0] * 100), 1)
-	const trackItem = trackStore.trackList[lineindex].list[itemindex] as TrackItem
-	trackItem.scale = newScale
-	console.log(22, 'onScale: ', params)
+	updateTrackItem(lineindex, itemindex, { scale: newScale })
 	target.style.transform = transform
 }
 
+/**
+ * 处理鼠标按下事件
+ * @param event 鼠标事件对象
+ * @param eleId 元素ID
+ */
 function mousedown(event: MouseEvent, eleId: string) {
 	event.stopPropagation()
 	playerStore.isPause = true
@@ -145,25 +132,33 @@ function mousedown(event: MouseEvent, eleId: string) {
 	})
 }
 
+/**
+ * 获取选中的轨道元素
+ */
+const selectedTrackElement = computed(() => {
+	const { line, index } = trackStore.selectedTrack
+	if (line === -1 || index === -1) return null
+
+	const targetTrack = trackStore.trackList[line]?.list[index]
+	if (!targetTrack || !movableList.value.find(item => item.id === targetTrack.id)) return null
+
+	return canvasCover.value?.querySelector(`.segment-widget[data-eleid='${targetTrack.id}']`) ?? null
+})
+
 watch([trackStore.selectedTrack, movableList], () => {
-	// 确保选中轨道元素
-	const hasSelectedTrack = trackStore.selectedTrack.line !== -1 && trackStore.selectedTrack.index !== -1
-	if (canvasCover.value && hasSelectedTrack) {
-		const targetTrack = trackStore.trackList[trackStore.selectedTrack.line].list[trackStore.selectedTrack.index]
-		if (targetTrack && movableList.value.find(item => item.id === targetTrack.id)) {
-			moveTarget.value = canvasCover.value.querySelector(`.segment-widget[data-eleid='${targetTrack.id}']`)
-		} else {
-			moveTarget.value = null
-		}
-	} else {
-		moveTarget.value = null
-	}
+	// 设置选移动目标
+	moveTarget.value = selectedTrackElement.value
+
 }, { immediate: true, flush: 'post' })
+
+
+
 </script>
 
 <template>
 	<div ref="canvasCover"
 		class="canvas-cover">
+
 		<div class="segment-widget absolute"
 			v-for="(item, index) in movableList"
 			:key="item.id"
@@ -176,10 +171,11 @@ watch([trackStore.selectedTrack, movableList], () => {
 				left: `${item.left}px`,
 				width: `${item.w}px`,
 				height: `${item.h}px`,
-				transform: `translate(${item.x}px, ${item.y}px) scale(${item.scale}) rotate(${item.rotate}deg)`
+	transform: `translate(${item.x}px, ${item.y}px) scale(${item.scale})`
 			}"
 			@click.stop="selectItem(item.id)"
-			@mousedown="mousedown($event, item.id)" />
+			@mousedown="mousedown($event, item.id)">
+		</div>
 
 		<Moveable ref="moveable"
 			v-bind="moveableOptions"
@@ -198,6 +194,7 @@ body .target-move .moveable-line {
 }
 
 .canvas-cover {
+	overflow: hidden;
 	position: absolute;
 	top: 50%;
 	left: 50%;

@@ -1,18 +1,18 @@
 import { watch, toRaw } from 'vue'
 import { usePlayerStore, useTrackStore } from '@/stores'
+import { useResizeCanvas } from '@/hooks'
 
 export class CanvasPlayer {
 	player: HTMLCanvasElement // 播放器
 	playerContext: ImageBitmapRenderingContext | null = null
-	playerStore: Record<string, any>
-	trackStore: Record<string, any>
+	playerStore = usePlayerStore()
+	trackStore = useTrackStore()
 
 	constructor(options: Record<string, any>) {
 		this.playerStore = usePlayerStore()
 		this.trackStore = useTrackStore()
 
 		this.player = options.player
-
 		this.playerContext = this.player.getContext('bitmaprenderer')
 
 		this.initWatch()
@@ -20,11 +20,22 @@ export class CanvasPlayer {
 	initWatch() {
 		// 属性变化后重新渲染
 		watch(
-			[() => this.trackStore.trackList, () => this.playerStore.playFrame],
-			() => this.drawCanvas(),
+			[
+				() => this.trackStore.trackList,
+				() => this.playerStore.aspectRatio,
+				() => this.playerStore.playFrame,
+			],
+			(newVal, oldVal) => {
+				if (newVal[1] !== oldVal[1]) {
+					const rect = (this.player?.parentNode as HTMLElement).getBoundingClientRect()
+					useResizeCanvas({ containerWidth: rect.width, containerHeight: rect.height })
+				}
+				this.drawCanvas()
+			},
 			{ deep: true },
 		)
 	}
+
 	// 绘制
 	async drawCanvas() {
 		if (this.playerStore.ingLoadingCount !== 0) {
@@ -39,7 +50,7 @@ export class CanvasPlayer {
 		const ctx = offCanvas.getContext('2d')
 
 		const taskList: Array<any> = []
-		this.trackStore.trackList.forEach(({ list }) => {
+		this.trackStore.trackList.forEach(({ list }: { list: Record<string, any>[] }) => {
 			const trackItem = list.find((item: Record<string, any>) => {
 				if (!['audio'].includes(item.type) && playFrame >= item.start && playFrame <= item.end) {
 					return true
@@ -48,7 +59,6 @@ export class CanvasPlayer {
 			})
 
 			if (trackItem) {
-				console.log('绘制: ', trackItem)
 				const drawTask = () =>
 					this.drawToRenderCanvas(ctx as OffscreenCanvasRenderingContext2D, trackItem, playFrame)
 				taskList.unshift(drawTask)
@@ -61,18 +71,18 @@ export class CanvasPlayer {
 		// 顺序绘制，保证视频在底部
 		this.drawToPlayerCanvas(offCanvas)
 	}
+
 	// 预渲染canvas先加载
 	drawToRenderCanvas(
 		ctx: OffscreenCanvasRenderingContext2D,
 		trackItem: Record<string, any>,
 		frameIndex: number,
 	) {
+		const width = this.playerStore.playerWidth
+		const height = this.playerStore.playerHeight
+
 		return toRaw(trackItem)
-			.draw(
-				ctx,
-				{ width: this.playerStore.playerWidth, height: this.playerStore.playerHeight },
-				frameIndex,
-			)
+			.draw(ctx, { width, height }, frameIndex)
 			.then(() => {
 				return true
 			})
