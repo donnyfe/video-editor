@@ -13,7 +13,8 @@ onMounted(() => {
 	// 模拟页面加载时间
 	setTimeout(() => {
 		isLoading.value = false
-	}, 3000) // 3秒后隐藏加载页面
+	}, 1000)
+	// 1秒后隐藏加载页面
 })
 </script>
 
