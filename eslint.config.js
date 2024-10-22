@@ -95,7 +95,7 @@ export default [
 
 	/** typescript 配置 */
 	{
-		files: ['**/*.ts'],
+		files: ['**/*.ts', '**/*.vue'],
 		languageOptions: {
 			ecmaVersion: 'latest',
 			sourceType: 'module',
@@ -105,6 +105,9 @@ export default [
 		rules: {
 			// 允许any类型
 			'@typescript-eslint/no-explicit-any': 'off',
+			// 允许未使用的表达式
+			'@typescript-eslint/no-unused-expressions': 'off',
+			'@typescript-eslint/no-async-promise-executor': 'off',
 		},
 	},
 
@@ -154,10 +157,10 @@ export default [
 			// 空格
 			// 操作符周围的空格
 			'space-infix-ops': ['error', { int32Hint: true }],
+			// 函数定义时括号前的空格
 			'space-before-function-paren': [
-				'error',
+				'off',
 				{ anonymous: 'never', named: 'never', asyncArrow: 'always' },
-				// 函数定义时括号前的空格
 			],
 			// 在块语句之前始终有一个空格
 			'space-before-blocks': ['error', 'always'],
@@ -180,6 +183,7 @@ export default [
 
 			// 不允许出现多余的空格
 			'no-multi-spaces': 'error',
+			'no-unused-expressions': 'off',
 		},
 	},
 
