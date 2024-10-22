@@ -16,7 +16,7 @@ const panelStyle = computed(() => {
 
 const limitSize = reactive({
 	minWidth: 200,
-	maxWidth: document.body.getBoundingClientRect().width - 200
+	maxWidth: document.body.getBoundingClientRect().width / 2
 })
 
 const resourceType = ref('')
@@ -49,6 +49,8 @@ watch(selectResource, (newResource) => {
 			:limit-size="limitSize"
 			v-model:newWidth="globalStore.propsPanelWidth" />
 
+		<div v-if="!hasSelectedTrack"
+			class="flex flex-center justify-start px-5 py-2">属性</div>
 		<div v-if="!hasSelectedTrack"
 			class="h-full flex flex-center flex-col">
 			<IconPropsEmpty />

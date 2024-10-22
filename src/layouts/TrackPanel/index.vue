@@ -15,7 +15,7 @@ const panelStyle = computed(() => ({
 
 const limitSize = reactive({
 	minHeight: 200,
-	maxHeight: document.body.getBoundingClientRect().height - 200
+	maxHeight: document.body.getBoundingClientRect().height / 2
 })
 
 </script>
