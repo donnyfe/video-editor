@@ -22,10 +22,9 @@ function addTrack(style: TextStyle) {
 		...style
 	}
 
-	const textTrack = reactive(new TextTrack(textOptions, playerStore.playFrame))
+	const textTrack = new TextTrack(textOptions, playerStore.playFrame)
 	trackStore.addTrack(textTrack)
 }
-
 
 </script>
 
