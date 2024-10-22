@@ -3,6 +3,7 @@ import { computed, ref, watch } from 'vue'
 import WaveSurfer from 'wavesurfer.js'
 import { usePlayerStore } from '@/stores'
 import LoadingTrack from '@/components/LoadingTrack.vue'
+import IconAudio from '@/components/Icons/IconAudio.vue'
 import { useCheckTrackIsPlaying } from '@/hooks'
 
 const waveOptions = {
