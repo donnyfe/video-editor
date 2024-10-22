@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import { defineProps, defineEmits } from 'vue'
+import { defineProps, defineEmits, watch } from 'vue'
 import { getImageFromUrl } from '@/utils'
 
 
-defineProps({
+const props = defineProps({
 	list: {
 		type: Array<{ id: string, src: string }>,
 		default: () => [],
 	},
 })
+
 
 const emit = defineEmits(['select'])
 
