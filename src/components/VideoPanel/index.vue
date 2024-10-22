@@ -1,23 +1,22 @@
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
 import type { MP4Clip } from '@webav/av-cliper'
 import type { UploadUserFile } from 'element-plus'
 import { UploadFilled } from '@element-plus/icons-vue'
 import VideoList from './VideoList.vue'
 import { VideoTrack } from '@/classes'
 import { usePlayerStore, useTrackStore } from '@/stores'
-import { getMD5, decodeVideo } from '@/utils'
+import { decodeVideo } from '@/utils'
+import MD5Worker from '@/utils/MD5Worker'
 
 const trackStore = useTrackStore()
 const playerStore = usePlayerStore()
-
 
 async function onUpload(userFile: UploadUserFile) {
 	const file = userFile.raw as File
 
 	// TODO：性能优化-计算文件MD5可通过woker进行
 	console.time('生成md5耗时')
-	const md5 = await getMD5(await file.arrayBuffer())
+	const md5 = await MD5Worker.getInstance().getFileMD5(file)
 	console.timeEnd('生成md5耗时')
 
 	const clip = await decodeVideo(md5, file) as MP4Clip

@@ -6,9 +6,10 @@ import { UploadFilled } from '@element-plus/icons-vue'
 import { ImageTrack } from '@/classes'
 import ImageList from './ImageList.vue'
 import { useTrackStore, usePlayerStore } from '@/stores'
-import { getMD5, decodeImage } from '@/utils'
+import { decodeImage } from '@/utils'
 import type { Frames } from '@/types'
 import { datas } from './mock'
+import MD5Worker from '@/utils/MD5Worker'
 
 const trackStore = useTrackStore()
 const playerStore = usePlayerStore()
@@ -36,10 +37,8 @@ function onUpload(userFile: UploadUserFile) {
  */
 async function dillImage(file: File) {
 
-// TODO：性能优化-计算内容MD5可通过woker进行
-// 生成md5
 	console.time('生成md5耗时')
-	const md5 = await getMD5(await file.arrayBuffer())
+	const md5 = await MD5Worker.getInstance().getFileMD5(file)
 	console.timeEnd('生成md5耗时')
 
 	// 解码图像

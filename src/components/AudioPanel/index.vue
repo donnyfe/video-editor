@@ -2,22 +2,23 @@
 import { ref } from 'vue'
 import { UploadFilled } from '@element-plus/icons-vue'
 import { useTrackStore, usePlayerStore } from '@/stores'
-import { getMD5, decodeAudio } from '@/utils'
+import { decodeAudio } from '@/utils'
 import { AudioTrack } from '@/classes'
 // import AudioList from './AudioList.vue'
 import type { AudioClip } from '@webav/av-cliper'
 import type { UploadUserFile } from 'element-plus'
+import MD5Worker from '@/utils/MD5Worker'
 
 
 const trackStore = useTrackStore()
 const playerStore = usePlayerStore()
 
+
 async function onUpload(userFile: UploadUserFile) {
 	const file = userFile.raw as File
 
-	// TODO：性能优化-计算文件MD5可通过woker进行
 	console.time('生成md5耗时')
-	const md5 = await getMD5(await file.arrayBuffer())
+	const md5 = await MD5Worker.getInstance().getFileMD5(file)
 	console.timeEnd('生成md5耗时')
 
 	const clip = await decodeAudio(md5, file) as AudioClip
