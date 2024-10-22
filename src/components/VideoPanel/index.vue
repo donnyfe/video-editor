@@ -70,7 +70,7 @@ function addTrack(id: string, file: File, clip: MP4Clip) {
 				拖拽文件到此处 或 <em>点击上传</em>
 			</div>
 			<template #tip>
-				<div class="el-upload__tip">上传提示: xxxx</div>
+				<div class="el-upload__tip">提示: 文件应小于500MB</div>
 			</template>
 		</el-upload>
 
