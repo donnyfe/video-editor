@@ -1,5 +1,6 @@
 import 'uno.css'
 import 'element-plus/dist/index.css'
+import './styles/custom-theme.scss'
 import 'element-plus/theme-chalk/dark/css-vars.css'
 import './styles/index.scss'
 
