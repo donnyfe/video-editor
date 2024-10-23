@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue'
 import { storeToRefs } from 'pinia'
+import { useResizeObserver } from '@vueuse/core'
 import CanvasCover from './CanvasCover.vue'
 import { CanvasPlayer } from './canvasPlayer'
 import { usePlayerStore } from '@/stores'
 import { useResizeCanvas } from '@/hooks'
-
 defineProps({
 	width: {
 		type: Number,
@@ -25,21 +25,19 @@ const { playerWidth, playerHeight, aspectRatio } = storeToRefs(playerStore)
 
 // 更新画布尺寸
 function updateCanvasSize() {
-	const resizeObserver = new ResizeObserver(entries => {
-		for (let entry of entries) {
+	// 观察 canvasContainer 元素并重置画布尺寸
+	useResizeObserver(canvasContainer.value, entries => {
+		const entry = entries[0]
+		const containerWidth = entry.contentRect.width
+		const containerHeight = entry.contentRect.height
 
-			const containerWidth = entry.contentRect.width
-			const containerHeight = entry.contentRect.height
-			useResizeCanvas({ containerWidth, containerHeight })
+		useResizeCanvas({ containerWidth, containerHeight })
 
-			editorCanvas.value
-				?.getContext('2d')
-				?.scale(containerWidth / playerWidth.value, containerHeight / playerHeight.value)
-		}
-	});
-	if (canvasContainer.value) {
-		resizeObserver.observe(canvasContainer.value);
-	}
+		editorCanvas.value
+			?.getContext('2d')
+			?.scale(containerWidth / playerWidth.value, containerHeight / playerHeight.value)
+
+	})
 }
 
 watch(aspectRatio, () => {

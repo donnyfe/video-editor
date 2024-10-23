@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted, nextTick, watch, reactive, toRefs } from 'vue'
+import { useResizeObserver } from '@vueuse/core'
 import { useGlobalStore } from '@/stores'
 import { getSelectFrame } from '@/utils'
 import { drawTimeLine, type UserConfig, type CanvasConfig } from '@/utils/TimeLine'
@@ -70,7 +71,6 @@ const canvasStyle = computed(() => {
 	}
 })
 
-
 // 重绘线条
 function renderTimeLine() {
 	drawTimeLine(
@@ -79,7 +79,6 @@ function renderTimeLine() {
 		{ ...canvasSize, ...canvasConfigs.value } as CanvasConfig
 	)
 }
-
 
 // 设置 canvas 大小
 function setCanvasRect(width: number, height: number) {
@@ -100,24 +99,18 @@ function handleClick(event: MouseEvent) {
 watch(canvasConfigs, renderTimeLine)
 watch(props, renderTimeLine)
 
-// 创建 ResizeObserver 实例
-const resizeObserver = new ResizeObserver(entries => {
-	for (let entry of entries) {
-		const { width, height } = entry.contentRect
-		setCanvasRect(width, height)
-	}
-})
 
 onMounted(() => {
 	// 开始观察 timelineWrapper 元素
-	if (timelineWrapper.value) {
-		resizeObserver.observe(timelineWrapper.value)
-	}
+	useResizeObserver(timelineWrapper.value, entries => {
+		const entry = entries[0]
+		const { width, height } = entry.contentRect
+		setCanvasRect(width, height)
+	})
 })
 
 onUnmounted(() => {
-	// 停止观察并释放资源
-	resizeObserver.disconnect()
+
 })
 </script>
 
