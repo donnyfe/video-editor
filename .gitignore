@@ -9,7 +9,6 @@ lerna-debug.log*
 
 node_modules
 .DS_Store
-dist
 dist-ssr
 coverage
 *.local
@@ -29,5 +28,8 @@ coverage
 
 *.tsbuildinfo
 
-note.md
-bak
+dist
+
+# 临时文件
+.tmp
+
