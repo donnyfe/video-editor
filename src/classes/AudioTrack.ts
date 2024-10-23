@@ -5,38 +5,16 @@ import type { ResourceType, AudioSource } from '@/types'
 import BaseTrack from './BaseTrack'
 
 export class AudioTrack extends BaseTrack {
-	id: string
-	type: ResourceType = 'audio'
-	source: AudioSource
-	name: string
-	format: string
-
-	frameCount: number
-	start: number
-	end: number
-	offsetL: number = 0
-	offsetR: number = 0
 	audio: HTMLAudioElement | null = null
 
 	constructor(source: AudioSource, cutFrame: number) {
 		super('audio', source.name)
-		// 设置ID
-		this.id = uniqueId()
-		// 设置音频信息
 		this.source = source
-		// 获取文件名称
-		this.name = source.name
-		// 获取文件类型
 		this.format = source.format
-
 		// 获取音频时长，转换为frameCount
 		this.frameCount = source.duration * 30
 		this.start = cutFrame
 		this.end = this.start + this.frameCount
-
-		// 设置裁剪信息
-		this.offsetL = 0
-		this.offsetR = 0
 	}
 	play(cutFrame: number) {
 		if (!this.audio) {
@@ -51,6 +29,10 @@ export class AudioTrack extends BaseTrack {
 		if (this.audio && !this.audio.paused) {
 			this.audio.pause()
 		}
+	}
+	async draw() {
+		// Audio tracks don't need to be drawn
+		return Promise.resolve()
 	}
 	// 生成合成对象
 	async combine() {

@@ -17,46 +17,28 @@ export interface DrawRoundRectOptions {
 }
 
 export class TextTrack extends BaseTrack {
-	type: ResourceType = 'text'
 	source: TextSource
-
-	width: number = 0
-	height: number = 0
-	scale: number = 100
-	rotate: number = 0
-
-	// 绘制信息
-	_content: string = '文本内容'
-	_fontSize: number = 24
-	_fontFamily: string = 'Arial'
+	_content: string
+	_fontSize: number
+	_fontFamily: string
 	fill: string
 	stroke?: string
 	textBackgroundColor?: string
 
 	constructor(source: TextSource, currentFrame: number) {
 		super('text', '文本')
-
-		// 设置ID
-		this.id = uniqueId()
-		this.name = source.name
 		this.source = source
-
-		// 设置文字信息
+		// 设置文本信息
 		this._content = source.content
 		this._fontSize = source.fontSize
 		this._fontFamily = source.fontFamily
 		this.fill = source.fill
 		this.stroke = source.stroke
 		this.textBackgroundColor = source.textBackgroundColor
-
-		// 设置绘制信息
-		this.scale = 100
-
 		// 设置轨道信息
 		this.frameCount = 180
 		this.start = currentFrame
 		this.end = this.start + this.frameCount
-
 		this.calcSize()
 	}
 	get content() {
@@ -66,6 +48,7 @@ export class TextTrack extends BaseTrack {
 		this._content = value
 		this.calcSize()
 	}
+
 	get fontSize() {
 		return this._fontSize
 	}
@@ -73,6 +56,7 @@ export class TextTrack extends BaseTrack {
 		this._fontSize = value
 		this.calcSize()
 	}
+
 	get fontFamily() {
 		return this._fontFamily
 	}
@@ -80,18 +64,7 @@ export class TextTrack extends BaseTrack {
 		this._fontFamily = value
 		this.calcSize()
 	}
-	get drawWidth() {
-		return (this.width * this.scale) / 100
-	}
-	get drawHeight() {
-		return (this.height * this.scale) / 100
-	}
-	getDrawX(width: number) {
-		return width / 2 - this.drawWidth / 2 + this.centerX
-	}
-	getDrawY(height: number) {
-		return height / 2 - this.drawHeight / 2 + this.centerY
-	}
+
 	calcSize() {
 		const { width, height } = getTextRect({
 			text: this.content,
