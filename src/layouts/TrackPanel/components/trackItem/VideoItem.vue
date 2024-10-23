@@ -41,17 +41,10 @@ const imgs = ref<string[]>([])
 
 async function initVideo() {
 	const { source } = props.trackItem
-	/**
-	 * 缩略图可以优化：
-	 * TODO：可视区域渲染
-	 */
-	console.time('生成缩略图耗时')
+	// 获取视频轨道缩略图
 	const thumbnails = await videoDecoder.thumbnails(source)
-	console.timeEnd('生成缩略图耗时')
 
-	console.time('缩略图连接耗时')
 	imgs.value = (thumbnails as FrameThumbnails[]).map(({ img }) => URL.createObjectURL(img))
-	console.timeEnd('缩略图连接耗时')
 
 	/**
 	 * TODO: 视频声音波形图
@@ -70,7 +63,7 @@ useResizeObserver(el, entries => {
 	containerWidth.value = width
 })
 
-const thumbnails = computed(() => {
+const visibleThumbnails = computed(() => {
 	if (imgs.value.length === 0) {
 		return []
 	}
@@ -89,11 +82,6 @@ watch(() => {
 
 useCheckTrackIsPlaying(props)
 
-onUnmounted(() => {
-	imgs.value.forEach(item => {
-		URL.revokeObjectURL(item)
-	})
-})
 </script>
 
 <template>
@@ -108,7 +96,7 @@ onUnmounted(() => {
 		<div ref="container"
 			class="overflow-hidden bg-gray-400 bg-opacity-70 flex-1 relative whitespace-nowrap"
 			:style="waveStyle">
-			<img v-for="(item, index) in thumbnails"
+			<img v-for="(item, index) in visibleThumbnails"
 				:key="index"
 				:src="item"
 				alt=""

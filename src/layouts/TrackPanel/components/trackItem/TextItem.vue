@@ -22,7 +22,7 @@ useCheckTrackIsPlaying(props)
 		<div
 			class="flex items-center text-xs pl-2 overflow-hidden h-6 leading-6 bg-red-900 bg-opacity-70 text-gray-300">
 			<IconText class="inline-block mr-2 shrink-0" />
-			<span class="mr-4 shrink-0">{{ props.trackItem.name }}</span>
+			<span class="mr-4 shrink-0">{{ props.trackItem.content || props.trackItem.name }}</span>
 		</div>
 	</div>
 </template>
