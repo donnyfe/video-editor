@@ -4,8 +4,8 @@
 	"exclude": ["eslint.config.js", "src/**/__tests__/*"],
 	"compilerOptions": {
 		"composite": true,
+		"lib": ["dom", "dom.iterable", "esnext", "webworker"],
 		"tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
-
 		"baseUrl": ".",
 		"paths": {
 			"@/*": ["./src/*"]
