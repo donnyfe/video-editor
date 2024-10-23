@@ -15,7 +15,7 @@ const moveTarget = ref()
 const isCanvasItemVisible = (item: any) =>
 	playerStore.playFrame >= item.start &&
 	playerStore.playFrame <= item.end &&
-	item.draw;
+	['image', 'video', 'text'].includes(item.type)
 
 const movableList = computed(() => {
 	if (playerStore.playerWidth === 0 && playerStore.playerHeight === 0) {
