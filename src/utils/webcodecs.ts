@@ -80,23 +80,6 @@ class VideoDecoder {
 	// 最大缓存帧数
 	MAX_CACHED_FRAMES = 10000
 
-	async thumbnails(source: VideoSource) {
-		if (this.#thumbnailsMap.has(source.id)) {
-			return this.#thumbnailsMap.get(source.id)
-		}
-
-		const clip = await this.decode({ id: source.id })
-		if (!clip) {
-			throw new Error('clip is not ready')
-		}
-
-		const thumbnails = await clip.thumbnails(50, { step: 1e6 })
-
-		this.#thumbnailsMap.set(source.id, thumbnails)
-
-		return thumbnails
-	}
-
 	async decode({ id, stream }: DecodeOptions) {
 		if (this.#decoderMap.has(id)) {
 			return this.#decoderMap.get(id)
@@ -111,6 +94,41 @@ class VideoDecoder {
 		return clip
 	}
 
+	/**
+	 * 获取视频缩略图
+	 * @param source
+	 * @returns
+	 */
+	async thumbnails(source: VideoSource) {
+		if (this.#thumbnailsMap.has(source.id)) {
+			return this.#thumbnailsMap.get(source.id)
+		}
+
+		const clip = await this.decode({ id: source.id })
+		if (!clip) {
+			throw new Error('clip is not ready')
+		}
+
+		/**
+		 * 获取视频缩略图
+		 * TODO: 耗时长可以做性能优化
+		 */
+		console.time('生成缩略图耗时')
+		const thumbnails = await clip.thumbnails(50, { step: 1e6 })
+		console.timeEnd('生成缩略图耗时')
+		console.log('生成缩略图数量: ', thumbnails.length)
+
+		this.#thumbnailsMap.set(source.id, thumbnails)
+
+		return thumbnails
+	}
+
+	/**
+	 * 获取视频帧
+	 * @param id
+	 * @param frameIndex
+	 * @returns
+	 */
 	async getFrame(id: string, frameIndex: number) {
 		const clip = this.#decoderMap.get(id)
 		if (!clip) {
@@ -124,7 +142,6 @@ class VideoDecoder {
 
 		// 检查缓存中是否有该帧
 		if (cache.has(frameIndex)) {
-			// console.log('命中缓存帧: ', frameIndex, cache.get(frameIndex))
 			return cache.get(frameIndex)
 		}
 
@@ -142,7 +159,6 @@ class VideoDecoder {
 				const oldestKey = cache.keys().next().value as number
 				cache.delete(oldestKey)
 			}
-			// console.log('获取帧: ', frameIndex, frame.video)
 			return frame.video
 		} else {
 			console.warn(`未能获取帧 ${frameIndex} 的数据`)
