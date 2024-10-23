@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import TrackHandler from './TrackHandler.vue'
-import VideoItem from './resource/VideoItem.vue'
-import AudioItem from './resource/AudioItem.vue'
-import TextItem from './resource/TextItem.vue'
-import ImageItem from './resource/ImageItem.vue'
+import VideoItem from './trackItem/VideoItem.vue'
+import AudioItem from './trackItem/AudioItem.vue'
+import TextItem from './trackItem/TextItem.vue'
+import ImageItem from './trackItem/ImageItem.vue'
 import { useTrackStore } from '@/stores'
 
 const props = defineProps({
