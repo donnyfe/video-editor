@@ -9,6 +9,7 @@ import IconVideo from '@/components/Icons/IconVideo.vue'
 import { useTrackStore, usePlayerStore } from '@/stores'
 import { getGridPixel, getSelectFrame, formatTime, isVideo } from '@/utils'
 import type { VideoSource, InsertInfo, InsertLineInfo } from '@/types'
+import type { TrackListItem } from '@/types'
 
 const trackStore = useTrackStore()
 const playerStore = usePlayerStore()

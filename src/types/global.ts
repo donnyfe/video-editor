@@ -1,3 +1,9 @@
+declare global {
+	interface Window {
+		showSaveFilePicker: (options?: any) => Promise<FileSystemFileHandle>
+	}
+}
+
 // 菜单项
 export interface MenuItem {
 	type: string

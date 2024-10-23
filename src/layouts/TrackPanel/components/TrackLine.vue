@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, type PropType } from 'vue'
 import TrackItem from './TrackItem.vue'
 import { useTrackStore } from '@/stores'
 
@@ -17,7 +17,7 @@ const props = defineProps({
 		default: 0
 	},
 	lineData: {
-		type: Array,
+		type: Array as PropType<Record<string, any>[]>,
 		default() {
 			return []
 		}

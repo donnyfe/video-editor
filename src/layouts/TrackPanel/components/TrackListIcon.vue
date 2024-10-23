@@ -1,15 +1,14 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch, type PropType } from 'vue'
 import IconVideo from '@/components/Icons/IconVideo.vue'
 import IconAudio from '@/components/Icons/IconAudio.vue'
 import IconImage from '@/components/Icons/IconImage.vue'
 import IconText from '@/components/Icons/IconText.vue'
-
-
+import type { TrackListItem } from '@/types'
 
 const props = defineProps({
 	listData: {
-		type: Array,
+		type: Array as PropType<TrackListItem[]>,
 		default() {
 			return []
 		}

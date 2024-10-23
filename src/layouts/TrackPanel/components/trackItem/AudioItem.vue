@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
-import WaveSurfer from 'wavesurfer.js'
+import WaveSurfer, { type WaveSurferOptions } from 'wavesurfer.js'
 import { usePlayerStore } from '@/stores'
 import LoadingTrack from '@/components/LoadingTrack.vue'
 import IconAudio from '@/components/Icons/IconAudio.vue'
@@ -66,7 +66,7 @@ async function initAudio() {
 		container: waveRef.value,
 		url: props.trackItem.source.url,
 		...waveOptions
-	})
+	} as unknown as WaveSurferOptions)
 
 	loading.value = false
 	store.ingLoadingCount--

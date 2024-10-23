@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { reactive, computed } from 'vue'
-
 import IconSub from '@/components/Icons/IconSub.vue'
 import IconAdd from '@/components/Icons/IconAdd.vue'
 import IconUndo from '@/components/Icons/IconUndo.vue'
 import IconRedo from '@/components/Icons/IconRedo.vue'
 import IconSplit from '@/components/Icons/IconSplit.vue'
 import IconDelete from '@/components/Icons/IconDelete.vue'
-
+import { AudioTrack, VideoTrack } from '@/classes'
 import { useGlobalStore, useTrackStore, usePlayerStore } from '@/stores'
 
 
@@ -115,7 +114,7 @@ function removeTrack() {
 	// 判断音视频类型并停止播放
 	const track = trackStore.trackList[trackStore.selectedTrack.line]?.list[trackStore.selectedTrack.index]
 	if (track && ['audio', 'video'].includes(track.type)) {
-		track.pause()
+		(track as AudioTrack | VideoTrack).pause()
 	}
 	if (trackStore.selectedTrack.line !== -1 && trackStore.selectedTrack.index !== -1) {
 		trackStore.removeTrack(trackStore.selectedTrack.line, trackStore.selectedTrack.index)
@@ -134,7 +133,7 @@ function splitTrack() {
 	let splitTime = playerStore.playFrame
 
 	if (track.type === 'video' && track.start < splitTime && splitTime < track.end) {
-		const videoTrack = track.split(splitTime)
+		const videoTrack = (track as VideoTrack).split(splitTime)
 
 		videoTrack.resize({
 			width: playerStore.playerWidth,

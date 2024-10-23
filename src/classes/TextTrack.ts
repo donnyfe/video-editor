@@ -1,8 +1,7 @@
-import { uniqueId } from 'lodash-es'
 import { ImgClip, OffscreenSprite } from '@webav/av-cliper'
 import BaseTrack from './BaseTrack'
 import { getTextRect } from '@/utils'
-import type { ResourceType, TextSource, Size, CanvasContext } from '@/types'
+import type { TextSource, Size, CanvasContext } from '@/types'
 
 export interface DrawRoundRectOptions {
 	x: number

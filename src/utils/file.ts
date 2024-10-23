@@ -65,10 +65,14 @@ export async function writeFile(id: string, stream?: ReadableStream<Uint8Array>)
 	 3. 它需要在安全上下文(HTTPS)中使用
  */
 export async function createFileWriter(extName = 'mp4'): Promise<FileSystemWritableFileStream> {
-	const fileHandle = await window.showSaveFilePicker({
-		suggestedName: `WebAV-export-${Date.now()}.${extName}`,
-	})
-	return fileHandle.createWritable()
+	if ('showSaveFilePicker' in window) {
+		const fileHandle = await(window as any).showSaveFilePicker({
+			suggestedName: `WebAV-export-${Date.now()}.${extName}`,
+		})
+		return fileHandle.createWritable()
+	} else {
+		throw new Error('showSaveFilePicker is not supported')
+	}
 }
 
 interface FileUploadOptions {
