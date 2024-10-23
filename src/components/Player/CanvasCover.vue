@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, nextTick, reactive, computed, watch } from 'vue'
+import { ref, toRaw, nextTick, reactive, computed, watch } from 'vue'
 import Moveable from 'vue3-moveable'
 import { usePlayerStore, useTrackStore } from '@/stores'
 import type { MoveableTrack } from '@/types'
@@ -21,17 +21,13 @@ const movableList = computed(() => {
 	if (playerStore.playerWidth === 0 && playerStore.playerHeight === 0) {
 		return []
 	}
-	return trackStore.trackList.flatMap(({ list }, lineIndex) => {
+	const result = trackStore.trackList.flatMap(({ list }, lineIndex) => {
 		const trackItem = list.find(isCanvasItemVisible);
 
 		if (!trackItem) return [];
 
 		const { id, width: w, height: h, scale, centerX, centerY } = trackItem as any;
 		const scaleFactor = scale / 100;
-
-		if (moveable.value) {
-			moveable.value.updateRect()
-		}
 
 		return [{
 			id,
@@ -46,6 +42,11 @@ const movableList = computed(() => {
 			top: playerStore.playerHeight / 2 - h / 2
 		}];
 	});
+
+	if (moveable.value) {
+		moveable.value.updateRect()
+	}
+	return result
 })
 
 
@@ -124,6 +125,8 @@ function onScale(params: Record<string, any>) {
  */
 function mousedown(event: MouseEvent, eleId: string) {
 	event.stopPropagation()
+	event.preventDefault()
+
 	playerStore.isPause = true
 	trackStore.selectTrackById(eleId)
 	moveTarget.value = event.currentTarget
@@ -145,9 +148,15 @@ const selectedTrackElement = computed(() => {
 	return canvasCover.value?.querySelector(`.segment-widget[data-eleid='${targetTrack.id}']`) ?? null
 })
 
-watch([trackStore.selectedTrack, movableList], () => {
+const playerWidth = computed(() => playerStore.playerWidth)
+
+watch([trackStore.selectedTrack, movableList, () => playerWidth.value], () => {
 	// 设置选移动目标
 	moveTarget.value = selectedTrackElement.value
+
+	if (moveable.value) {
+		moveable.value.updateRect()
+	}
 
 }, { immediate: true, flush: 'post' })
 
@@ -166,7 +175,7 @@ watch([trackStore.selectedTrack, movableList], () => {
 			:data-lineIndex="item.lineIndex"
 			:data-itemIndex="item.itemIndex"
 			:style="{
-				zIndex: index,
+	zIndex: 999 - index,
 				top: `${item.top}px`,
 				left: `${item.left}px`,
 				width: `${item.w}px`,
