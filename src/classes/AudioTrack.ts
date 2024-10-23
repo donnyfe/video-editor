@@ -1,7 +1,6 @@
-import { uniqueId } from 'lodash-es'
 import { OffscreenSprite, AudioClip } from '@webav/av-cliper'
 import { audioDecoder, splitClip } from '@/utils'
-import type { ResourceType, AudioSource } from '@/types'
+import type { AudioSource } from '@/types'
 import BaseTrack from './BaseTrack'
 
 export class AudioTrack extends BaseTrack {
