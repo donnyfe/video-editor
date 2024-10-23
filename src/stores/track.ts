@@ -57,7 +57,6 @@ export const useTrackStore = defineStore('trackStore', () => {
 	 * 输入: 资源
 	 */
 	function addTrack(resource: Resource) {
-		console.log('addTrack - 添加资源: ', resource)
 		const line = trackList.find(
 			(item) =>
 				item.type === resource.type && !checkTrackListOverlap(item.list, resource).hasOverlap,
