@@ -37,19 +37,6 @@ export function calcTextStyle(item: TextItem) {
 	return style
 }
 
-// export function getTextRect({ text = 'Hello World', fontSize = 40 }) {
-//     const canvas = document.createElement('canvas');
-//     const ctx = canvas.getContext('2d');
-//     if (ctx) {
-//         ctx.font = `${fontSize}px -apple-system, ".SFNSText-Regular", "SF UI Text", "PingFang SC", "Hiragino Sans GB", "Helvetica Neue", "WenQuanYi Zen Hei", "Microsoft YaHei", Arial, sans-serif`;
-//         const metrics = ctx.measureText(text);
-//         return {
-//             width: metrics.actualBoundingBoxRight + metrics.actualBoundingBoxLeft,
-//             height: fontSize * 1.2
-//         };
-//     }
-//     return null;
-// }
 interface TextOptions {
 	text: string
 	fontSize: number
@@ -62,7 +49,11 @@ interface TextOptions {
  * @param fontFamily
  * @returns
  */
-export function getTextRect({ text = 'Hello World', fontSize = 40, fontFamily }: TextOptions) {
+export function getTextRect({
+	text = 'Hello World',
+	fontSize = 40,
+	fontFamily = 'Arial',
+}: TextOptions) {
 	const padding = 4
 	const canvas = new OffscreenCanvas(1000, 1000)
 	const ctx = canvas.getContext('2d')
