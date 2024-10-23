@@ -1,6 +1,6 @@
 <script setup lang="ts">
-
-import { calcTextStyle } from '@/utils'
+import { ref } from 'vue'
+import { calcTextStyle, generateRandomRGBColor } from '@/utils'
 
 export interface TextStyle {
 	fill: string,
@@ -8,48 +8,49 @@ export interface TextStyle {
 	textBackgroundColor?: string
 }
 
-const datas: TextStyle[] = [
-	{ fill: '#FFF', stroke: '#000000', textBackgroundColor: undefined },
-	{ fill: '#000000', stroke: '#ffffff', textBackgroundColor: undefined },
-	{ fill: '#FFDE02', stroke: '#000000', textBackgroundColor: undefined },
-	{ fill: '#FFF', stroke: '#F57165', textBackgroundColor: undefined },
-	{ fill: '#B7DCF6', stroke: '#000000', textBackgroundColor: undefined },
-	{ fill: '#FFD9E8', stroke: '#FF619D', textBackgroundColor: undefined },
-	{ fill: '#C0F1F5', stroke: '#1B81E7', textBackgroundColor: undefined },
-	{ fill: '#DCE57E', stroke: '#2B6323', textBackgroundColor: undefined },
-	{ fill: '#C1E8BF', stroke: '#027B88', textBackgroundColor: undefined },
-	{ fill: '#FFF', stroke: '#FF2570', textBackgroundColor: undefined },
-	{ fill: '#AB4A37', stroke: '#ffffff', textBackgroundColor: undefined },
-	{ fill: '#F9F3C4', stroke: '#4A4238', textBackgroundColor: undefined },
-	{ fill: '#FFD9C6', stroke: '#A74F59', textBackgroundColor: undefined },
-	{ fill: '#69F0AE', stroke: '#000000', textBackgroundColor: undefined },
-	{ fill: '#FFF', stroke: '#00A16C', textBackgroundColor: undefined },
-	{ fill: '#0A0A15', stroke: undefined, textBackgroundColor: '#fff' },
-	{ fill: '#FFF', stroke: undefined, textBackgroundColor: '#000000' },
-	{ fill: '#FFF', stroke: undefined, textBackgroundColor: '#EB6969' },
-	{ fill: '#000', stroke: undefined, textBackgroundColor: '#FFDE02' },
-	{ fill: '#FFF', stroke: undefined, textBackgroundColor: '#00A16C' },
-	{ fill: '#FFF', stroke: undefined, textBackgroundColor: '#2994D8' },
-]
+const generateRandomTextStyles = (count: number): TextStyle[] => {
+	const styles: TextStyle[] = []
+	for (let i = 0; i < count; i++) {
+		styles.push({
+			fill: generateRandomRGBColor(),
+			stroke: Math.random() > 0.5 ? generateRandomRGBColor() : undefined,
+			textBackgroundColor: Math.random() > 0.7 ? generateRandomRGBColor() : undefined
+		})
+	}
+	return styles
+}
+
+const datas = ref<TextStyle[]>(generateRandomTextStyles(30))
 
 const emit = defineEmits(['add'])
 
 function selectedText(item: TextStyle) {
 	emit('add', item)
 }
+
+function onChange() {
+	datas.value = generateRandomTextStyles(30)
+}
 </script>
 
 <template>
-	<ul class="list w-full">
-		<li
-			class="relative w-86px h-86px flex-center justify-center mx-1 my-1 bg-#333 rounded-4px el-theme"
-			v-for="(item, index) in datas"
-			:key="index"
-			@click="selectedText(item)">
-			<span class="text"
-				:style="calcTextStyle(item)">花字</span>
-		</li>
-	</ul>
+	<div class="flex justify-end align-center">
+		<el-text type="default"
+			class="cursor-pointer"
+			@click="onChange">换一批</el-text>
+	</div>
+	<div class="overflow-y-auto h-full scrollbar-width-none">
+		<ul class="list w-full">
+			<li
+				class="relative w-86px h-86px flex-center justify-center mx-1 my-1 bg-#333 rounded-4px el-theme"
+				v-for="(item, index) in datas"
+				:key="index"
+				@click="selectedText(item)">
+				<span class="text"
+					:style="calcTextStyle(item)">花字</span>
+			</li>
+		</ul>
+	</div>
 </template>
 
 <style lang="scss" scoped>
