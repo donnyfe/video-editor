@@ -113,7 +113,6 @@ export class VideoTrack extends BaseTrack {
 		}
 		if (this.audio?.paused) {
 			this.audio.currentTime = (cutFrame - this.start - this.offsetL) / 30
-			console.log('🚀 ~ VideoTrack ~ play ~ this.audio.currentTime:', this.audio.currentTime)
 			this.audio.play()
 		}
 	}
