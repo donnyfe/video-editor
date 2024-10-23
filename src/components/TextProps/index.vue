@@ -4,7 +4,25 @@ import { storeToRefs } from 'pinia'
 import { useTrackStore } from '@/stores'
 import { TextTrack } from '@/classes'
 
-const activeCollapse = ref(['文本样式', '位置大小'])
+const activeCollapse = ref(['文字样式', '位置大小'])
+
+const predefineColors = ref([
+	'#ff4500',
+	'#ff8c00',
+	'#ffd700',
+	'#90ee90',
+	'#00ced1',
+	'#1e90ff',
+	'#c71585',
+	'rgba(255, 69, 0, 0.68)',
+	'rgb(255, 120, 0)',
+	'hsv(51, 100, 98)',
+	'hsva(120, 40, 94, 0.5)',
+	'hsl(181, 100%, 37%)',
+	'hsla(209, 100%, 56%, 0.73)',
+	'#c7158577',
+])
+
 
 const trackStore = useTrackStore()
 const { selectResource, selectedTrack, trackList } = storeToRefs(trackStore);
@@ -12,6 +30,9 @@ const { selectResource, selectedTrack, trackList } = storeToRefs(trackStore);
 const form = reactive({
 	content: '文本内容',
 	fontSize: 24,
+	fill: '#fff',
+	stroke: '#fff',
+	textBackgroundColor: '#fff',
 	scale: 100,
 	centerX: 0,
 	centerY: 0
@@ -43,10 +64,10 @@ function onChange(key: string, value: any) {
 	<el-form ref="formRef"
 		class="px-5 flex flex-col"
 		v-model="form"
-		label-width="42px">
+		label-width="50px">
 		<el-collapse v-model="activeCollapse">
-			<el-collapse-item title="文本样式"
-				name="文本样式">
+			<el-collapse-item title="文字样式"
+				name="文字样式">
 				<el-form-item label-width="0">
 					<el-input class="form-item"
 						type="textarea"
@@ -62,6 +83,30 @@ function onChange(key: string, value: any) {
 								v-model="form.fontSize"
 								:min="0"
 								@change="onChange('fontSize', $event)"></el-input-number>
+						</el-form-item>
+					</el-col>
+				</el-row>
+
+				<el-row class="flex justify-around">
+					<el-col :span="8">
+						<el-form-item label="填充色">
+							<el-color-picker v-model="form.fill"
+								:predefine="predefineColors"
+								@chaactive-changenge="onChange('fill', $event)" />
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="描边色">
+							<el-color-picker v-model="form.stroke"
+								:predefine="predefineColors"
+								@active-change="onChange('stroke', $event)" />
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="背景色">
+							<el-color-picker v-model="form.textBackgroundColor"
+								:predefine="predefineColors"
+								@active-change="onChange('textBackgroundColor', $event)" />
 						</el-form-item>
 					</el-col>
 				</el-row>

@@ -20,25 +20,27 @@ export class TextTrack extends BaseTrack {
 	_content: string
 	_fontSize: number
 	_fontFamily: string
-	fill: string
-	stroke?: string
-	textBackgroundColor?: string
+	_fill: string
+	_stroke?: string
+	_textBackgroundColor?: string
 
 	constructor(source: TextSource, currentFrame: number) {
 		super('text', '文本')
 		this.source = source
+
 		// 设置文本信息
 		this._content = source.content
 		this._fontSize = source.fontSize
 		this._fontFamily = source.fontFamily
-		this.fill = source.fill
-		this.stroke = source.stroke
-		this.textBackgroundColor = source.textBackgroundColor
+		this._fill = source.fill
+		this._stroke = source.stroke
+		this._textBackgroundColor = source.textBackgroundColor
 		// 设置轨道信息
 		this.frameCount = 180
 		this.start = currentFrame
 		this.end = this.start + this.frameCount
 		this.calcSize()
+
 	}
 	get content() {
 		return this._content
@@ -62,6 +64,24 @@ export class TextTrack extends BaseTrack {
 	set fontFamily(value: string) {
 		this._fontFamily = value
 		this.calcSize()
+	}
+	get fill() {
+		return this._fill
+	}
+	set fill(value) {
+		this._fill = value
+	}
+	get stroke() {
+		return this._stroke ?? ''
+	}
+	set stroke(value: string) {
+		this._stroke = value
+	}
+	get textBackgroundColor() {
+		return this._textBackgroundColor ?? ''
+	}
+	set textBackgroundColor(value: string) {
+		this._textBackgroundColor = value
 	}
 
 	calcSize() {
