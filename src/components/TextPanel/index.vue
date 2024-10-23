@@ -29,17 +29,15 @@ function addTrack(style: TextStyle) {
 </script>
 
 <template>
-	<div class="p-4 flex-1 overflow-hidden flex flex-col">
-		<ElButton class="w-full"
+	<div class="p-4 overflow-hidden flex flex-col">
+		<ElButton class="w-full mb-4"
 			type="primary"
 			@click="addTrack({ fill: '#fff' })">
 			添加文字
 		</ElButton>
 
 		<div class="flex-1 overflow-hidden">
-			<div class="overflow-y-auto h-full pt-6 scrollbar-width-none">
-				<TextList @add="createTrack" />
-			</div>
+			<TextList @add="createTrack" />
 		</div>
 	</div>
 </template>
