@@ -66,7 +66,7 @@ export async function writeFile(id: string, stream?: ReadableStream<Uint8Array>)
  */
 export async function createFileWriter(extName = 'mp4'): Promise<FileSystemWritableFileStream> {
 	if ('showSaveFilePicker' in window) {
-		const fileHandle = await(window as any).showSaveFilePicker({
+		const fileHandle = await window.showSaveFilePicker({
 			suggestedName: `WebAV-export-${Date.now()}.${extName}`,
 		})
 		return fileHandle.createWritable()
