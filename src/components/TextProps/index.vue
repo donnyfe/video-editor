@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, toRefs, computed, toRaw, reactive, watch, type ComputedRef } from 'vue'
+import { ref, toRaw, reactive, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useTrackStore } from '@/stores'
 import { TextTrack } from '@/classes'
