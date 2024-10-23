@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { debounce } from 'lodash-es'
 import TimeLine from './components/TimeLine.vue'
 import TrackLine from './components/TrackLine.vue'
@@ -13,22 +13,21 @@ import type { VideoSource, InsertInfo, InsertLineInfo } from '@/types'
 const trackStore = useTrackStore()
 const playerStore = usePlayerStore()
 
-const trackListContainer = ref()
-const trackList = ref()
+const trackListContainer = ref<HTMLElement | null>(null)
+const trackList = ref<HTMLElement | null>(null)
 
 const offsetLine = {
 	left: 10, // 容器 margin, 为了显示拖拽手柄
 	right: 200
 }
-const startX = ref(0 - offsetLine.left) // 与容器padding对齐
+const startX = ref(-offsetLine.left) // 与容器padding对齐
 const startY = ref(0) // 左侧icons对齐
 const trackScale = computed(() => trackStore.trackScale) // 轨道默认缩放
 
-const trackStyle = computed(() => {
-	return {
-		width: getGridPixel(trackScale.value, trackStore.frameCount) + offsetLine.right
-	}
-})
+const trackStyle = computed(() => ({
+	width: getGridPixel(trackScale.value, trackStore.frameCount) + offsetLine.right
+}))
+
 const defaultFps = ref(30) // 帧率
 const dropLineIndex = ref(-1) // 目标行
 const insertBefore = ref(true) // 之前插入还是之后插入
@@ -45,7 +44,7 @@ const trackListData = computed(() => {
 				...item,
 				showWidth: `${getGridPixel(trackScale.value, item.end - item.start)}px`,
 				showLeft: `${getGridPixel(trackScale.value, item.start)}px`,
-				time: isVideo(line.type) ? `${formatTime(time || 0).str}` : ''
+				time: isVideo(line.type) ? `${formatTime(time * 1000 || 0).str}` : ''
 			}
 		})
 
@@ -65,10 +64,9 @@ function setSelectTrack(event: Event, line: number, index: number) {
 }
 
 function handlerSelectFrame(selectFrame: number) {
-	const targetFrame = selectFrame - 1
-	const startFrame = targetFrame < 0 ? 0 : targetFrame > trackStore.frameCount ? trackStore.frameCount : targetFrame
+	const targetFrame = Math.max(0, Math.min(selectFrame - 1, trackStore.frameCount))
 	playerStore.isPause = true
-	playerStore.playFrame = startFrame
+	playerStore.playFrame = targetFrame
 }
 
 let maxDelta = 0
@@ -88,12 +86,12 @@ const handleWheel = (event: WheelEvent) => {
 	}
 }
 function handleScroll() {
-	const { scrollLeft, scrollTop } = trackList.value
+	const { scrollLeft, scrollTop } = trackList.value as HTMLElement
 	startX.value = scrollLeft - offsetLine.left
 	startY.value = scrollTop
 }
 let dragElement: HTMLElement | null = null
-let curCoord: Record<string, number> = { left: 0, right: 0, start: 0, end: 0 }
+let curCoord = { left: 0, right: 0, start: 0, end: 0 }
 let otherCoords: Record<string, number>[] = []
 
 function getComputedPosition(element: HTMLElement) {
@@ -105,6 +103,7 @@ function getComputedPosition(element: HTMLElement) {
 }
 
 function onMouseDown(event: MouseEvent) {
+
 	dragElement = (event.target as HTMLElement).closest('.trackItem') as HTMLElement
 	if (!dragElement) {
 		return
@@ -369,12 +368,17 @@ function onMouseUp(event: MouseEvent) {
 
 		const info = getInsertInfo()
 		insert(info)
-		dragElement = null
 	}
-	trackStore.dragData.fixLines = []
+
 	// 重置移动轨道信息
+	resetDragData()
+}
+
+const resetDragData = () => {
+	dragElement = null
 	trackStore.moveTrackData.lineIndex = -1
 	trackStore.moveTrackData.itemIndex = -1
+	trackStore.dragData.fixLines = []
 	trackStore.dragData.moveX = 0
 	trackStore.dragData.moveY = 0
 }
