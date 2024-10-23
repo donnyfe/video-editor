@@ -21,8 +21,9 @@ async function handleClick(item: { id: string, src: string }) {
 </script>
 
 <template>
-	<ul class="list h-full overflow-auto">
-		<li class="flex-center aspect-square rounded-4px overflow-hidden dark:bg-#333  el-theme "
+	<ul class="list w-full h-full overflow-auto">
+		<li
+			class="flex-center align-start aspect-square rounded-4px overflow-hidden bg-#f2f2f2 dark:bg-#000"
 			v-for="(item, index) in list"
 			:key="index"
 			@click="handleClick(item)">
@@ -40,8 +41,7 @@ async function handleClick(item: { id: string, src: string }) {
 
 	li {
 		position: relative;
-			width: 88px;
-			height: 88px;
+		width: 82px;
 		cursor: pointer;
 
 		&:hover::after {

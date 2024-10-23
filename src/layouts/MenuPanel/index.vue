@@ -43,9 +43,11 @@ const resourcePanel = computed(() => {
 </script>
 
 <template>
-	<div class="flex flex-col overflow-x-hidden el-theme border-r-solid border-r-1px"
+	<div class="flex flex-col overflow-x-hidden el-theme px-2 py-2 border-r-solid border-r-1px"
 		:class="visible ? 'w-80' : 'w-0'">
-		<div class="min-h-full flex flex-col overflow-hidden ">
+		<div
+			class="h-full flex flex-col overflow-hidden rounded-lg border-gray-300 dark:border-gray-500 dark:bg-[var(--el-bg-color)]"
+			:class="visible ? 'border-1px border-solid' : ''">
 			<div class="h-10 px-3 flex-between border-b-solid border-b-1px el-theme-border">
 				<span class="inline leading-10 select-none">{{ title }}</span>
 				<IconDArrowLeft class="w-4 h-4 hover:cursor-pointer"

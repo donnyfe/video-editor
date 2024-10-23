@@ -23,12 +23,11 @@ function toggle(item: MenuItem) {
 </script>
 
 <template>
-	<div
-		class="app-aside w-64px h-full flex flex-col justify-between py-4 el-theme border-r-solid border-r-1px">
-		<div class="w-full flex flex-col">
+	<div class="app-aside w-64px h-full px-2 py-2 flex flex-col justify-between el-theme ">
+		<div class="w-full h-full flex flex-col bg-[var(--el-color-primary)] rounded-lg">
 			<div v-for="item in menuItems"
 				class="py-3 hover:cursor-pointer"
-				:class="activeType === item.type ? 'dark:text-white text-gray-800' : 'dark:text-gray-400 text-gray-400'"
+				:class="activeType === item.type ? 'text-white text-dark' : 'dark:text-dark text-dark'"
 				:key="item.type"
 				@click="toggle(item)">
 
