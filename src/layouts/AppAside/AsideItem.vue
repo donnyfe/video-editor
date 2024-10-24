@@ -5,7 +5,8 @@ import { capitalize } from '@/utils'
 
 const props = defineProps<{
 	type: string,
-	name: string
+	name?: string,
+	showText?: boolean
 }>()
 
 const computedIcon = computed(() => {
@@ -18,6 +19,6 @@ const computedIcon = computed(() => {
 	<div class="flex flex-col items-center cursor-pointer">
 		<component class="w-6 h-6"
 			:is="computedIcon" />
-		<span>{{ props.name }}</span>
+		<span v-if="props.showText">{{ props.name }}</span>
 	</div>
 </template>

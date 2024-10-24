@@ -36,7 +36,7 @@ onMounted(() => {
 	justify-content: center;
 	align-items: center;
 	z-index: 9999;
-	@apply bg-dark-300;
+	background: var(--el-bg-color);
 }
 
 .progress-bar {
@@ -50,7 +50,7 @@ onMounted(() => {
 
 .progress {
 	height: 100%;
-	background-color: #409eff;
+	background-color: var(--el-color-primary);
 	transition: width 0.5s ease-out;
 }
 

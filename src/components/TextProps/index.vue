@@ -60,7 +60,7 @@ function onChange(key: string, value: any) {
 </script>
 
 <template>
-	<div class="flex flex-center justify-start px-5 py-2">文本属性</div>
+	<div class="flex flex-center justify-start px-5 py-2 el-theme-text">文本属性</div>
 	<el-form ref="formRef"
 		class="px-5 flex flex-col"
 		v-model="form"

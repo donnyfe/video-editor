@@ -4,7 +4,7 @@ import { defineStore } from 'pinia'
 export const usePlayerStore = defineStore('playerStore', () => {
 	const playerConfig = reactive({
 		// 1920*1080 = 16:9
-		aspectRatio: '9:16', // 16:9 | 4:3 | 2:1 | 9:16 | 3:4 | 1:1
+		aspectRatio: '16:9', // 16:9 | 4:3 | 2:1 | 9:16 | 3:4 | 1:1
 		playerWidth: 0,
 		playerHeight: 0,
 		isPause: true, // 播放是否暂停

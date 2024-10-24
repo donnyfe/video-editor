@@ -37,7 +37,7 @@ function onChange(key: string, value: any) {
 </script>
 
 <template>
-	<div class="flex flex-center justify-start px-5 py-2">图像属性</div>
+	<div class="flex flex-center justify-start px-5 py-2 el-theme-text">图像属性</div>
 	<el-form ref="formRef"
 		class="px-5 flex flex-col"
 		:model="form"

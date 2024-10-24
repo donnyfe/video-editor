@@ -42,7 +42,7 @@ function onChange() {
 	<div class="overflow-y-auto h-full scrollbar-width-none">
 		<ul class="list w-full">
 			<li
-				class="relative w-80px h-80px flex-center justify-center mx-1 my-1 bg-#f2f2f2 dark:bg-#000 rounded-4px el-theme"
+				class="relative w-80px h-80px flex-center justify-center mx-1 my-1 bg-#f2f2f2 dark:bg-black rounded-4px el-theme"
 				v-for="(item, index) in datas"
 				:key="index"
 				@click="selectedText(item)">

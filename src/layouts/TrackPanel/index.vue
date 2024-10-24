@@ -21,17 +21,21 @@ const limitSize = reactive({
 </script>
 
 <template>
-	<div
-		class="track-panel flex flex-col overflow-hidden relative select-none el-theme border-t-solid border-t-1px"
+	<div class="track-panel select-none el-theme pr-2 pb-2 dark:bg-black"
 		:style="panelStyle">
 
-		<SplitLine class="top-0 left-0 right-0"
-			direction="horizontal"
-			:limit-size="limitSize"
-			v-model:newHeight="globalStore.controlsPanelHeight" />
+		<div
+			class="h-full flex flex-col relative overflow-hidden rounded-lg border-solid border-1px border-[var(--el-border-color)] dark:bg-[var(--el-bg-color)]">
 
-		<TrackControl v-model="trackStore.trackScale" />
-		<TrackList />
+			<SplitLine class="top-0 left-0 right-0"
+				direction="horizontal"
+				:limit-size="limitSize"
+				v-model:newHeight="globalStore.controlsPanelHeight" />
+
+
+			<TrackControl v-model="trackStore.trackScale" />
+			<TrackList />
+		</div>
 	</div>
 </template>
 

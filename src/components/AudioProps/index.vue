@@ -7,7 +7,7 @@ const form = reactive({
 </script>
 
 <template>
-	<div class="flex flex-center justify-start px-5 py-2">音频属性</div>
+	<div class="flex flex-center justify-start px-5 py-2 el-theme-text">音频属性</div>
 	<el-form ref="formRef"
 		:model="form"
 		label-width="80px">

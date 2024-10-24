@@ -86,8 +86,8 @@ function onChangeAspectRatio(val: string) {
 <template>
 	<div class="flex flex-center pl-4 pr-4 h-8 border-t dark:border-darker border-gray-300">
 		<div class="h-full text-xs leading-8">
-			<span class="text-blue-400 mr-1 w-20 inline-block">{{ playTime }}</span>/<span
-				class="ml-2 w-20">{{ allTime }}</span>
+			<span class="text-[var(--el-color-primary)] mr-1 w-20 inline-block">{{ playTime
+				}}</span>/<span class="ml-2 w-20">{{ allTime }}</span>
 		</div>
 
 		<div class="flex items-center m-auto">

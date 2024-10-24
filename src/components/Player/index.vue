@@ -57,7 +57,7 @@ onMounted(() => {
 
 <template>
 	<div ref="canvasContainer"
-		class="canvas-container bg-dark">
+		class="canvas-container bg-black">
 		<canvas ref="editorCanvas"
 			id="editorCanvas"
 			class="editor-canvas"

@@ -1,3 +1,19 @@
 .el-button:hover {
 	background: var(--el-button-hover-bg-color);
 }
+
+.el-switch.is-checked .el-switch__core {
+	background: var(--el-switch-on-color);
+}
+
+.el-collapse {
+	.el-collapse-item__header {
+		background: var(--el-collapse-header-bg-color);
+	}
+	.el-collapse-item__content {
+		background: var(--el-collapse-content-bg-color);
+	}
+	.el-collapse-item__wrap {
+		background: var(--el-collapse-content-bg-color);
+	}
+}

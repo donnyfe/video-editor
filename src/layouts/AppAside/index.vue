@@ -23,20 +23,33 @@ function toggle(item: MenuItem) {
 </script>
 
 <template>
-	<div class="app-aside w-64px h-full px-2 py-2 flex flex-col justify-between el-theme ">
-		<div class="w-full h-full flex flex-col bg-[var(--el-color-primary)] rounded-lg">
+	<div class="app-aside w-64px h-full pl-2 py-2 flex flex-col justify-between el-theme ">
+		<div class="px-2 py-2 h-full flex flex-col bg-[var(--el-color-primary)] rounded-lg">
 			<div v-for="item in menuItems"
-				class="py-3 hover:cursor-pointer"
-				:class="activeType === item.type ? 'text-white text-dark' : 'dark:text-dark text-dark'"
+				class="aside-item py-3 hover:cursor-pointer select-none"
+				:class="activeType === item.type ? 'is-active text-dark dark:text-white' : 'text-white dark:text-dark'"
 				:key="item.type"
-				@click="toggle(item)">
+				@click.prevent="toggle(item)">
 
-				<AsideItem :name="item.name"
-					:type="item.type" />
+				<el-tooltip :content="item.name"
+					placement="right">
+					<AsideItem :type="item.type"
+						:name="item.name" />
+				</el-tooltip>
 			</div>
 		</div>
 	</div>
 </template>
 
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.aside-item {
+	border-radius: 4px;
+	// background: #fff;
+	// color: var(--el-color-primary);
+}
+
+.aside-item.is-active {
+	@apply bg-white dark:bg-dark color-[var(--el-color-primary)] dark:color-white;
+}
+</style>

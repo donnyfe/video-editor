@@ -41,25 +41,34 @@ watch(selectResource, (newResource) => {
 </script>
 
 <template>
-	<div class="select-none relative el-theme border-l-solid border-l-1px"
+	<div class="select-none relative bg-#fafafa dark:bg-black pr-2 py-2"
 		:style="panelStyle">
 
-		<SplitLine class="top-0 bottom-0 left-0"
-			direction="vertical"
-			:limit-size="limitSize"
-			v-model:newWidth="globalStore.propsPanelWidth" />
 
-		<div v-if="!hasSelectedTrack"
-			class="flex flex-center justify-start px-5 py-2">属性</div>
-		<div v-if="!hasSelectedTrack"
-			class="h-full flex flex-center flex-col">
-			<IconPropsEmpty />
-			<span class="text-gray-500 text-sm">选中轨道调整属性</span>
+		<div
+			class="h-full relative overflow-hidden bg-#fff dark:bg-[var(--el-bg-color)] rounded-lg border-1px border-solid border-[var(--el-border-color)]">
+
+			<SplitLine class="top-2 bottom-2 left-0"
+				direction="vertical"
+				:limit-size="limitSize"
+				v-model:newWidth="globalStore.propsPanelWidth" />
+
+			<div v-if="!hasSelectedTrack"
+				class="flex flex-center justify-start px-5 py-2 el-theme-text">
+				属性
+			</div>
+
+			<div v-if="!hasSelectedTrack"
+				class="h-full flex flex-center flex-col">
+				<IconPropsEmpty />
+				<span class="text-gray-500 text-sm">选中轨道调整属性</span>
+			</div>
+
+			<component v-else
+				:is="(resourceTypes as Record<string, any>)[resourceType]">
+			</component>
 		</div>
 
-		<component v-else
-			:is="(resourceTypes as Record<string, any>)[resourceType]">
-		</component>
 
 	</div>
 </template>

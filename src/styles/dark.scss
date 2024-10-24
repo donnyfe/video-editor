@@ -1,8 +1,8 @@
 html.dark {
 	color-scheme: dark;
-	--el-color-primary: #AF17E7;
-	--el-color-primary-light-3: #c566e7;
-	--el-color-primary-light-5: #c566e7;
+	--el-color-primary: #8b00ff;
+	--el-color-primary-light-3: #9c37f0;
+	--el-color-primary-light-5: #50078d;
 	--el-color-primary-light-7: #213d5b;
 	--el-color-primary-light-8: #1d3043;
 	--el-color-primary-light-9: #18222c;
@@ -48,7 +48,7 @@ html.dark {
 	--el-box-shadow-dark: 0px 16px 48px 16px rgba(0, 0, 0, 0.72), 0px 12px 32px #000000, 0px 8px 16px -8px #000000;
 	--el-bg-color-page: #0a0a0a;
 	/* --el-bg-color: #141414; */
-	--el-bg-color: #3c3c3c;
+	--el-bg-color: #111;
 	--el-bg-color-overlay: #1d1e1f;
 	--el-text-color-primary: #E5EAF3;
 	--el-text-color-regular: #CFD3DC;
@@ -75,7 +75,7 @@ html.dark {
 
 html.dark .el-button {
 	--el-button-disabled-text-color: rgba(255, 255, 255, 0.5)
-	--el-button-hover-bg-color: rgba(255, 255, 255, 0.5)
+	--el-button-hover-bg-color: #8b00ff
 }
 
 html.dark .el-card {
@@ -97,4 +97,9 @@ html.dark .el-empty {
 
 html.dark .el-collapse {
 	--el-collapse-border-color: #222;
+}
+
+html.dark .el-switch {
+	--el-switch-on-color: #333;
+	--el-switch-off-color: #fff;
 }

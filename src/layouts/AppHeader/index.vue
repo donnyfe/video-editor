@@ -80,40 +80,51 @@ async function handleExport() {
 </script>
 
 <template>
-	<header class="app-header border-b-solid border-b-1px">
-		<div class="flex items-center">
-			<IconGithub class="github-icon"
-				@click="openGithub" />
-			<h1 class="text-xl font-bold">{{ title }}</h1>
-		</div>
+	<header class="app-header">
+		<div class="header-content">
+			<div class="flex items-center">
+				<IconGithub class="header-logo"
+					@click="openGithub" />
+				<h1 class="header-title">{{ title }}</h1>
+			</div>
 
-		<div class="flex justify-end items-center pr-4">
-			<el-switch class="mr-4"
-				size="large"
-				:active-icon="Moon"
-				:inactive-icon="Sunny"
-				:inline-prompt="true"
-				v-model="globalStore.isDark"
-				@change="changeTheme" />
+			<div class="flex justify-end items-center pr-4">
+				<el-switch class="mr-4"
+					size="large"
+					:active-icon="Moon"
+					:inactive-icon="Sunny"
+					:inline-prompt="true"
+					v-model="globalStore.isDark"
+					@change="changeTheme" />
 
-			<el-button type="primary"
-				@click="handleExport">
-				<ElIcon class="mr-1"
-					:size="14"
-					color="#fff">
-					<Download />
-				</ElIcon>
-				导出
-			</el-button>
+				<el-button type="primary"
+					class=" dark:bg-[var(--el-bg-color)] rounded-lg outline-none"
+					@click="handleExport">
+					<ElIcon class="mr-1"
+						:size="14"
+						color="#fff">
+						<Download />
+					</ElIcon>
+					导出
+				</el-button>
+			</div>
 		</div>
 	</header>
 </template>
 <style lang="scss" scoped>
 .app-header {
-	@apply h-58px w-full flex-center flex-between flex-nowrap el-theme
+	@apply h-58px px-2 pt-2 bg-#fafafa dark:bg-[var(--el-bg-color)];
 }
 
-.github-icon {
-	@apply mx-4 cursor-pointer color-[var(--el-text-color-primary)]
+.header-content {
+	@apply w-full h-full flex-center flex-between flex-nowrap el-theme rounded-lg bg-[var(--el-color-primary)] color-white;
+}
+
+.header-logo {
+	@apply mx-4 cursor-pointer color-white dark:color-black;
+}
+
+.header-title {
+	@apply text-xl font-bold color-white dark:color-black;
 }
 </style>
