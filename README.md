@@ -1,45 +1,47 @@
-# video-Editor
+# Video Editor
 
-This template should help get you started developing with Vue 3 in Vite.
+一个基于 Vue3 + TypeScript + Element Plus + Unocss 纯前端实现的视频编辑器项目，支持多轨道编辑，包括视频、音频、图像和文本轨道。
 
-## Recommended IDE Setup
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## 预览
 
-## Type Support for `.vue` Imports in TS
+![preview](./preview.png)
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+## 特性
 
-## Customize configuration
+- 使用Vue 3和TypeScript开发,采用组合式API。
+- 使用Pinia进行状态管理。
+- 使用Canvas API进行绘图和渲染。
+- 使用Web Audio API处理音频。
+- 使用WebAV库(@webav/av-cliper)进行视频处理和合成。
+- 采用面向对象的方式设计轨道类(BaseTrack, VideoTrack, AudioTrack, ImageTrack, TextTrack等)。
+- 使用OffscreenCanvas进行离屏渲染,提高性能。
+- 实现了响应式的播放器尺寸调整。
+- 使用Promise和异步函数处理资源加载和渲染。
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
 
-## Project Setup
+## 功能
+
+- 支持对素材进行基本的编辑操作,如放大缩小、拖拽等。
+- 提供了时间轴和播放器基本功能。
+- 支持多轨道编辑、轨道拖拽辅助线。
+- 支持合成和导出最终视频。
+
+
+## 待办
+
+- 素材选中状态、拖拽优化、素材旋转支持
+- 音频属性编辑支持
+- 撤销、回退操作支持
+
+## 安装
 
 ```sh
 pnpm install
 ```
 
-### Compile and Hot-Reload for Development
+### 运行
 
 ```sh
 pnpm dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-pnpm build
-```
-
-### Run Unit Tests with [Vitest](https://vitest.dev/)
-
-```sh
-pnpm test:unit
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-pnpm lint
 ```
