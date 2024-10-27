@@ -25,17 +25,18 @@ function onCollapse(visible: boolean) {
 		globalStore.showMenuPanel = visible
 	})
 }
-
 </script>
 
 <template>
 	<div class="flex h-full overflow-hidden relative">
 		<AppAside @toggle="toggle" />
 
-		<MenuPanel :title="selected.name"
+		<MenuPanel
+			:title="selected.name"
 			:acitve="selected.type"
 			:visible="globalStore.showMenuPanel"
-			@collapse="onCollapse" />
+			@collapse="onCollapse"
+		/>
 	</div>
 </template>
 

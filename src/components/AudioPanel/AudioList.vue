@@ -5,14 +5,43 @@ import { formattedDuration } from '@/utils/time'
 
 const currentAudioIndex = ref(0)
 const audioList = ref([
-	{ title: '极速电流', coverUrl: 'https://p26.douyinpic.com/aweme/100x100/tos-cn-v-2774c002/cc768f316eb0488681cc0cc959e3d503.jpeg', duration: 22 },
-	{ title: '舞动旋律', coverUrl: 'https://p3.douyinpic.com/aweme/100x100/tos-cn-v-2774c002/fdaebf8c103d4c0faa08f338c79a4768.jpeg', duration: 45 },
-	{ title: 'Country Melody', coverUrl: 'https://p3.douyinpic.com/aweme/100x100/tos-cn-v-2774c002/bc864a3f36fa4c08bf6b9faf6709e201.jpeg', duration: 67 },
-	{ title: '乡村旋律', coverUrl: 'https://p3.douyinpic.com/aweme/100x100/tos-cn-v-2774c002/4ffd87447d404a3caa141ea887b71c1d.jpeg', duration: 67 },
-	{ title: 'DTDTDT', coverUrl: 'https://p3.douyinpic.com/aweme/100x100/tos-cn-v-2774c002/32aecfb9aca34a96809bd7b0cd397c68.jpeg', duration: 50 },
-	{ title: 'Celebration video Music', coverUrl: 'https://p26.douyinpic.com/aweme/100x100/tos-cn-v-2774c002/03d302d373cc47f191279f7874ab4fc1.jpeg', duration: 17 },
+	{
+		title: '极速电流',
+		coverUrl:
+			'https://p26.douyinpic.com/aweme/100x100/tos-cn-v-2774c002/cc768f316eb0488681cc0cc959e3d503.jpeg',
+		duration: 22,
+	},
+	{
+		title: '舞动旋律',
+		coverUrl:
+			'https://p3.douyinpic.com/aweme/100x100/tos-cn-v-2774c002/fdaebf8c103d4c0faa08f338c79a4768.jpeg',
+		duration: 45,
+	},
+	{
+		title: 'Country Melody',
+		coverUrl:
+			'https://p3.douyinpic.com/aweme/100x100/tos-cn-v-2774c002/bc864a3f36fa4c08bf6b9faf6709e201.jpeg',
+		duration: 67,
+	},
+	{
+		title: '乡村旋律',
+		coverUrl:
+			'https://p3.douyinpic.com/aweme/100x100/tos-cn-v-2774c002/4ffd87447d404a3caa141ea887b71c1d.jpeg',
+		duration: 67,
+	},
+	{
+		title: 'DTDTDT',
+		coverUrl:
+			'https://p3.douyinpic.com/aweme/100x100/tos-cn-v-2774c002/32aecfb9aca34a96809bd7b0cd397c68.jpeg',
+		duration: 50,
+	},
+	{
+		title: 'Celebration video Music',
+		coverUrl:
+			'https://p26.douyinpic.com/aweme/100x100/tos-cn-v-2774c002/03d302d373cc47f191279f7874ab4fc1.jpeg',
+		duration: 17,
+	},
 ])
-
 
 const selectAudio = (index: number) => {
 	currentAudioIndex.value = index
@@ -22,27 +51,35 @@ const selectAudio = (index: number) => {
 <template>
 	<div class="audio-playlist">
 		<ul class="audio-playlist__list">
-			<li v-for="(track, index) in audioList"
+			<li
+				v-for="(track, index) in audioList"
 				:key="index"
 				@click="selectAudio(index)"
 				:class="[
 					'audio-playlist__item',
-					{ 'audio-playlist__item--active': currentAudioIndex === index }
-				]">
-				<img :src="track.coverUrl"
+					{ 'audio-playlist__item--active': currentAudioIndex === index },
+				]"
+			>
+				<img
+					:src="track.coverUrl"
 					:alt="track.title"
-					class="audio-playlist__cover">
+					class="audio-playlist__cover"
+				/>
 				<div class="audio-playlist__info">
 					<span class="audio-playlist__title">{{ track.title }}</span>
 					<span class="audio-playlist__duration">{{ formattedDuration(track.duration) }}</span>
 				</div>
 				<button class="audio-playlist__play-btn">
-					<VideoPlay v-if="currentAudioIndex !== index"
+					<VideoPlay
+						v-if="currentAudioIndex !== index"
 						size="8"
-						color="#ffffff" />
-					<VideoPause v-else
+						color="#ffffff"
+					/>
+					<VideoPause
+						v-else
 						size="8"
-						color="#ffffff" />
+						color="#ffffff"
+					/>
 				</button>
 			</li>
 		</ul>

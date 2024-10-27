@@ -1,8 +1,10 @@
 <template>
 	<div class="loading-overlay">
 		<div class="progress-bar">
-			<div class="progress"
-				:style="{ width: `${progress}%` }"></div>
+			<div
+				class="progress"
+				:style="{ width: `${progress}%` }"
+			></div>
 		</div>
 		<p class="progress-text">正在加载中...{{ progress }}%</p>
 	</div>

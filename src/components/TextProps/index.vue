@@ -23,9 +23,8 @@ const predefineColors = ref([
 	'#c7158577',
 ])
 
-
 const trackStore = useTrackStore()
-const { selectResource, selectedTrack, trackList } = storeToRefs(trackStore);
+const { selectResource, selectedTrack, trackList } = storeToRefs(trackStore)
 
 const form = reactive({
 	content: '文本内容',
@@ -35,7 +34,7 @@ const form = reactive({
 	textBackgroundColor: '#fff',
 	scale: 100,
 	centerX: 0,
-	centerY: 0
+	centerY: 0,
 })
 
 if (selectResource.value && selectResource.value.type === 'text') {
@@ -43,46 +42,59 @@ if (selectResource.value && selectResource.value.type === 'text') {
 }
 
 // 监听轨道和资源变化
-watch([() => selectedTrack.value, () => selectResource.value], (newValue) => {
-
-	const newResource = newValue[1] as TextTrack
-	if (newResource) {
-		Object.assign(form, { ...toRaw(newResource) })
-	}
-}, { immediate: true, deep: true, flush: 'post' })
+watch(
+	[() => selectedTrack.value, () => selectResource.value],
+	(newValue) => {
+		const newResource = newValue[1] as TextTrack
+		if (newResource) {
+			Object.assign(form, { ...toRaw(newResource) })
+		}
+	},
+	{ immediate: true, deep: true, flush: 'post' },
+)
 
 // 监听属性变化
 function onChange(key: string, value: any) {
-	const track = trackList.value[selectedTrack.value.line].list[selectedTrack.value.index] as Record<string, any>
+	const track = trackList.value[selectedTrack.value.line].list[selectedTrack.value.index] as Record<
+		string,
+		any
+	>
 	track[key] = value
 }
-
 </script>
 
 <template>
 	<div class="flex flex-center justify-start px-5 py-2 el-theme-text">文本属性</div>
-	<el-form ref="formRef"
+	<el-form
+		ref="formRef"
 		class="px-5 flex flex-col"
 		v-model="form"
-		label-width="50px">
+		label-width="50px"
+	>
 		<el-collapse v-model="activeCollapse">
-			<el-collapse-item title="文字样式"
-				name="文字样式">
+			<el-collapse-item
+				title="文字样式"
+				name="文字样式"
+			>
 				<el-form-item label-width="0">
-					<el-input class="form-item"
+					<el-input
+						class="form-item"
 						type="textarea"
 						v-model="form.content"
 						placeholder="文本内容"
 						@change="onChange('content', $event)"
-						@input="onChange('content', $event)"></el-input>
+						@input="onChange('content', $event)"
+					></el-input>
 				</el-form-item>
 				<el-row>
 					<el-col :span="12">
 						<el-form-item label="字号">
-							<el-input-number class="form-item"
+							<el-input-number
+								class="form-item"
 								v-model="form.fontSize"
 								:min="0"
-								@change="onChange('fontSize', $event)"></el-input-number>
+								@change="onChange('fontSize', $event)"
+							></el-input-number>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -90,54 +102,68 @@ function onChange(key: string, value: any) {
 				<el-row class="flex justify-around">
 					<el-col :span="8">
 						<el-form-item label="填充色">
-							<el-color-picker v-model="form.fill"
+							<el-color-picker
+								v-model="form.fill"
 								:predefine="predefineColors"
-								@chaactive-changenge="onChange('fill', $event)" />
+								@chaactive-changenge="onChange('fill', $event)"
+							/>
 						</el-form-item>
 					</el-col>
 					<el-col :span="8">
 						<el-form-item label="描边色">
-							<el-color-picker v-model="form.stroke"
+							<el-color-picker
+								v-model="form.stroke"
 								:predefine="predefineColors"
-								@active-change="onChange('stroke', $event)" />
+								@active-change="onChange('stroke', $event)"
+							/>
 						</el-form-item>
 					</el-col>
 					<el-col :span="8">
 						<el-form-item label="背景色">
-							<el-color-picker v-model="form.textBackgroundColor"
+							<el-color-picker
+								v-model="form.textBackgroundColor"
 								:predefine="predefineColors"
-								@active-change="onChange('textBackgroundColor', $event)" />
+								@active-change="onChange('textBackgroundColor', $event)"
+							/>
 						</el-form-item>
 					</el-col>
 				</el-row>
 			</el-collapse-item>
-			<el-collapse-item title="位置大小"
-				name="位置大小">
+			<el-collapse-item
+				title="位置大小"
+				name="位置大小"
+			>
 				<el-row>
 					<el-col :span="24">
 						<el-form-item label="缩放">
-							<el-slider v-model="form.scale"
+							<el-slider
+								v-model="form.scale"
 								show-input
 								:min="0"
 								:max="500"
 								@change="onChange('scale', $event)"
-								@input="onChange('scale', $event)"></el-slider>
+								@input="onChange('scale', $event)"
+							></el-slider>
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-row>
 					<el-col :span="12">
 						<el-form-item label="X">
-							<el-input-number class="form-item"
+							<el-input-number
+								class="form-item"
 								v-model="form.centerX"
-								@change="onChange('centerX', $event)"></el-input-number>
+								@change="onChange('centerX', $event)"
+							></el-input-number>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="Y">
-							<el-input-number class="form-item"
+							<el-input-number
+								class="form-item"
 								v-model="form.centerY"
-								@change="onChange('centerY', $event)"></el-input-number>
+								@change="onChange('centerY', $event)"
+							></el-input-number>
 						</el-form-item>
 					</el-col>
 				</el-row>

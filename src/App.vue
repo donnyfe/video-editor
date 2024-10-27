@@ -4,7 +4,7 @@ import LoadingPage from './components/LoadingPage.vue'
 
 const state = reactive({
 	zIndex: 3000,
-	size: 'small'
+	size: 'small',
 })
 
 const isLoading = ref(true)
@@ -20,8 +20,10 @@ onMounted(() => {
 
 <template>
 	<div class="w-full h-full flex flex-col">
-		<ElConfigProvider :size="state.size"
-			:z-index="state.zIndex">
+		<ElConfigProvider
+			:size="state.size"
+			:z-index="state.zIndex"
+		>
 			<LoadingPage v-if="isLoading" />
 			<RouterView v-else />
 		</ElConfigProvider>

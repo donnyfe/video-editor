@@ -16,7 +16,7 @@ const panelStyle = computed(() => {
 
 const limitSize = reactive({
 	minWidth: 200,
-	maxWidth: document.body.getBoundingClientRect().width / 2
+	maxWidth: document.body.getBoundingClientRect().width / 2,
 })
 
 const resourceType = ref('')
@@ -37,39 +37,44 @@ watch(selectResource, (newResource) => {
 		hasSelectedTrack.value = false
 	}
 })
-
 </script>
 
 <template>
-	<div class="select-none relative bg-#fafafa dark:bg-black pr-2 py-2"
-		:style="panelStyle">
-
-
+	<div
+		class="select-none relative bg-#fafafa dark:bg-black pr-2 py-2"
+		:style="panelStyle"
+	>
 		<div
-			class="h-full relative overflow-hidden bg-#fff dark:bg-[var(--el-bg-color)] rounded-lg border-1px border-solid border-[var(--el-border-color)]">
-
-			<SplitLine class="top-2 bottom-2 left-0"
+			class="h-full relative overflow-hidden bg-#fff dark:bg-[var(--el-bg-color)] rounded-lg border-1px border-solid border-[var(--el-border-color)]"
+		>
+			<SplitLine
+				class="top-2 bottom-2 left-0"
 				direction="vertical"
 				:limit-size="limitSize"
-				v-model:newWidth="globalStore.propsPanelWidth" />
+				v-model:newWidth="globalStore.propsPanelWidth"
+			/>
 
-			<div v-if="!hasSelectedTrack"
-				class="flex flex-center justify-start px-5 py-2 el-theme-text">
+			<div
+				v-if="!hasSelectedTrack"
+				class="flex flex-center justify-start px-5 py-2 el-theme-text"
+			>
 				属性
 			</div>
 
-			<div v-if="!hasSelectedTrack"
-				class="h-full flex flex-center flex-col">
+			<div
+				v-if="!hasSelectedTrack"
+				class="h-full flex flex-center flex-col"
+			>
 				<IconPropsEmpty />
 				<span class="text-gray-500 text-sm">选中轨道调整属性</span>
 			</div>
 
-			<component v-else
-				:is="(resourceTypes as Record<string, any>)[resourceType]">
+			<component
+				v-else
+				:is="(resourceTypes as Record<string, any>)[resourceType]"
+			>
 			</component>
 		</div>
-
-
 	</div>
 </template>
 

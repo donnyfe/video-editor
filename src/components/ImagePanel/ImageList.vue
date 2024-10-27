@@ -1,23 +1,20 @@
 <script setup lang="ts">
-import { defineProps, defineEmits, watch } from 'vue'
+import { watch } from 'vue'
 import { getImageFromUrl } from '@/utils'
-
 
 const props = defineProps({
 	list: {
-		type: Array<{ id: string, src: string }>,
+		type: Array<{ id: string; src: string }>,
 		default: () => [],
 	},
 })
 
-
 const emit = defineEmits(['select'])
 
-async function handleClick(item: { id: string, src: string }) {
+async function handleClick(item: { id: string; src: string }) {
 	const file = await getImageFromUrl(item)
 	emit('select', file)
 }
-
 </script>
 
 <template>
@@ -26,7 +23,8 @@ async function handleClick(item: { id: string, src: string }) {
 			class="flex-center align-start aspect-square rounded-4px overflow-hidden bg-#f2f2f2 dark:bg-black"
 			v-for="(item, index) in list"
 			:key="index"
-			@click="handleClick(item)">
+			@click="handleClick(item)"
+		>
 			<el-image :src="item.src" />
 		</li>
 	</ul>
@@ -37,7 +35,7 @@ async function handleClick(item: { id: string, src: string }) {
 	display: flex;
 	flex-wrap: wrap;
 	align-content: flex-start;
-		gap: 10px;
+	gap: 10px;
 
 	li {
 		position: relative;

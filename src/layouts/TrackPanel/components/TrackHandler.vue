@@ -8,12 +8,12 @@ const props = defineProps({
 	isActive: Boolean,
 	lineIndex: {
 		type: Number,
-		default: 0
+		default: 0,
 	},
 	itemIndex: {
 		type: Number,
-		default: 0
-	}
+		default: 0,
+	},
 })
 
 const store = useTrackStore()
@@ -36,7 +36,7 @@ const handlerData = ref({
 	minStart: 0,
 	maxStart: 0,
 	minEnd: 0,
-	maxEnd: 0
+	maxEnd: 0,
 })
 
 const enableMove = ref(false)
@@ -46,7 +46,7 @@ const otherCoords = ref<LineCoord[]>([])
 
 // 获取吸附辅助线
 const getFixLine = (x: number, distance = 10) => {
-	const result = otherCoords.value.flatMap(coord => {
+	const result = otherCoords.value.flatMap((coord) => {
 		const lines = []
 		if (Math.abs(coord.left - x) <= distance) {
 			lines.push({ position: coord.left, frame: coord.start })
@@ -69,9 +69,10 @@ const getFixLine = (x: number, distance = 10) => {
 const adsorption = (x: number, lines: AdsorptionLine[]) => {
 	if (lines.length === 0) return
 
-	return lines.reduce((r, item) =>
-		Math.abs(item.position - x) < Math.abs(r.position - x) ? item : r
-		, { position: Number.MAX_SAFE_INTEGER, frame: 0 })
+	return lines.reduce(
+		(r, item) => (Math.abs(item.position - x) < Math.abs(r.position - x) ? item : r),
+		{ position: Number.MAX_SAFE_INTEGER, frame: 0 },
+	)
 }
 
 const frameWidth = computed(() => getGridPixel(store.trackScale, 1))
@@ -91,7 +92,7 @@ const initLimits = (lineData: Resource[], trackItem: Resource) => {
 		minStart: beforeTrack?.end ?? 0,
 		maxStart: trackItem.end - 1,
 		minEnd: trackItem.start + 1,
-		maxEnd: afterTrack?.start ?? (30 * 60 * 60)
+		maxEnd: afterTrack?.start ?? 30 * 60 * 60,
 	}
 
 	if (isVA) {
@@ -110,7 +111,17 @@ const initLimits = (lineData: Resource[], trackItem: Resource) => {
 
 // 设置轨道数据
 const setTrackFrameData = (frameCount: number, handleType: string) => {
-	const { isVA, start: originStart, end: originEnd, offsetR, offsetL, minStart, maxStart, minEnd, maxEnd } = handlerData.value
+	const {
+		isVA,
+		start: originStart,
+		end: originEnd,
+		offsetR,
+		offsetL,
+		minStart,
+		maxStart,
+		minEnd,
+		maxEnd,
+	} = handlerData.value
 	const originWidth = originEnd - originStart
 	const leftMaxWidth = offsetL + originWidth
 	const rightMaxWidth = offsetR + originWidth
@@ -149,14 +160,16 @@ const getTrackItemCoords = () => {
 	otherCoords.value = store.trackList.flatMap((track, i) =>
 		track.list.flatMap((item, j) =>
 			i !== props.lineIndex || j !== props.itemIndex
-				? [{
-					start: item.start,
-					end: item.end,
-					left: getGridPixel(store.trackScale, item.start),
-					right: getGridPixel(store.trackScale, item.end)
-				}]
-				: []
-		)
+				? [
+						{
+							start: item.start,
+							end: item.end,
+							left: getGridPixel(store.trackScale, item.start),
+							right: getGridPixel(store.trackScale, item.end),
+						},
+					]
+				: [],
+		),
 	)
 }
 
@@ -174,7 +187,8 @@ const mouseDownHandler = (event: MouseEvent, type: string) => {
 	const end = targetTrack.value.end
 
 	const trackItem = el.value.closest('.trackItem')
-	const position = type === 'left' ? trackItem.offsetLeft : trackItem.offsetLeft + trackItem.offsetWidth
+	const position =
+		type === 'left' ? trackItem.offsetLeft : trackItem.offsetLeft + trackItem.offsetWidth
 
 	const handleMouseMove = (documentEvent: MouseEvent) => {
 		if (!enableMove.value) return
@@ -185,7 +199,9 @@ const mouseDownHandler = (event: MouseEvent, type: string) => {
 
 		const result = adsorption(position - moveWidth, lines)
 		const frameCount = result?.frame
-			? (type === 'left' ? (result.frame - start) : (result.frame - end))
+			? type === 'left'
+				? result.frame - start
+				: result.frame - end
 			: -Math.round(moveWidth / frameWidth.value)
 		setTrackFrameData(frameCount, type)
 	}
@@ -202,19 +218,25 @@ const mouseDownHandler = (event: MouseEvent, type: string) => {
 </script>
 
 <template>
-	<div ref="el"
+	<div
+		ref="el"
 		v-show="isActive"
 		class="absolute left-0 right-0 top-0 bottom-0 border z-20"
-		:class="{ 'dark:border-gray-100 border-gray-600': isActive }">
-		<div ref="handlerLeft"
+		:class="{ 'dark:border-gray-100 border-gray-600': isActive }"
+	>
+		<div
+			ref="handlerLeft"
 			class="cursor-c-resize flex flex-col justify-center absolute bottom-0 -top-px -bottom-px -left-2 text-center rounded-tl rounded-bl w-2 dark:bg-gray-100 bg-gray-600 dark:text-gray-800 text-gray-100"
-			@mousedown="mouseDownHandler($event, 'left')">
+			@mousedown="mouseDownHandler($event, 'left')"
+		>
 			<span>|</span>
 		</div>
 
-		<div ref="handlerRight"
+		<div
+			ref="handlerRight"
 			class="cursor-c-resize flex flex-col justify-center absolute bottom-0 -top-px -bottom-px -right-2 text-center rounded-tr rounded-br w-2 dark:bg-gray-100 bg-gray-600 dark:text-gray-800 text-gray-100"
-			@mousedown="mouseDownHandler($event, 'right')">
+			@mousedown="mouseDownHandler($event, 'right')"
+		>
 			<span>|</span>
 		</div>
 	</div>

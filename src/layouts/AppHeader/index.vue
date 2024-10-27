@@ -49,10 +49,15 @@ async function handleExport() {
 			sprs.push((toRaw(track) as AudioTrack).combine())
 		} else {
 			const outputRatio = (outputSize as Record<string, number>).width / playerStore.playerWidth
-			sprs.push((toRaw(track) as Resource).combine({
-				width: playerStore.playerWidth,
-				height: playerStore.playerHeight
-			}, outputRatio))
+			sprs.push(
+				(toRaw(track) as Resource).combine(
+					{
+						width: playerStore.playerWidth,
+						height: playerStore.playerHeight,
+					},
+					outputRatio,
+				),
+			)
 		}
 	}
 
@@ -60,13 +65,15 @@ async function handleExport() {
 
 	const com = new Combinator({
 		...outputSize,
-		bgColor: 'black'
+		bgColor: 'black',
 	})
 
-	await Promise.all(sprites.map((sprite, index) => {
-		sprite.zIndex = 999 - index
-		return com.addSprite(sprite)
-	}))
+	await Promise.all(
+		sprites.map((sprite, index) => {
+			sprite.zIndex = 999 - index
+			return com.addSprite(sprite)
+		}),
+	)
 
 	console.time('合成耗时')
 	await com.output().pipeTo(await createFileWriter())
@@ -74,8 +81,6 @@ async function handleExport() {
 
 	loading.close()
 	ElMessage.success('合成完成')
-
-
 }
 </script>
 
@@ -83,26 +88,34 @@ async function handleExport() {
 	<header class="app-header">
 		<div class="header-content">
 			<div class="flex items-center">
-				<IconGithub class="header-logo"
-					@click="openGithub" />
+				<IconGithub
+					class="header-logo"
+					@click="openGithub"
+				/>
 				<h1 class="header-title">{{ title }}</h1>
 			</div>
 
 			<div class="flex justify-end items-center pr-4">
-				<el-switch class="mr-4"
+				<el-switch
+					class="mr-4"
 					size="large"
 					:active-icon="Moon"
 					:inactive-icon="Sunny"
 					:inline-prompt="true"
 					v-model="globalStore.isDark"
-					@change="changeTheme" />
+					@change="changeTheme"
+				/>
 
-				<el-button type="primary"
-					class=" dark:bg-[var(--el-bg-color)] rounded-lg outline-none"
-					@click="handleExport">
-					<ElIcon class="mr-1"
+				<el-button
+					type="primary"
+					class="dark:bg-[var(--el-bg-color)] rounded-lg outline-none"
+					@click="handleExport"
+				>
+					<ElIcon
+						class="mr-1"
 						:size="14"
-						color="#fff">
+						color="#fff"
+					>
 						<Download />
 					</ElIcon>
 					导出

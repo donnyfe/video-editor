@@ -5,7 +5,6 @@ import TrackControl from './TrackControl.vue'
 import TrackList from './TrackList.vue'
 import { useGlobalStore, useTrackStore } from '@/stores'
 
-
 const globalStore = useGlobalStore()
 const trackStore = useTrackStore()
 
@@ -15,23 +14,24 @@ const panelStyle = computed(() => ({
 
 const limitSize = reactive({
 	minHeight: 200,
-	maxHeight: document.body.getBoundingClientRect().height / 2
+	maxHeight: document.body.getBoundingClientRect().height / 2,
 })
-
 </script>
 
 <template>
-	<div class="track-panel select-none el-theme pr-2 pb-2 dark:bg-black"
-		:style="panelStyle">
-
+	<div
+		class="track-panel select-none el-theme pr-2 pb-2 dark:bg-black"
+		:style="panelStyle"
+	>
 		<div
-			class="h-full flex flex-col relative overflow-hidden rounded-lg border-solid border-1px border-[var(--el-border-color)] dark:bg-[var(--el-bg-color)]">
-
-			<SplitLine class="top-0 left-0 right-0"
+			class="h-full flex flex-col relative overflow-hidden rounded-lg border-solid border-1px border-[var(--el-border-color)] dark:bg-[var(--el-bg-color)]"
+		>
+			<SplitLine
+				class="top-0 left-0 right-0"
 				direction="horizontal"
 				:limit-size="limitSize"
-				v-model:newHeight="globalStore.controlsPanelHeight" />
-
+				v-model:newHeight="globalStore.controlsPanelHeight"
+			/>
 
 			<TrackControl v-model="trackStore.trackScale" />
 			<TrackList />

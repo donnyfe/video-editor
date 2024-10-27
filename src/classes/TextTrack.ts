@@ -40,7 +40,6 @@ export class TextTrack extends BaseTrack {
 		this.start = currentFrame
 		this.end = this.start + this.frameCount
 		this.calcSize()
-
 	}
 	get content() {
 		return this._content

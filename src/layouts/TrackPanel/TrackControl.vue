@@ -9,18 +9,17 @@ import IconDelete from '@/components/Icons/IconDelete.vue'
 import { AudioTrack, VideoTrack } from '@/classes'
 import { useGlobalStore, useTrackStore, usePlayerStore } from '@/stores'
 
-
 const props = defineProps({
 	modelValue: {
 		type: Number,
-		default: 30
-	}
+		default: 30,
+	},
 })
 
 const emit = defineEmits({
-	'update:modelValue': val => {
+	'update:modelValue': (val) => {
 		return val !== null
-	}
+	},
 })
 
 const modelValue = computed({
@@ -29,7 +28,7 @@ const modelValue = computed({
 	},
 	set(value) {
 		emit('update:modelValue', value)
-	}
+	},
 })
 
 const globalStore = useGlobalStore()
@@ -42,7 +41,7 @@ const sliderProps = reactive({
 	size: 'small',
 	step: 10,
 	max: 100,
-	min: 0
+	min: 0,
 })
 
 /**
@@ -66,26 +65,26 @@ const icons = computed(() => [
 		type: 'undo',
 		title: '撤销',
 		disable: true,
-		icon: IconUndo
+		icon: IconUndo,
 	},
 	{
 		type: 'redo',
 		title: '前进',
 		disable: true,
-		icon: IconRedo
+		icon: IconRedo,
 	},
 	{
 		type: 'split',
 		title: '分割',
 		disable: trackStore.selectedTrack.line === -1 && trackStore.selectedTrack.index === -1,
-		icon: IconSplit
+		icon: IconSplit,
 	},
 	{
 		type: 'delete',
 		title: '删除',
 		disable: trackStore.selectedTrack.line === -1 && trackStore.selectedTrack.index === -1,
-		icon: IconDelete
-	}
+		icon: IconDelete,
+	},
 ])
 
 function handlerIcon(item: Record<string, any>) {
@@ -104,7 +103,6 @@ function handlerIcon(item: Record<string, any>) {
 	}
 }
 
-
 /**
  * 删除轨道
  */
@@ -112,9 +110,10 @@ function removeTrack() {
 	// TODO: 判断音视频类型且停止播放音视频
 
 	// 判断音视频类型并停止播放
-	const track = trackStore.trackList[trackStore.selectedTrack.line]?.list[trackStore.selectedTrack.index]
+	const track =
+		trackStore.trackList[trackStore.selectedTrack.line]?.list[trackStore.selectedTrack.index]
 	if (track && ['audio', 'video'].includes(track.type)) {
-		(track as AudioTrack | VideoTrack).pause()
+		;(track as AudioTrack | VideoTrack).pause()
 	}
 	if (trackStore.selectedTrack.line !== -1 && trackStore.selectedTrack.index !== -1) {
 		trackStore.removeTrack(trackStore.selectedTrack.line, trackStore.selectedTrack.index)
@@ -127,7 +126,8 @@ function removeTrack() {
  * 分割轨道
  */
 function splitTrack() {
-	let track = trackStore.trackList[trackStore.selectedTrack.line].list[trackStore.selectedTrack.index]
+	let track =
+		trackStore.trackList[trackStore.selectedTrack.line].list[trackStore.selectedTrack.index]
 
 	// 判断分割时间是否在视频内
 	let splitTime = playerStore.playFrame
@@ -137,42 +137,52 @@ function splitTrack() {
 
 		videoTrack.resize({
 			width: playerStore.playerWidth,
-			height: playerStore.playerHeight
+			height: playerStore.playerHeight,
 		})
 		trackStore.addTrack(videoTrack)
 	}
-
 }
-
 </script>
 
 <template>
 	<div class="w-full flex-between pl-4 pr-10 pb-1 h-10 border-b border-b-solid border-gray-300">
 		<div class="h-9 w-32 flex flex-row flex-nowrap items-center justify-around">
-			<div v-for="item of icons"
+			<div
+				v-for="item of icons"
 				:key="item.title"
-				@click="handlerIcon(item)">
-				<el-tooltip :disabled="item.disable"
+				@click="handlerIcon(item)"
+			>
+				<el-tooltip
+					:disabled="item.disable"
 					class="bg-gray-400"
 					:effect="globalStore.isDark ? 'dark' : 'light'"
 					:content="item.title"
-					placement="bottom-start">
-					<component :is="item.icon"
+					placement="bottom-start"
+				>
+					<component
+						:is="item.icon"
 						class="focus:outline-0"
-						:class="item.disable ? 'cursor-not-allowed text-gray-400' : ''" />
+						:class="item.disable ? 'cursor-not-allowed text-gray-400' : ''"
+					/>
 				</el-tooltip>
 			</div>
 		</div>
 
 		<div class="flex w-52 justify-center items-center">
-			<IconSub class="slider-icon mr-4"
-				@click="changeScale(-10)" />
+			<IconSub
+				class="slider-icon mr-4"
+				@click="changeScale(-10)"
+			/>
 
-			<el-slider v-model="modelValue"
-				v-bind="sliderProps" />
+			<el-slider
+				v-model="modelValue"
+				v-bind="sliderProps"
+			/>
 
-			<IconAdd class="slider-icon ml-4"
-				@click="changeScale(10)" />
+			<IconAdd
+				class="slider-icon ml-4"
+				@click="changeScale(10)"
+			/>
 		</div>
 	</div>
 </template>

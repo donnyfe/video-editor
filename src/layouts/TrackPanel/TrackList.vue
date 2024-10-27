@@ -19,14 +19,14 @@ const trackList = ref<HTMLElement | null>(null)
 
 const offsetLine = {
 	left: 10, // 容器 margin, 为了显示拖拽手柄
-	right: 200
+	right: 200,
 }
 const startX = ref(-offsetLine.left) // 与容器padding对齐
 const startY = ref(0) // 左侧icons对齐
 const trackScale = computed(() => trackStore.trackScale) // 轨道默认缩放
 
 const trackStyle = computed(() => ({
-	width: getGridPixel(trackScale.value, trackStore.frameCount) + offsetLine.right
+	width: getGridPixel(trackScale.value, trackStore.frameCount) + offsetLine.right,
 }))
 
 const defaultFps = ref(30) // 帧率
@@ -39,23 +39,22 @@ const trackListData = computed(() => {
 		if (line.main) {
 			mainIndex.value = lineIndex
 		}
-		const list = line.list.map(item => {
+		const list = line.list.map((item) => {
 			const { duration: time } = item.source as VideoSource
 			return {
 				...item,
 				showWidth: `${getGridPixel(trackScale.value, item.end - item.start)}px`,
 				showLeft: `${getGridPixel(trackScale.value, item.start)}px`,
-				time: isVideo(line.type) ? `${formatTime(time * 1000 || 0).str}` : ''
+				time: isVideo(line.type) ? `${formatTime(time * 1000 || 0).str}` : '',
 			}
 		})
 
 		return {
 			...line,
-			list
+			list,
 		}
 	})
 })
-
 
 function setSelectTrack(event: Event, line: number, index: number) {
 	event.preventDefault()
@@ -99,12 +98,11 @@ function getComputedPosition(element: HTMLElement) {
 	const style = window.getComputedStyle(element)
 	return {
 		left: parseInt(style.left),
-		right: parseInt(style.left) + parseInt(style.width)
+		right: parseInt(style.left) + parseInt(style.width),
 	}
 }
 
 function onMouseDown(event: MouseEvent) {
-
 	dragElement = (event.target as HTMLElement).closest('.trackItem') as HTMLElement
 	if (!dragElement) {
 		return
@@ -134,7 +132,7 @@ function onMouseDown(event: MouseEvent) {
 		start: dragItem.start,
 		end: dragItem.end,
 		left: getGridPixel(trackStore.trackScale, dragItem.start),
-		right: getGridPixel(trackStore.trackScale, dragItem.end)
+		right: getGridPixel(trackStore.trackScale, dragItem.end),
 	}
 
 	// 获取非当前位置的trackItem元素的left、right值
@@ -147,15 +145,18 @@ function onMouseDown(event: MouseEvent) {
 					start: item.start,
 					end: item.end,
 					left: getGridPixel(trackStore.trackScale, item.start),
-					right: getGridPixel(trackStore.trackScale, item.end)
+					right: getGridPixel(trackStore.trackScale, item.end),
 				})
 			}
 		}
 	}
 }
 
-
-function isOverlap(dragItem: any, line: Record<string, any>, { start, end }: { start: number, end: number }) {
+function isOverlap(
+	dragItem: any,
+	line: Record<string, any>,
+	{ start, end }: { start: number; end: number },
+) {
 	if (dragItem.type !== line.type) {
 		return { overlap: true, index: 0 }
 	}
@@ -182,10 +183,10 @@ function isOverlap(dragItem: any, line: Record<string, any>, { start, end }: { s
 	return { overlap: true, index: 0 }
 }
 
-
 function getInsertLineInfo(): InsertLineInfo {
 	const dragEl = dragElement as HTMLElement
-	const center = dragEl.offsetTop + dragEl.offsetHeight / 2 + (dragEl.offsetParent as HTMLElement).offsetTop
+	const center =
+		dragEl.offsetTop + dragEl.offsetHeight / 2 + (dragEl.offsetParent as HTMLElement).offsetTop
 
 	const elems = Array.from(document.querySelectorAll('.trackLine')) as HTMLElement[]
 
@@ -198,13 +199,13 @@ function getInsertLineInfo(): InsertLineInfo {
 	for (let i = 0; i < elems.length; i++) {
 		const elem = elems[i]
 		// center在一个元素中
-		if (elem.offsetTop <= center && (elem.offsetTop + elem.offsetHeight) >= center) {
+		if (elem.offsetTop <= center && elem.offsetTop + elem.offsetHeight >= center) {
 			return { isNewLine: false, insertIndex: i, elem }
 		}
 		if (i + 1 !== elems.length) {
 			const elemNext = elems[i + 1]
 			// center在两个元素之间
-			if ((elem.offsetTop + elem.offsetHeight) <= center && elemNext.offsetTop >= center) {
+			if (elem.offsetTop + elem.offsetHeight <= center && elemNext.offsetTop >= center) {
 				return { isNewLine: true, insertIndex: i + 1 }
 			}
 		}
@@ -242,7 +243,10 @@ function getInsertInfo(): InsertInfo {
 		isNewLine = true
 		// 获取elem的中心点
 		const center = elem.offsetLeft + elem.offsetWidth / 2
-		if (center < dragEl.offsetTop + (dragEl.offsetParent as HTMLElement).offsetTop + dragEl.offsetHeight / 2) {
+		if (
+			center <
+			dragEl.offsetTop + (dragEl.offsetParent as HTMLElement).offsetTop + dragEl.offsetHeight / 2
+		) {
 			insertIndex -= 1
 		}
 	}
@@ -264,13 +268,12 @@ function onMouseMove(event: MouseEvent) {
 	}
 }
 
-
 // 获取吸附辅助线
 function getFixLine(x: number, distance = 10) {
 	// otherCoords、游标位置
 	// 先获取与拖拽元素left、right，距离小于distance的元素
 	const result = []
-	otherCoords.forEach(coord => {
+	otherCoords.forEach((coord) => {
 		if (Math.abs(coord.left - x) <= distance) {
 			result.push({ position: coord.left, frame: coord.start })
 		}
@@ -320,9 +323,13 @@ function setAdsorption({ left, right }: Record<string, number>, lines: Record<st
 
 function insert(insertInfo: InsertInfo) {
 	let dragInfo = trackStore.dragData.dataInfo
-	const startFrame = Math.max(fixPosition.right !== 0
-		? getSelectFrame(insertInfo.right, trackStore.trackScale, 30) - (dragInfo.end - dragInfo.start)
-		: getSelectFrame(insertInfo.left, trackStore.trackScale, 30), 0)
+	const startFrame = Math.max(
+		fixPosition.right !== 0
+			? getSelectFrame(insertInfo.right, trackStore.trackScale, 30) -
+					(dragInfo.end - dragInfo.start)
+			: getSelectFrame(insertInfo.left, trackStore.trackScale, 30),
+		0,
+	)
 
 	// 移动元素到新为止
 	dragInfo.end = startFrame + (dragInfo.end - dragInfo.start)
@@ -342,13 +349,16 @@ function insert(insertInfo: InsertInfo) {
 	trackStore.trackList[deleteLineIndex].list.splice(deleteItemIndex, 1)
 	if (insertInfo.isNewLine) {
 		// 插入新行
-		trackStore.trackList.splice(insertInfo.insertIndex, 0, { type: newTrackItem.type, list: [newTrackItem] })
+		trackStore.trackList.splice(insertInfo.insertIndex, 0, {
+			type: newTrackItem.type,
+			list: [newTrackItem],
+		})
 	} else {
 		// 插入当前行
 		trackStore.trackList[insertInfo.insertIndex].list.splice(insertInfo.itemIndex, 0, newTrackItem)
 	}
 	// 删除store.trackList中，list为空的元素
-	const deleteIndex = trackStore.trackList.findIndex(lineItem => lineItem.list.length === 0)
+	const deleteIndex = trackStore.trackList.findIndex((lineItem) => lineItem.list.length === 0)
 	if (deleteIndex !== -1) {
 		trackStore.trackList.splice(deleteIndex, 1)
 	}
@@ -385,52 +395,67 @@ const resetDragData = () => {
 }
 </script>
 
-
 <template>
 	<div class="trackList flex flex-1 flex-row w-full overflow-x-hidden overflow-y-auto relative">
-		<TrackListIcon :list-data="trackListData"
-			:offset-top="startY" />
+		<TrackListIcon
+			:list-data="trackListData"
+			:offset-top="startY"
+		/>
 
-		<div class="flex-1 overflow-x-scroll overflow-y-auto flex-col shrink-0 grow relative"
+		<div
+			class="flex-1 overflow-x-scroll overflow-y-auto flex-col shrink-0 grow relative"
 			ref="trackList"
 			@scroll="handleScroll"
 			@wheel="handleWheel"
-			@click="setSelectTrack($event, -1, -1)">
+			@click="setSelectTrack($event, -1, -1)"
+		>
 			<!-- 时间轴 -->
-			<TimeLine :start="startX"
+			<TimeLine
+				:start="startX"
 				:scale="trackScale"
 				:step="defaultFps"
 				:focus-position="trackStore.selectResource as any"
-				@select="handlerSelectFrame" />
+				@select="handlerSelectFrame"
+			/>
 
-			<div ref="trackListContainer"
+			<div
+				ref="trackListContainer"
 				class="absolute top-5 flex shrink-0 grow min-w-full"
 				:style="{ 'min-height': 'calc(100% - 20px)' }"
 				@mousedown="onMouseDown"
 				@mousemove="onMouseMove"
 				@mouseup="onMouseUp"
-				@mouseleave="onMouseUp">
+				@mouseleave="onMouseUp"
+			>
 				<template v-if="trackListData.length === 0">
 					<div
-						class="flex justify-center items-center h-24 m-auto w-2/3 dark:bg-gray-500 bg-gray-200  rounded-md text-sm border-dashed border-2 dark:border-gray-500 border-gray-200 hover:dark:border-blue-300 hover:border-blue-400">
+						class="flex justify-center items-center h-24 m-auto w-2/3 dark:bg-gray-500 bg-gray-200 rounded-md text-sm border-dashed border-2 dark:border-gray-500 border-gray-200 hover:dark:border-blue-300 hover:border-blue-400"
+					>
 						<IconVideo class="text-xl mr-4" />
 						添加素材，开始编辑你的大作吧~
 					</div>
 				</template>
-				<div v-else
+				<div
+					v-else
 					class="z-10 pt-5 pb-5 min-w-full flex shrink-0 grow flex-col justify-center min-h-full"
 					id="track-container"
-					:style="{ width: `${trackStyle.width}px` }">
-					<template v-for="(lineData, lineIndex) of trackListData"
-						:key="lineData.list.reduce((r, item) => r + item.id, 'line')">
+					:style="{ width: `${trackStyle.width}px` }"
+				>
+					<template
+						v-for="(lineData, lineIndex) of trackListData"
+						:key="lineData.list.reduce((r, item) => r + item.id, 'line')"
+					>
 						<TrackLine
-							:class="[dropLineIndex === lineIndex ? insertBefore ? 'showLine-t' : 'showLine-b' : '']"
+							:class="[
+								dropLineIndex === lineIndex ? (insertBefore ? 'showLine-t' : 'showLine-b') : '',
+							]"
 							:line-type="lineData.type"
 							:is-active="trackStore.selectedTrack.line === lineIndex"
 							:line-index="lineIndex"
 							:is-main="lineData.main"
 							:line-data="lineData.list"
-							:style="{ 'margin-left': `${offsetLine.left}px` }" />
+							:style="{ 'margin-left': `${offsetLine.left}px` }"
+						/>
 					</template>
 				</div>
 
@@ -438,11 +463,14 @@ const resetDragData = () => {
 
 				<template v-if="trackListData.length !== 0">
 					<div
-						v-for="(line, index) in trackStore.dragData.fixLines.reduce((r, item) => r.concat(item), [])"
+						v-for="(line, index) in trackStore.dragData.fixLines.reduce(
+							(r, item) => r.concat(item),
+							[],
+						)"
 						class="z-30 w-px absolute -top-5 bottom-0 bg-yellow-300 dark:bg-yellow-300 pointer-events-none"
 						:key="index"
-						:style="{ left: `${line.position + 10}px` }">
-					</div>
+						:style="{ left: `${line.position + 10}px` }"
+					></div>
 				</template>
 			</div>
 		</div>

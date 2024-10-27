@@ -1,6 +1,7 @@
 <template>
 	<div
-		class="loading absolute top-0 left-0 right-0 bottom-0 bg-gray-600 flex flex-row justify-start items-center">
+		class="loading absolute top-0 left-0 right-0 bottom-0 bg-gray-600 flex flex-row justify-start items-center"
+	>
 		<span />
 		<span />
 		<span />
@@ -17,22 +18,21 @@
 }
 
 @keyframes load {
-
 	0%,
 	100% {
 		height: 12px;
-		background: #FEF3C7;
+		background: #fef3c7;
 	}
 
 	50% {
 		height: 30px;
 		margin: -15px 0;
-		background: #FCD34D;
+		background: #fcd34d;
 	}
 
 	100% {
 		height: 16px;
-		background: #F59E0B;
+		background: #f59e0b;
 	}
 }
 

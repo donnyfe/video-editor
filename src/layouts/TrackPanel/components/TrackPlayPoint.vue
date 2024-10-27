@@ -7,13 +7,13 @@ const trackStore = useTrackStore()
 const playerStore = usePlayerStore()
 
 const offsetLine = {
-	left: 10
+	left: 10,
 }
 
 const trackStyle = computed(() => {
 	return {
 		left: `${offsetLine.left}px`,
-		transform: `translate(${getGridPixel(trackStore.trackScale, playerStore.playFrame)}px, 0px)`
+		transform: `translate(${getGridPixel(trackStore.trackScale, playerStore.playFrame)}px, 0px)`,
 	}
 })
 
@@ -26,7 +26,6 @@ function onMouseDown(event: MouseEvent) {
 	isDragging.value = true
 }
 
-
 function onMouseMove(event: MouseEvent) {
 	if (isDragging.value) {
 		const trackContainer = document.getElementById('track-container') as HTMLDivElement
@@ -34,10 +33,19 @@ function onMouseMove(event: MouseEvent) {
 		const rect = trackContainer.getBoundingClientRect()
 		// 默认fps为30
 		const FPS = 30
-		const frame = getSelectFrame(event.pageX - offsetLine.left - rect.left, trackStore.trackScale, FPS)
+		const frame = getSelectFrame(
+			event.pageX - offsetLine.left - rect.left,
+			trackStore.trackScale,
+			FPS,
+		)
 
 		const targetFrame = frame - 1
-		const startFrame = targetFrame < 0 ? 0 : targetFrame > trackStore.frameCount ? trackStore.frameCount : targetFrame
+		const startFrame =
+			targetFrame < 0
+				? 0
+				: targetFrame > trackStore.frameCount
+					? trackStore.frameCount
+					: targetFrame
 		playerStore.playFrame = startFrame
 	}
 }
@@ -51,12 +59,15 @@ document.addEventListener('mouseup', onMouseUp)
 </script>
 
 <template>
-	<div id="trackPlayPoint"
+	<div
+		id="trackPlayPoint"
 		class="z-30 w-px absolute -top-5 bottom-0 bg-gray-700 dark:bg-gray-100 transition-transform duration-75"
 		:style="trackStyle"
-		@mousedown="onMouseDown">
+		@mousedown="onMouseDown"
+	>
 		<span
-			class="playPoint block border-1 border-gray-600 bg-gray-600 h-3 w-2.5 dark:border-gray-100 dark:bg-gray-100 sticky top-0 right-0 left-0 cursor-move">
+			class="playPoint block border-1 border-gray-600 bg-gray-600 h-3 w-2.5 dark:border-gray-100 dark:bg-gray-100 sticky top-0 right-0 left-0 cursor-move"
+		>
 		</span>
 	</div>
 </template>

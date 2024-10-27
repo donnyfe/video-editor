@@ -30,6 +30,7 @@ export const compareSize = (size: number, target: string): boolean => {
 
 /**
  * 将数据流写入opfs
+ * opfs-tools 方案，部署线上需要https环境
  */
 export async function writeFile(id: string, stream?: ReadableStream<Uint8Array>) {
 	if (!stream) {
@@ -51,6 +52,31 @@ export async function writeFile(id: string, stream?: ReadableStream<Uint8Array>)
 		console.timeEnd('opfs读取文件耗时')
 	}
 	return stream
+}
+
+/**
+ *
+ * 备注：使用 Web Streams API方案 将文件数据流写入内存中，缺点：占用内存
+ */
+export const writeFileByBlob = async (id: string, stream?: ReadableStream<Uint8Array>) => {
+	if (!stream) {
+		throw new Error('stream is not ready')
+	}
+
+	const chunks: Uint8Array[] = []
+	const reader = stream.getReader()
+
+	while (true) {
+		const { done, value } = await reader.read()
+		if (done) {
+			break
+		}
+		chunks.push(value)
+	}
+
+	// 合并所有数据块
+	const blob = new Blob(chunks)
+	return blob.stream()
 }
 
 /**
@@ -164,7 +190,6 @@ export function downloadFileUrl(href: string, fileName: string) {
 	link.href = ''
 }
 
-
 /**
  * 将文件转换为DataURL
  * @param file 要转换的文件
@@ -210,7 +235,6 @@ export function base64ToBlob(base64Data: string, contentType = ''): Blob {
 	return new Blob([byteArrays], { type: contentType })
 }
 
-
 // // 将Base64数据转换为Blob对象
 // export function base64ToBlob(base64Data: string, contentType: string) {
 // 	contentType = contentType || ''
@@ -230,4 +254,3 @@ export function base64ToBlob(base64Data: string, contentType = ''): Blob {
 // 	}
 // 	return new Blob(byteArrays, { type: contentType })
 // }
-

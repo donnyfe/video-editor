@@ -11,7 +11,6 @@ const canvasCover = ref()
 const moveable = ref()
 const moveTarget = ref()
 
-
 const isCanvasItemVisible = (item: any) =>
 	playerStore.playFrame >= item.start &&
 	playerStore.playFrame <= item.end &&
@@ -22,33 +21,34 @@ const movableList = computed(() => {
 		return []
 	}
 	const result = trackStore.trackList.flatMap(({ list }, lineIndex) => {
-		const trackItem = list.find(isCanvasItemVisible);
+		const trackItem = list.find(isCanvasItemVisible)
 
-		if (!trackItem) return [];
+		if (!trackItem) return []
 
-		const { id, width: w, height: h, scale, centerX, centerY } = trackItem as any;
-		const scaleFactor = scale / 100;
+		const { id, width: w, height: h, scale, centerX, centerY } = trackItem as any
+		const scaleFactor = scale / 100
 
-		return [{
-			id,
-			lineIndex,
-			itemIndex: list.indexOf(trackItem),
-			x: centerX,
-			y: centerY,
-			w,
-			h,
-			scale: scaleFactor,
-			left: playerStore.playerWidth / 2 - w / 2,
-			top: playerStore.playerHeight / 2 - h / 2
-		}];
-	});
+		return [
+			{
+				id,
+				lineIndex,
+				itemIndex: list.indexOf(trackItem),
+				x: centerX,
+				y: centerY,
+				w,
+				h,
+				scale: scaleFactor,
+				left: playerStore.playerWidth / 2 - w / 2,
+				top: playerStore.playerHeight / 2 - h / 2,
+			},
+		]
+	})
 
 	if (moveable.value) {
 		moveable.value.updateRect()
 	}
 	return result
 })
-
 
 const defaultMoveOptions = {
 	draggable: true,
@@ -74,14 +74,14 @@ const defaultMoveOptions = {
 	rotatable: false, // 是否可旋转
 	throttleRotate: 0.1,
 	elementGuidelines: [],
-	pinchable: false // 捏合开关
+	pinchable: false, // 捏合开关
 }
 
 const moveableOptions = reactive({
 	target: moveTarget,
 	className: 'target-move',
 	container: canvasCover.value,
-	...defaultMoveOptions
+	...defaultMoveOptions,
 })
 
 function selectItem(eleId: string) {
@@ -90,8 +90,8 @@ function selectItem(eleId: string) {
 }
 
 function updateTrackItem(lineIndex: number, itemIndex: number, updates: Partial<MoveableTrack>) {
-	const item = trackStore.trackList[lineIndex].list[itemIndex];
-	Object.assign(item, updates);
+	const item = trackStore.trackList[lineIndex].list[itemIndex]
+	Object.assign(item, updates)
 }
 
 /**
@@ -143,53 +143,57 @@ const selectedTrackElement = computed(() => {
 	if (line === -1 || index === -1) return null
 
 	const targetTrack = trackStore.trackList[line]?.list[index]
-	if (!targetTrack || !movableList.value.find(item => item.id === targetTrack.id)) return null
+	if (!targetTrack || !movableList.value.find((item) => item.id === targetTrack.id)) return null
 
 	return canvasCover.value?.querySelector(`.segment-widget[data-eleid='${targetTrack.id}']`) ?? null
 })
 
 const playerWidth = computed(() => playerStore.playerWidth)
 
-watch([trackStore.selectedTrack, movableList, () => playerWidth.value], () => {
-	// 设置选移动目标
-	moveTarget.value = selectedTrackElement.value
+watch(
+	[trackStore.selectedTrack, movableList, () => playerWidth.value],
+	() => {
+		// 设置选移动目标
+		moveTarget.value = selectedTrackElement.value
 
-	if (moveable.value) {
-		moveable.value.updateRect()
-	}
-
-}, { immediate: true, flush: 'post' })
-
-
-
+		if (moveable.value) {
+			moveable.value.updateRect()
+		}
+	},
+	{ immediate: true, flush: 'post' },
+)
 </script>
 
 <template>
-	<div ref="canvasCover"
-		class="canvas-cover">
-
-		<div class="segment-widget absolute"
+	<div
+		ref="canvasCover"
+		class="canvas-cover"
+	>
+		<div
+			class="segment-widget absolute"
 			v-for="(item, index) in movableList"
 			:key="item.id"
 			:data-eleId="item.id"
 			:data-lineIndex="item.lineIndex"
 			:data-itemIndex="item.itemIndex"
 			:style="{
-	zIndex: 999 - index,
+				zIndex: 999 - index,
 				top: `${item.top}px`,
 				left: `${item.left}px`,
 				width: `${item.w}px`,
 				height: `${item.h}px`,
-	transform: `translate(${item.x}px, ${item.y}px) scale(${item.scale})`
+				transform: `translate(${item.x}px, ${item.y}px) scale(${item.scale})`,
 			}"
 			@click.stop="selectItem(item.id)"
-			@mousedown="mousedown($event, item.id)">
-		</div>
+			@mousedown="mousedown($event, item.id)"
+		></div>
 
-		<Moveable ref="moveable"
+		<Moveable
+			ref="moveable"
 			v-bind="moveableOptions"
 			@drag="onDrag"
-			@scale="onScale" />
+			@scale="onScale"
+		/>
 	</div>
 </template>
 

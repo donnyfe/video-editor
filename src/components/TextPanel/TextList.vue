@@ -3,8 +3,8 @@ import { ref } from 'vue'
 import { calcTextStyle, generateRandomColor } from '@/utils'
 
 export interface TextStyle {
-	fill: string,
-	stroke?: string,
+	fill: string
+	stroke?: string
 	textBackgroundColor?: string
 }
 
@@ -14,7 +14,7 @@ const generateRandomTextStyles = (count: number): TextStyle[] => {
 		styles.push({
 			fill: generateRandomColor(),
 			stroke: Math.random() > 0.5 ? generateRandomColor() : undefined,
-			textBackgroundColor: Math.random() > 0.7 ? generateRandomColor() : undefined
+			textBackgroundColor: Math.random() > 0.7 ? generateRandomColor() : undefined,
 		})
 	}
 	return styles
@@ -35,9 +35,12 @@ function onChange() {
 
 <template>
 	<div class="flex justify-end align-center">
-		<el-text type="info"
+		<el-text
+			type="info"
 			class="cursor-pointer"
-			@click="onChange">换一批</el-text>
+			@click="onChange"
+			>换一批</el-text
+		>
 	</div>
 	<div class="overflow-y-auto h-full scrollbar-width-none">
 		<ul class="list w-full">
@@ -45,9 +48,13 @@ function onChange() {
 				class="relative w-80px h-80px flex-center justify-center mx-1 my-1 bg-#f2f2f2 dark:bg-black rounded-4px el-theme"
 				v-for="(item, index) in datas"
 				:key="index"
-				@click="selectedText(item)">
-				<span class="text"
-					:style="calcTextStyle(item)">花字</span>
+				@click="selectedText(item)"
+			>
+				<span
+					class="text"
+					:style="calcTextStyle(item)"
+					>花字</span
+				>
 			</li>
 		</ul>
 	</div>
@@ -75,7 +82,7 @@ function onChange() {
 			height: 100%;
 			border: 1px solid #409eff;
 		}
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																}
+	}
 }
 
 .text {

@@ -9,12 +9,12 @@ import { useResizeCanvas } from '@/hooks'
 defineProps({
 	width: {
 		type: Number,
-		default: 0
+		default: 0,
 	},
 	height: {
 		type: Number,
-		default: 0
-	}
+		default: 0,
+	},
 })
 
 const canvasContainer = ref<HTMLDivElement | null>(null)
@@ -26,7 +26,7 @@ const { playerWidth, playerHeight, aspectRatio } = storeToRefs(playerStore)
 // 更新画布尺寸
 function updateCanvasSize() {
 	// 观察 canvasContainer 元素并重置画布尺寸
-	useResizeObserver(canvasContainer.value, entries => {
+	useResizeObserver(canvasContainer.value, (entries) => {
 		const entry = entries[0]
 		const containerWidth = entry.contentRect.width
 		const containerHeight = entry.contentRect.height
@@ -36,32 +36,37 @@ function updateCanvasSize() {
 		editorCanvas.value
 			?.getContext('2d')
 			?.scale(containerWidth / playerWidth.value, containerHeight / playerHeight.value)
-
 	})
 }
 
-watch(aspectRatio, () => {
-	updateCanvasSize()
-}, { flush: 'post' })
+watch(
+	aspectRatio,
+	() => {
+		updateCanvasSize()
+	},
+	{ flush: 'post' },
+)
 
 onMounted(() => {
 	updateCanvasSize()
 
 	new CanvasPlayer({
-		player: editorCanvas.value
+		player: editorCanvas.value,
 	})
 })
-
-
 </script>
 
 <template>
-	<div ref="canvasContainer"
-		class="canvas-container bg-black">
-		<canvas ref="editorCanvas"
+	<div
+		ref="canvasContainer"
+		class="canvas-container bg-black"
+	>
+		<canvas
+			ref="editorCanvas"
 			id="editorCanvas"
 			class="editor-canvas"
-			:style="{ width: `${playerWidth}px`, height: `${playerHeight}px` }" />
+			:style="{ width: `${playerWidth}px`, height: `${playerHeight}px` }"
+		/>
 
 		<CanvasCover :style="{ width: `${playerWidth}px`, height: `${playerHeight}px` }" />
 	</div>

@@ -30,7 +30,7 @@ const waveOptions = {
 	audioRate: 0.1,
 	autoScroll: true,
 	autoCenter: true,
-	sampleRate: 8000
+	sampleRate: 8000,
 }
 
 const props = defineProps({
@@ -39,10 +39,10 @@ const props = defineProps({
 		default() {
 			return {
 				showWidth: '0px',
-				showLeft: '0px'
+				showLeft: '0px',
 			}
-		}
-	}
+		},
+	},
 })
 
 const store = usePlayerStore()
@@ -54,8 +54,8 @@ const waveStyle = computed(() => {
 	return {
 		transform: `scaleX(${(frameCount / showFrameCount).toFixed(2)})`,
 		transformOrigin: 'left top',
-		left: `-${offsetL / showFrameCount * 100}%`,
-		right: `-${offsetR / showFrameCount * 100}%`
+		left: `-${(offsetL / showFrameCount) * 100}%`,
+		right: `-${(offsetR / showFrameCount) * 100}%`,
 	}
 })
 const loading = ref(true)
@@ -65,41 +65,49 @@ async function initAudio() {
 	WaveSurfer.create({
 		container: waveRef.value,
 		url: props.trackItem.source.url,
-		...waveOptions
+		...waveOptions,
 	} as unknown as WaveSurferOptions)
 
 	loading.value = false
 	store.ingLoadingCount--
 }
 
-watch(() => {
-	if (props.trackItem.source) {
-		return waveRef.value
-	}
-}, () => {
-	if (waveRef.value) {
-		initAudio()
-	}
-}, {
-	immediate: true
-})
+watch(
+	() => {
+		if (props.trackItem.source) {
+			return waveRef.value
+		}
+	},
+	() => {
+		if (waveRef.value) {
+			initAudio()
+		}
+	},
+	{
+		immediate: true,
+	},
+)
 useCheckTrackIsPlaying(props)
 </script>
 
 <template>
 	<div class="flex flex-col rounded overflow-hidden h-full">
 		<div
-			class="flex items-center text-xs pl-2 overflow-hidden h-5 leading-5 bg-blue-500 bg-opacity-50 text-gray-100">
+			class="flex items-center text-xs pl-2 overflow-hidden h-5 leading-5 bg-blue-500 bg-opacity-50 text-gray-100"
+		>
 			<IconAudio class="inline-block mr-2 shrink-0" />
 			<span class="mr-4 shrink-0">{{ `${trackItem.name}.${trackItem.format}` }}</span>
 		</div>
 		<div class="overflow-hidden bg-blue-900 bg-opacity-60 flex-1 relative">
-			<div ref="waveRef"
+			<div
+				ref="waveRef"
 				class="absolute"
-				:style="waveStyle">
-			</div>
+				:style="waveStyle"
+			></div>
 		</div>
-		<LoadingTrack v-show="loading"
-			class="pl-12 bg-opacity-70" />
+		<LoadingTrack
+			v-show="loading"
+			class="pl-12 bg-opacity-70"
+		/>
 	</div>
 </template>

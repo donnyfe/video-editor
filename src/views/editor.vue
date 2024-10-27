@@ -4,7 +4,6 @@ import ResourcePanel from '@/layouts/ResourcePanel/index.vue'
 import PropsPanel from '@/layouts/PropsPanel/index.vue'
 import EditorPanel from '@/layouts/EditorPanel/index.vue'
 import TrackPanel from '@/layouts/TrackPanel/index.vue'
-
 </script>
 
 <template>

@@ -4,19 +4,17 @@ import { ref, onMounted } from 'vue'
 const videoList = ref([
 	{
 		id: 1,
-		src: './test.mp4'
+		src: './test.mp4',
 	},
 	{
 		id: 2,
-		src: './test2.mp4'
-	}
+		src: './test2.mp4',
+	},
 ])
 
 const videoRef = ref<HTMLVideoElement>()
 
-onMounted(() => {
-
-})
+onMounted(() => {})
 </script>
 
 <template>

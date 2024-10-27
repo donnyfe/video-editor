@@ -1,7 +1,7 @@
 {
 	"extends": "@vue/tsconfig/tsconfig.dom.json",
 	"include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
-	"exclude": ["eslint.config.js", "src/**/__tests__/*"],
+	"exclude": ["eslint.config.js", "src/**/__tests__/*", "deploy.js"],
 	"compilerOptions": {
 		"composite": true,
 		"lib": ["dom", "dom.iterable", "esnext", "webworker"],

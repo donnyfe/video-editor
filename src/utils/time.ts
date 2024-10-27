@@ -43,7 +43,6 @@ export function formatTime(time: number) {
 	}
 }
 
-
 /**
  * 精确计时器
  * @param callback
