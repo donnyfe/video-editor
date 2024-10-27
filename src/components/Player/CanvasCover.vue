@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, toRaw, nextTick, reactive, computed, watch } from 'vue'
+import { ref, nextTick, reactive, computed, watch } from 'vue'
 import Moveable from 'vue3-moveable'
 import { usePlayerStore, useTrackStore } from '@/stores'
 import type { MoveableTrack } from '@/types'
@@ -23,7 +23,7 @@ const movableList = computed(() => {
 	const result = trackStore.trackList.flatMap(({ list }, lineIndex) => {
 		const trackItem = list.find(isCanvasItemVisible)
 
-		if (!trackItem) return []
+		if (!trackItem) { return [] }
 
 		const { id, width: w, height: h, scale, centerX, centerY } = trackItem as any
 		const scaleFactor = scale / 100
@@ -140,10 +140,10 @@ function mousedown(event: MouseEvent, eleId: string) {
  */
 const selectedTrackElement = computed(() => {
 	const { line, index } = trackStore.selectedTrack
-	if (line === -1 || index === -1) return null
+	if (line === -1 || index === -1) { return null }
 
 	const targetTrack = trackStore.trackList[line]?.list[index]
-	if (!targetTrack || !movableList.value.find((item) => item.id === targetTrack.id)) return null
+	if (!targetTrack || !movableList.value.find((item) => item.id === targetTrack.id)) { return null }
 
 	return canvasCover.value?.querySelector(`.segment-widget[data-eleid='${targetTrack.id}']`) ?? null
 })
@@ -165,36 +165,36 @@ watch(
 </script>
 
 <template>
-	<div
-		ref="canvasCover"
-		class="canvas-cover"
-	>
-		<div
-			class="segment-widget absolute"
-			v-for="(item, index) in movableList"
-			:key="item.id"
-			:data-eleId="item.id"
-			:data-lineIndex="item.lineIndex"
-			:data-itemIndex="item.itemIndex"
-			:style="{
-				zIndex: 999 - index,
-				top: `${item.top}px`,
-				left: `${item.left}px`,
-				width: `${item.w}px`,
-				height: `${item.h}px`,
-				transform: `translate(${item.x}px, ${item.y}px) scale(${item.scale})`,
-			}"
-			@click.stop="selectItem(item.id)"
-			@mousedown="mousedown($event, item.id)"
-		></div>
+  <div
+    ref="canvasCover"
+    class="canvas-cover"
+  >
+    <div
+      v-for="(item, index) in movableList"
+      :key="item.id"
+      class="segment-widget absolute"
+      :data-eleId="item.id"
+      :data-lineIndex="item.lineIndex"
+      :data-itemIndex="item.itemIndex"
+      :style="{
+        zIndex: 999 - index,
+        top: `${item.top}px`,
+        left: `${item.left}px`,
+        width: `${item.w}px`,
+        height: `${item.h}px`,
+        transform: `translate(${item.x}px, ${item.y}px) scale(${item.scale})`,
+      }"
+      @click.stop="selectItem(item.id)"
+      @mousedown="mousedown($event, item.id)"
+    />
 
-		<Moveable
-			ref="moveable"
-			v-bind="moveableOptions"
-			@drag="onDrag"
-			@scale="onScale"
-		/>
-	</div>
+    <Moveable
+      ref="moveable"
+      v-bind="moveableOptions"
+      @drag="onDrag"
+      @scale="onScale"
+    />
+  </div>
 </template>
 
 <style lang="scss" scoped>

@@ -124,22 +124,22 @@ function mouseDownHandler() {
 </script>
 
 <template>
-	<div
-		ref="splitLineEl"
-		class="flex absolute justify-center items-center hover:bg-[var(--el-color-primary)]"
-		:class="[
-			disabled ? 'cursor-no-drop' : isVertical ? 'cursor-col-resize' : 'cursor-row-resize',
-			isVertical ? 'w-0.5 h-full flex-col' : 'h-0.5 w-full flex-row',
-		]"
-		@mouseenter="mouseEnterHandler"
-		@mouseleave="mouseLeaveHandler"
-		@mousedown="mouseDownHandler"
-	>
-		<i
-			class="block dark:bg-dark-800"
-			:class="isVertical ? 'dark:w-0 w-px h-full' : 'dark:h-0 h-px w-full'"
-		/>
-	</div>
+  <div
+    ref="splitLineEl"
+    class="flex absolute justify-center items-center hover:bg-[var(--el-color-primary)]"
+    :class="[
+      disabled ? 'cursor-no-drop' : isVertical ? 'cursor-col-resize' : 'cursor-row-resize',
+      isVertical ? 'w-0.5 h-full flex-col' : 'h-0.5 w-full flex-row',
+    ]"
+    @mouseenter="mouseEnterHandler"
+    @mouseleave="mouseLeaveHandler"
+    @mousedown="mouseDownHandler"
+  >
+    <i
+      class="block dark:bg-dark-800"
+      :class="isVertical ? 'dark:w-0 w-px h-full' : 'dark:h-0 h-px w-full'"
+    />
+  </div>
 </template>
 <style scoped>
 .line-active {

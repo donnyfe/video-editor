@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import { UploadFilled } from '@element-plus/icons-vue'
 import { useTrackStore, usePlayerStore } from '@/stores'
 import { decodeAudio } from '@/utils'
@@ -49,24 +48,26 @@ function addTrack(id: string, file: File, clip: AudioClip) {
 
 <template>
 	<div class="audio-panel mx-4 my-4">
-		<el-upload
-			ref="uploadRef"
+		<el-upload ref="uploadRef"
 			class="upload-demo"
 			drag
 			accept=".mp3,.wav"
 			:multiple="false"
 			:auto-upload="false"
 			:show-file-list="false"
-			:on-change="onUpload"
-		>
+			:on-change="onUpload">
 			<el-icon class="el-icon--upload">
 				<UploadFilled />
 			</el-icon>
 
-			<div class="el-upload__text">拖拽文件到此处 或 <em>点击上传</em></div>
+			<div class="el-upload__text">
+				拖拽文件到此处 或 <em>点击上传</em>
+			</div>
 
 			<template #tip>
-				<div class="el-upload__tip">提示: 文件应小于500MB</div>
+				<div class="el-upload__tip">
+					提示: 文件应小于500MB
+				</div>
 			</template>
 		</el-upload>
 

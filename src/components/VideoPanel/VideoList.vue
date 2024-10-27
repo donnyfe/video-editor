@@ -1,25 +1,11 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
 
-const videoList = ref([
-	{
-		id: 1,
-		src: './test.mp4',
-	},
-	{
-		id: 2,
-		src: './test2.mp4',
-	},
-])
 
-const videoRef = ref<HTMLVideoElement>()
-
-onMounted(() => {})
 </script>
 
 <template>
-	<ul class="video-list flex flex-center justify-center flex-wrap">
-		<!-- <li class="video-list__item w-90% h-120px mb-4 border-1px border-solid el-theme-border bg-dark"
+  <ul class="video-list flex flex-center justify-center flex-wrap">
+    <!-- <li class="video-list__item w-90% h-120px mb-4 border-1px border-solid el-theme-border bg-dark"
 			v-for="(item, index) in videoList"
 		:key="index">
 			<video class="wh-full"
@@ -28,7 +14,7 @@ onMounted(() => {})
 			</video>
 		</li> -->
 
-		<!-- <li class="video-list__item w-90% h-120px mb-4 border-1px border-solid el-theme-border bg-dark">
+    <!-- <li class="video-list__item w-90% h-120px mb-4 border-1px border-solid el-theme-border bg-dark">
 			<video ref="videoRef"
 				class="wh-full"
 				src="./test.mp4"
@@ -41,7 +27,7 @@ onMounted(() => {})
 				controls>
 			</video>
 		</li> -->
-	</ul>
+  </ul>
 </template>
 
 <style lang="scss" scoped>

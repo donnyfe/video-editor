@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { watch } from 'vue'
 import { getImageFromUrl } from '@/utils'
 
-const props = defineProps({
+defineProps({
 	list: {
 		type: Array<{ id: string; src: string }>,
 		default: () => [],
@@ -18,16 +17,19 @@ async function handleClick(item: { id: string; src: string }) {
 </script>
 
 <template>
-	<ul class="list w-full h-full overflow-auto">
-		<li
-			class="flex-center align-start aspect-square rounded-4px overflow-hidden bg-#f2f2f2 dark:bg-black"
-			v-for="(item, index) in list"
-			:key="index"
-			@click="handleClick(item)"
-		>
-			<el-image :src="item.src" />
-		</li>
-	</ul>
+  <ul class="list w-full h-full overflow-auto">
+    <li
+      v-for="(item, index) in list"
+      :key="index"
+      class="flex-center align-start aspect-square rounded-4px overflow-hidden bg-#f2f2f2 dark:bg-black"
+      @click="handleClick(item)"
+    >
+      <el
+        -image
+        src="item.src"
+      />
+    </li>
+  </ul>
 </template>
 
 <style lang="scss" scoped>

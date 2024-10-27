@@ -43,55 +43,57 @@ function onChange(key: string, value: any) {
 </script>
 
 <template>
-	<div class="flex flex-center justify-start px-5 py-2 el-theme-text">图像属性</div>
-	<el-form
-		ref="formRef"
-		class="px-5 flex flex-col"
-		:model="form"
-		label-width="42px"
-	>
-		<el-collapse v-model="activeCollapse">
-			<el-collapse-item
-				title="位置大小"
-				name="位置大小"
-			>
-				<el-row>
-					<el-col :span="24">
-						<el-form-item label="缩放">
-							<el-slider
-								v-model="form.scale"
-								show-input
-								:min="0"
-								:max="500"
-								@change="onChange('scale', $event)"
-								@input="onChange('scale', $event)"
-							></el-slider>
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row>
-					<el-col :span="12">
-						<el-form-item label="X">
-							<el-input-number
-								class="form-item"
-								v-model="form.centerX"
-								@change="onChange('centerX', $event)"
-							></el-input-number>
-						</el-form-item>
-					</el-col>
-					<el-col :span="12">
-						<el-form-item label="Y">
-							<el-input-number
-								class="form-item"
-								v-model="form.centerY"
-								@change="onChange('centerY', $event)"
-							></el-input-number>
-						</el-form-item>
-					</el-col>
-				</el-row>
-			</el-collapse-item>
-		</el-collapse>
-	</el-form>
+  <div class="flex flex-center justify-start px-5 py-2 el-theme-text">
+    图像属性
+  </div>
+  <el-form
+    ref="formRef"
+    class="px-5 flex flex-col"
+    :model="form"
+    label-width="42px"
+  >
+    <el-collapse v-model="activeCollapse">
+      <el-collapse-item
+        title="位置大小"
+        name="位置大小"
+      >
+        <el-row>
+          <el-col :span="24">
+            <el-form-item label="缩放">
+              <el-slider
+                v-model="form.scale"
+                show-input
+                :min="0"
+                :max="500"
+                @change="onChange('scale', $event)"
+                @input="onChange('scale', $event)"
+              />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="X">
+              <el-input-number
+                v-model="form.centerX"
+                class="form-item"
+                @change="onChange('centerX', $event)"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="Y">
+              <el-input-number
+                v-model="form.centerY"
+                class="form-item"
+                @change="onChange('centerY', $event)"
+              />
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-collapse-item>
+    </el-collapse>
+  </el-form>
 </template>
 
 <style lang="scss" scoped></style>

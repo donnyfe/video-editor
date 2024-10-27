@@ -50,8 +50,8 @@ const canvasConfigs = computed(() => ({
 	textSize: 12, // 字号
 	textScale: 0.83, // 支持更小号字： 10 / 12
 	lineWidth: 1, // 线宽
-	textBaseline: 'middle' as CanvasTextBaseline, // 文字对齐基线 (ts 中定义的textBaseLine是一个联合类型)
-	textAlign: 'center' as CanvasTextAlign, // 文字对齐方式
+	textBaseline: 'middle', // 文字对齐基线 (ts 中定义的textBaseLine是一个联合类型)
+	textAlign: 'center', // 文字对齐方式
 	longColor: isDark.value ? '#E5E7EB' : '#374151', // 长线段颜色
 	shortColor: isDark.value ? '#9CA3AF' : '#6B7280', // 短线段颜色
 	textColor: isDark.value ? '#E5E7EB' : '#374151', // 文字颜色
@@ -112,15 +112,15 @@ onUnmounted(() => {})
 </script>
 
 <template>
-	<div
-		ref="timelineWrapper"
-		class="sticky top-0 left-0 right-0 h-5 text-center leading-5 text-sm z-20"
-	>
-		<canvas
-			ref="timeLine"
-			:style="canvasStyle"
-			v-bind="canvasSize"
-			@click="handleClick"
-		/>
-	</div>
+  <div
+    ref="timelineWrapper"
+    class="sticky top-0 left-0 right-0 h-5 text-center leading-5 text-sm z-20"
+  >
+    <canvas
+      ref="timeLine"
+      :style="canvasStyle"
+      v-bind="canvasSize"
+      @click="handleClick"
+    />
+  </div>
 </template>

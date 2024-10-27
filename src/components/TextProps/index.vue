@@ -64,112 +64,114 @@ function onChange(key: string, value: any) {
 </script>
 
 <template>
-	<div class="flex flex-center justify-start px-5 py-2 el-theme-text">文本属性</div>
-	<el-form
-		ref="formRef"
-		class="px-5 flex flex-col"
-		v-model="form"
-		label-width="50px"
-	>
-		<el-collapse v-model="activeCollapse">
-			<el-collapse-item
-				title="文字样式"
-				name="文字样式"
-			>
-				<el-form-item label-width="0">
-					<el-input
-						class="form-item"
-						type="textarea"
-						v-model="form.content"
-						placeholder="文本内容"
-						@change="onChange('content', $event)"
-						@input="onChange('content', $event)"
-					></el-input>
-				</el-form-item>
-				<el-row>
-					<el-col :span="12">
-						<el-form-item label="字号">
-							<el-input-number
-								class="form-item"
-								v-model="form.fontSize"
-								:min="0"
-								@change="onChange('fontSize', $event)"
-							></el-input-number>
-						</el-form-item>
-					</el-col>
-				</el-row>
+  <div class="flex flex-center justify-start px-5 py-2 el-theme-text">
+    文本属性
+  </div>
+  <el-form
+    ref="formRef"
+    v-model="form"
+    class="px-5 flex flex-col"
+    label-width="50px"
+  >
+    <el-collapse v-model="activeCollapse">
+      <el-collapse-item
+        title="文字样式"
+        name="文字样式"
+      >
+        <el-form-item label-width="0">
+          <el-input
+            v-model="form.content"
+            class="form-item"
+            type="textarea"
+            placeholder="文本内容"
+            @change="onChange('content', $event)"
+            @input="onChange('content', $event)"
+          />
+        </el-form-item>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="字号">
+              <el-input-number
+                v-model="form.fontSize"
+                class="form-item"
+                :min="0"
+                @change="onChange('fontSize', $event)"
+              />
+            </el-form-item>
+          </el-col>
+        </el-row>
 
-				<el-row class="flex justify-around">
-					<el-col :span="8">
-						<el-form-item label="填充色">
-							<el-color-picker
-								v-model="form.fill"
-								:predefine="predefineColors"
-								@chaactive-changenge="onChange('fill', $event)"
-							/>
-						</el-form-item>
-					</el-col>
-					<el-col :span="8">
-						<el-form-item label="描边色">
-							<el-color-picker
-								v-model="form.stroke"
-								:predefine="predefineColors"
-								@active-change="onChange('stroke', $event)"
-							/>
-						</el-form-item>
-					</el-col>
-					<el-col :span="8">
-						<el-form-item label="背景色">
-							<el-color-picker
-								v-model="form.textBackgroundColor"
-								:predefine="predefineColors"
-								@active-change="onChange('textBackgroundColor', $event)"
-							/>
-						</el-form-item>
-					</el-col>
-				</el-row>
-			</el-collapse-item>
-			<el-collapse-item
-				title="位置大小"
-				name="位置大小"
-			>
-				<el-row>
-					<el-col :span="24">
-						<el-form-item label="缩放">
-							<el-slider
-								v-model="form.scale"
-								show-input
-								:min="0"
-								:max="500"
-								@change="onChange('scale', $event)"
-								@input="onChange('scale', $event)"
-							></el-slider>
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row>
-					<el-col :span="12">
-						<el-form-item label="X">
-							<el-input-number
-								class="form-item"
-								v-model="form.centerX"
-								@change="onChange('centerX', $event)"
-							></el-input-number>
-						</el-form-item>
-					</el-col>
-					<el-col :span="12">
-						<el-form-item label="Y">
-							<el-input-number
-								class="form-item"
-								v-model="form.centerY"
-								@change="onChange('centerY', $event)"
-							></el-input-number>
-						</el-form-item>
-					</el-col>
-				</el-row>
-			</el-collapse-item>
-		</el-collapse>
-	</el-form>
+        <el-row class="flex justify-around">
+          <el-col :span="8">
+            <el-form-item label="填充色">
+              <el-color-picker
+                v-model="form.fill"
+                :predefine="predefineColors"
+                @chaactive-changenge="onChange('fill', $event)"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="描边色">
+              <el-color-picker
+                v-model="form.stroke"
+                :predefine="predefineColors"
+                @active-change="onChange('stroke', $event)"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="背景色">
+              <el-color-picker
+                v-model="form.textBackgroundColor"
+                :predefine="predefineColors"
+                @active-change="onChange('textBackgroundColor', $event)"
+              />
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-collapse-item>
+      <el-collapse-item
+        title="位置大小"
+        name="位置大小"
+      >
+        <el-row>
+          <el-col :span="24">
+            <el-form-item label="缩放">
+              <el-slider
+                v-model="form.scale"
+                show-input
+                :min="0"
+                :max="500"
+                @change="onChange('scale', $event)"
+                @input="onChange('scale', $event)"
+              />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="X">
+              <el-input-number
+                v-model="form.centerX"
+                class="form-item"
+                @change="onChange('centerX', $event)"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="Y">
+              <el-input-number
+                v-model="form.centerY"
+                class="form-item"
+                @change="onChange('centerY', $event)"
+              />
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-collapse-item>
+    </el-collapse>
+  </el-form>
 </template>
 
 <style lang="scss" scoped></style>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, computed } from 'vue'
 import { debounce } from 'lodash-es'
 import TimeLine from './components/TimeLine.vue'
 import TrackLine from './components/TrackLine.vue'
@@ -9,7 +9,6 @@ import IconVideo from '@/components/Icons/IconVideo.vue'
 import { useTrackStore, usePlayerStore } from '@/stores'
 import { getGridPixel, getSelectFrame, formatTime, isVideo } from '@/utils'
 import type { VideoSource, InsertInfo, InsertLineInfo } from '@/types'
-import type { TrackListItem } from '@/types'
 
 const trackStore = useTrackStore()
 const playerStore = usePlayerStore()
@@ -396,83 +395,83 @@ const resetDragData = () => {
 </script>
 
 <template>
-	<div class="trackList flex flex-1 flex-row w-full overflow-x-hidden overflow-y-auto relative">
-		<TrackListIcon
-			:list-data="trackListData"
-			:offset-top="startY"
-		/>
+  <div class="trackList flex flex-1 flex-row w-full overflow-x-hidden overflow-y-auto relative">
+    <TrackListIcon
+      :list-data="trackListData"
+      :offset-top="startY"
+    />
 
-		<div
-			class="flex-1 overflow-x-scroll overflow-y-auto flex-col shrink-0 grow relative"
-			ref="trackList"
-			@scroll="handleScroll"
-			@wheel="handleWheel"
-			@click="setSelectTrack($event, -1, -1)"
-		>
-			<!-- 时间轴 -->
-			<TimeLine
-				:start="startX"
-				:scale="trackScale"
-				:step="defaultFps"
-				:focus-position="trackStore.selectResource as any"
-				@select="handlerSelectFrame"
-			/>
+    <div
+      ref="trackList"
+      class="flex-1 overflow-x-scroll overflow-y-auto flex-col shrink-0 grow relative"
+      @scroll="handleScroll"
+      @wheel="handleWheel"
+      @click="setSelectTrack($event, -1, -1)"
+    >
+      <!-- 时间轴 -->
+      <TimeLine
+        :start="startX"
+        :scale="trackScale"
+        :step="defaultFps"
+        :focus-position="trackStore.selectResource as any"
+        @select="handlerSelectFrame"
+      />
 
-			<div
-				ref="trackListContainer"
-				class="absolute top-5 flex shrink-0 grow min-w-full"
-				:style="{ 'min-height': 'calc(100% - 20px)' }"
-				@mousedown="onMouseDown"
-				@mousemove="onMouseMove"
-				@mouseup="onMouseUp"
-				@mouseleave="onMouseUp"
-			>
-				<template v-if="trackListData.length === 0">
-					<div
-						class="flex justify-center items-center h-24 m-auto w-2/3 dark:bg-gray-500 bg-gray-200 rounded-md text-sm border-dashed border-2 dark:border-gray-500 border-gray-200 hover:dark:border-blue-300 hover:border-blue-400"
-					>
-						<IconVideo class="text-xl mr-4" />
-						添加素材，开始编辑你的大作吧~
-					</div>
-				</template>
-				<div
-					v-else
-					class="z-10 pt-5 pb-5 min-w-full flex shrink-0 grow flex-col justify-center min-h-full"
-					id="track-container"
-					:style="{ width: `${trackStyle.width}px` }"
-				>
-					<template
-						v-for="(lineData, lineIndex) of trackListData"
-						:key="lineData.list.reduce((r, item) => r + item.id, 'line')"
-					>
-						<TrackLine
-							:class="[
-								dropLineIndex === lineIndex ? (insertBefore ? 'showLine-t' : 'showLine-b') : '',
-							]"
-							:line-type="lineData.type"
-							:is-active="trackStore.selectedTrack.line === lineIndex"
-							:line-index="lineIndex"
-							:is-main="lineData.main"
-							:line-data="lineData.list"
-							:style="{ 'margin-left': `${offsetLine.left}px` }"
-						/>
-					</template>
-				</div>
+      <div
+        ref="trackListContainer"
+        class="absolute top-5 flex shrink-0 grow min-w-full"
+        :style="{ 'min-height': 'calc(100% - 20px)' }"
+        @mousedown="onMouseDown"
+        @mousemove="onMouseMove"
+        @mouseup="onMouseUp"
+        @mouseleave="onMouseUp"
+      >
+        <template v-if="trackListData.length === 0">
+          <div
+            class="flex justify-center items-center h-24 m-auto w-2/3 dark:bg-gray-500 bg-gray-200 rounded-md text-sm border-dashed border-2 dark:border-gray-500 border-gray-200 hover:dark:border-blue-300 hover:border-blue-400"
+          >
+            <IconVideo class="text-xl mr-4" />
+            添加素材，开始编辑你的大作吧~
+          </div>
+        </template>
+        <div
+          v-else
+          id="track-container"
+          class="z-10 pt-5 pb-5 min-w-full flex shrink-0 grow flex-col justify-center min-h-full"
+          :style="{ width: `${trackStyle.width}px` }"
+        >
+          <template
+            v-for="(lineData, lineIndex) of trackListData"
+            :key="lineData.list.reduce((r, item) => r + item.id, 'line')"
+          >
+            <TrackLine
+              :class="[
+                dropLineIndex === lineIndex ? insertBefore ? 'showLine-t' : 'showLine-b' : '',
+              ]"
+              :line-type="lineData.type"
+              :is-active="trackStore.selectedTrack.line === lineIndex"
+              :line-index="lineIndex"
+              :is-main="lineData.main"
+              :line-data="lineData.list"
+              :style="{ 'margin-left': `${offsetLine.left}px` }"
+            />
+          </template>
+        </div>
 
-				<TrackPlayPoint v-show="trackListData.length !== 0" />
+        <TrackPlayPoint v-show="trackListData.length !== 0" />
 
-				<template v-if="trackListData.length !== 0">
-					<div
-						v-for="(line, index) in trackStore.dragData.fixLines.reduce(
-							(r, item) => r.concat(item),
-							[],
-						)"
-						class="z-30 w-px absolute -top-5 bottom-0 bg-yellow-300 dark:bg-yellow-300 pointer-events-none"
-						:key="index"
-						:style="{ left: `${line.position + 10}px` }"
-					></div>
-				</template>
-			</div>
-		</div>
-	</div>
+        <template v-if="trackListData.length !== 0">
+          <div
+            v-for="(line, index) in trackStore.dragData.fixLines.reduce(
+              (r, item) => r.concat(item),
+              [],
+            )"
+            :key="index"
+            class="z-30 w-px absolute -top-5 bottom-0 bg-yellow-300 dark:bg-yellow-300 pointer-events-none"
+            :style="{ left: `${line.position + 10}px` }"
+          />
+        </template>
+      </div>
+    </div>
+  </div>
 </template>

@@ -85,44 +85,46 @@ async function handleExport() {
 </script>
 
 <template>
-	<header class="app-header">
-		<div class="header-content">
-			<div class="flex items-center">
-				<IconGithub
-					class="header-logo"
-					@click="openGithub"
-				/>
-				<h1 class="header-title">{{ title }}</h1>
-			</div>
+  <header class="app-header">
+    <div class="header-content">
+      <div class="flex items-center">
+        <IconGithub
+          class="header-logo"
+          @click="openGithub"
+        />
+        <h1 class="header-title">
+          {{ title }}
+        </h1>
+      </div>
 
-			<div class="flex justify-end items-center pr-4">
-				<el-switch
-					class="mr-4"
-					size="large"
-					:active-icon="Moon"
-					:inactive-icon="Sunny"
-					:inline-prompt="true"
-					v-model="globalStore.isDark"
-					@change="changeTheme"
-				/>
+      <div class="flex justify-end items-center pr-4">
+        <el-switch
+          v-model="globalStore.isDark"
+          class="mr-4"
+          size="large"
+          :active-icon="Moon"
+          :inactive-icon="Sunny"
+          :inline-prompt="true"
+          @change="changeTheme"
+        />
 
-				<el-button
-					type="primary"
-					class="dark:bg-[var(--el-bg-color)] rounded-lg outline-none"
-					@click="handleExport"
-				>
-					<ElIcon
-						class="mr-1"
-						:size="14"
-						color="#fff"
-					>
-						<Download />
-					</ElIcon>
-					导出
-				</el-button>
-			</div>
-		</div>
-	</header>
+        <el-button
+          type="primary"
+          class="dark:bg-[var(--el-bg-color)] rounded-lg outline-none"
+          @click="handleExport"
+        >
+          <ElIcon
+            class="mr-1"
+            :size="14"
+            color="#fff"
+          >
+            <Download />
+          </ElIcon>
+          导出
+        </el-button>
+      </div>
+    </div>
+  </header>
 </template>
 <style lang="scss" scoped>
 .app-header {

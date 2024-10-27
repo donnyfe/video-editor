@@ -71,34 +71,36 @@ function addTrack(md5: string, file: File, frames: Frames) {
 </script>
 
 <template>
-	<div class="p-4 flex-1 overflow-hidden flex flex-col">
-		<div class="flex-1 overflow-hidden">
-			<div class="h-full py-2 flex flex-col">
-				<el-upload
-					ref="uploadRef"
-					class="image-uploader mb-4"
-					drag
-					accept="images/*"
-					:multiple="false"
-					:auto-upload="false"
-					:show-file-list="false"
-					:on-change="onUpload"
-				>
-					<el-icon class="el-icon--upload">
-						<UploadFilled />
-					</el-icon>
-					<div class="el-upload__text">拖拽文件到此处 或 <em>点击上传</em></div>
-				</el-upload>
+  <div class="p-4 flex-1 overflow-hidden flex flex-col">
+    <div class="flex-1 overflow-hidden">
+      <div class="h-full py-2 flex flex-col">
+        <el-upload
+          ref="uploadRef"
+          class="image-uploader mb-4"
+          drag
+          accept="images/*"
+          :multiple="false"
+          :auto-upload="false"
+          :show-file-list="false"
+          :on-change="onUpload"
+        >
+          <el-icon class="el-icon--upload">
+            <UploadFilled />
+          </el-icon>
+          <div class="el-upload__text">
+            拖拽文件到此处 或 <em>点击上传</em>
+          </div>
+        </el-upload>
 
-				<div class="flex-1 overflow-hidden">
-					<ImageList
-						v-model:list="imageList"
-						@select="onSelect"
-					/>
-				</div>
-			</div>
-		</div>
-	</div>
+        <div class="flex-1 overflow-hidden">
+          <ImageList
+            v-model:list="imageList"
+            @select="onSelect"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style lang="scss" scoped></style>

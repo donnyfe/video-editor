@@ -39,27 +39,27 @@ const isActive = computed(() => {
 </script>
 
 <template>
-	<div
-		class="mb-1 mt-1 relative ml-2 trackLine"
-		:class="[
-			TrackHeightMap.get(lineType),
-			isActive ? 'dark:bg-gray-700 bg-gray-400 bg-opacity-20' : 'bg-gray-200 bg-opacity-10',
-			isMain ? 'bg-blue-500 bg-opacity-20' : '',
-		]"
-		:data-index="lineIndex"
-		:data-type="lineType"
-	>
-		<template
-			v-for="(item, index) of lineData"
-			:key="item.id"
-		>
-			<TrackItem
-				:line-index="lineIndex"
-				:item-index="index"
-				:track-item="item"
-			/>
-		</template>
-	</div>
+  <div
+    class="mb-1 mt-1 relative ml-2 trackLine"
+    :class="[
+      TrackHeightMap.get(lineType),
+      isActive ? 'dark:bg-gray-700 bg-gray-400 bg-opacity-20' : 'bg-gray-200 bg-opacity-10',
+      isMain ? 'bg-blue-500 bg-opacity-20' : '',
+    ]"
+    :data-index="lineIndex"
+    :data-type="lineType"
+  >
+    <template
+      v-for="(item, index) of lineData"
+      :key="item.id"
+    >
+      <TrackItem
+        :line-index="lineIndex"
+        :item-index="index"
+        :track-item="item"
+      />
+    </template>
+  </div>
 </template>
 
 <style lang="scss" scoped>

@@ -3,19 +3,21 @@ import Player from '@/components/Player/index.vue'
 import PlayerControl from '@/components/Player/PlayerControl.vue'
 </script>
 <template>
-	<div class="editor-panel">
-		<section
-			class="h-full flex flex-col rounded-lg border-1px border-solid border-[var(--el-border-color)] bg-white dark:bg-[var(--el-bg-color)]"
-		>
-			<header class="editor-panel-header pl-2 h-10 mb-2 leading-10 el-theme-text">播放器</header>
-			<main class="editor-panel-content">
-				<Player />
-			</main>
-			<footer class="editor-panel-footer">
-				<PlayerControl />
-			</footer>
-		</section>
-	</div>
+  <div class="editor-panel">
+    <section
+      class="h-full flex flex-col rounded-lg border-1px border-solid border-[var(--el-border-color)] bg-white dark:bg-[var(--el-bg-color)]"
+    >
+      <header class="editor-panel-header pl-2 h-10 mb-2 leading-10 el-theme-text">
+        播放器
+      </header>
+      <main class="editor-panel-content">
+        <Player />
+      </main>
+      <footer class="editor-panel-footer">
+        <PlayerControl />
+      </footer>
+    </section>
+  </div>
 </template>
 
 <style lang="scss" scoped>

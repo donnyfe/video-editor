@@ -183,7 +183,8 @@ export class TimeLine {
 		const { scale, focusPosition } = this.userConfigs
 
 		if (focusPosition) {
-			let { start: fStart, end } = focusPosition
+			const { start, end } = focusPosition
+			let fStart = start
 			let fCount = end - fStart
 			if (scale < 70) {
 				fStart /= 30

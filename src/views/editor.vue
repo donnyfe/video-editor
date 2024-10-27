@@ -7,17 +7,17 @@ import TrackPanel from '@/layouts/TrackPanel/index.vue'
 </script>
 
 <template>
-	<div class="video-editor w-full flex flex-col w-screen h-screen bg-dark-900 text-light-50">
-		<AppHeader />
-		<div class="flex-1 flex overflow-hidden">
-			<ResourcePanel />
-			<div class="flex flex-1 flex-col overflow-hidden">
-				<div class="flex flex-1 flex-row flex-nowrap">
-					<EditorPanel />
-					<PropsPanel />
-				</div>
-				<TrackPanel />
-			</div>
-		</div>
-	</div>
+  <div class="video-editor w-full flex flex-col w-screen h-screen bg-dark-900 text-light-50">
+    <AppHeader />
+    <div class="flex-1 flex overflow-hidden">
+      <ResourcePanel />
+      <div class="flex flex-1 flex-col overflow-hidden">
+        <div class="flex flex-1 flex-row flex-nowrap">
+          <EditorPanel />
+          <PropsPanel />
+        </div>
+        <TrackPanel />
+      </div>
+    </div>
+  </div>
 </template>

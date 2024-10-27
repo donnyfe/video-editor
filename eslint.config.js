@@ -2,100 +2,40 @@ import globals from 'globals'
 import eslintJs from '@eslint/js'
 import tseslint from 'typescript-eslint'
 import pluginVue from 'eslint-plugin-vue'
+import prettierPlugin from 'eslint-plugin-prettier'
+import eslintConfigPrettier from 'eslint-config-prettier'
 
 export default [
-	eslintJs.configs.recommended,
-	...tseslint.configs.recommended,
-	...pluginVue.configs['flat/essential'],
-
-	// 指定文件匹配模式
-	{ files: ['**/*.{js,mjs,cjs,ts,vue}'] },
-
-	/** 配置全局变量 */
+	// 1. 配置全局变量
 	{
 		languageOptions: {
 			globals: {
 				...globals.browser,
 				...globals.node,
+				...globals.worker,
+				...globals.es2021,
 				/** custom */
 				// ...
 			},
 		},
 	},
 
-	/** vue 配置 */
+	// 2. JavaScript 文件配置
+	eslintJs.configs.recommended,
 	{
-		files: ['**/*.vue'],
-		languageOptions: {
-			parserOptions: {
-				ecmaVersion: 'latest',
-				sourceType: 'module',
-				parser: tseslint.parser,
-				ecmaFeatures: {
-					jsx: true,
-					tsx: true,
-				},
-			},
+		files: ['**/*.{mjs,cjs,js}'],
+		plugins: {
+			prettier: prettierPlugin,
 		},
-		/** @link https://eslint.vuejs.org/rules/ */
 		rules: {
-			'vue/max-attributes-per-line': [
-				'error',
-				{
-					singleline: { max: 2 },
-					multiline: { max: 1 },
-				},
-			],
-
-			'vue/html-closing-bracket-spacing': [
-				'error',
-				{
-					startTag: 'never',
-					endTag: 'never',
-					selfClosingTag: 'always',
-				},
-			],
-			// 添加 Sass 相关规则
-			'vue/style-compiler-options': [
-				'error',
-				{
-					sass: {
-						// 使用新的 JavaScript API
-						implementation: 'sass',
-					},
-				},
-			],
-			'vue/no-async-in-computed-properties': 'error',
-			'vue/no-extra-parens': ['error', 'all'],
-			'vue/multiline-ternary': ['error', 'always-multiline'],
-			// 关闭操作符换行规则的检查。默认ESLint会要求你在操作符前后换行，配置项可关闭这种检查。
-			'vue/operator-linebreak': 'off',
-			// 关闭单行 HTML 元素内容新行的规则。默认情况下，ESLint 可能会要求在单行 HTML 元素的内容后面有新行，这个配置项可以关闭这种要求。
-			'vue/singleline-html-element-content-newline': 'off',
-			// 关闭组件名称必须是多单词的规则。默认情况下，ESLint 可能会要求组件名称由多个单词组成，这个配置项允许单词少于两个的组件名称。
-			'vue/multi-word-component-names': 'off',
-			// 关闭对 `v-model` 参数使用的规则。默认情况下，ESLint 可能会对 `v-model` 的参数使用进行检查，这个配置项可以关闭这种检查。
-			'vue/no-v-model-argument': 'off',
-			// 关闭要求组件 `prop` 必须有默认值的规则。默认情况下，ESLint 可能会要求每个 `prop` 都有一个默认值，这个配置项允许没有默认值的 `prop`。
-			'vue/require-default-prop': 'off',
-			// 关闭要求组件 `prop` 必须有类型定义的规则。默认情况下，ESLint 可能会要求每个 `prop` 都有一个类型定义，这个配置项允许没有类型定义的 `prop`。
-			'vue/require-prop-types': 'off',
-			// 关闭 HTML 自闭合标签规则的检查。默认情况下，ESLint 可能会要求 HTML 标签自闭合的风格，这个配置项可以关闭这种检查。
-			'vue/html-self-closing': 'off',
-			// 关闭属性名引号使用规则的检查。默认情况下，ESLint 可能会要求在对象属性名周围使用引号，这个配置项可以关闭这种检查。
-			'vue/quote-props': 'off',
-			// 关闭检查不规则空白字符的规则。默认情况下，ESLint 可能会检查代码中是否有不规则的空白字符，这个配置项可以关闭这种检查。
-			'vue/no-irregular-whitespace': 'off',
-			// 关闭 `prop` 名称大小写规则的检查。默认情况下，ESLint 可能会要求 `prop` 名称遵循特定的大小写规则，这个配置项可以关闭这种要求。
-			'vue/prop-name-casing': 'off',
-			// HTML 缩进规则检查。默认情况下，ESLint 可能会要求 HTML 标签按照特定的缩进方式对齐，这个配置项可以关闭这种检查。
-			'vue/html-indent': ['error', 'tab'],
-			// 关闭对保留组件名称的检查。默认情况下，ESLint 可能会禁止使用某些保留的组件名称，这个配置项允许使用这些名称。
-			'vue/no-reserved-component-names': 'off',
+			...prettierPlugin.configs.recommended.rules,
+			// 关闭 与prettier冲突的 规则
+			...eslintConfigPrettier.rules,
 		},
 	},
 
-	/** typescript 配置 */
+	// 3. typescript 配置
+	...tseslint.configs.recommended,
 	{
 		files: ['**/*.ts', '**/*.vue'],
 		languageOptions: {
@@ -105,29 +45,111 @@ export default [
 		},
 		/** @link https://typescript-eslint.io/rules/ */
 		rules: {
-			// 允许any类型
+			// 允许不显式声明函数返回类型
+			'@typescript-eslint/explicit-module-boundary-types': 'off',
+			// 允许使用any类型
 			'@typescript-eslint/no-explicit-any': 'off',
 			// 允许未使用的表达式
 			'@typescript-eslint/no-unused-expressions': 'off',
+			// 允许使用async-promise-executor
 			'@typescript-eslint/no-async-promise-executor': 'off',
 		},
 	},
 
-	/** 自定义规则 */
+	// 4.  vue 配置
+	...pluginVue.configs['flat/recommended'],
+	{
+		files: ['**/*.vue'],
+		languageOptions: {
+			parser: pluginVue.parser, // 用于解析 <template> 中的 Vue 模板
+			parserOptions: {
+				ecmaVersion: 'latest',
+				sourceType: 'module',
+				parser: tseslint.parser, // 用于解析 <script> 中的 TypeScript
+				ecmaFeatures: {
+					jsx: true,
+					tsx: true,
+				},
+			},
+		},
+		/** @link https://eslint.vuejs.org/rules/ */
+		rules: {
+			// <script setup> 变量检查
+			'vue/script-setup-uses-vars': 'error', // <script setup> 变量检查
+			// 未使用组件检查
+			'vue/no-unused-components': 'error',
+			// props 不可变性检查
+			'vue/no-mutating-props': 'error',
+			// 组件名大小写
+			'vue/component-definition-name-casing': ['error', 'PascalCase'],
+			// 模板中组件名大小写
+			'vue/component-name-in-template-casing': ['error', 'PascalCase'],
+			// 组件选项名大小写
+			'vue/component-options-name-casing': ['error', 'PascalCase'],
+			// 自定义事件名大小写
+			'vue/custom-event-name-casing': ['error', 'camelCase'],
+			// defineMacros 顺序
+			'vue/define-macros-order': [
+				'error',
+				{
+					order: ['defineProps', 'defineEmits'],
+				},
+			],
+			// 限制单行属性数量
+			'vue/max-attributes-per-line': [
+				'error',
+				{
+					singleline: { max: 2 },
+					multiline: { max: 1 },
+				},
+			],
+			// 要求HTML标签闭合
+			'vue/html-closing-bracket-spacing': [
+				'error',
+				{
+					startTag: 'never',
+					endTag: 'never',
+					selfClosingTag: 'always',
+				},
+			],
+			// 不允许在计算属性中使用async
+			'vue/no-async-in-computed-properties': 'error',
+			// 不允许使用多余的括号
+			'vue/no-extra-parens': ['error', 'all'],
+			// 要求多行三元运算符的换行
+			'vue/multiline-ternary': ['error', 'always-multiline'],
+			// 关闭操作符换行规则的检查。默认ESLint会要求你在操作符前后换行，配置项可关闭这种检查。
+			'vue/operator-linebreak': 'off',
+			// 关闭组件名称必须是多单词的规则。默认情况下，ESLint 可能会要求组件名称由多个单词组成，这个配置项允许单词少于两个的组件名称。
+			'vue/multi-word-component-names': 'off',
+			// 关闭对 `v-model` 参数使用的规则。默认情况下，ESLint 可能会对 `v-model` 的参数使用进行检查，这个配置项可以关闭这种检查。
+			'vue/no-v-model-argument': 'off',
+			// 关闭要求组件 `prop` 必须有默认值的规则。默认情况下，ESLint 可能会要求每个 `prop` 都有一个默认值，这个配置项允许没有默认值的 `prop`。
+			'vue/require-default-prop': 'off',
+			// 关闭要求组件 `prop` 必须有类型定义的规则。默认情况下，ESLint 可能会要求每个 `prop` 都有一个类型定义，这个配置项允许没有类型定义的 `prop`。
+			'vue/require-prop-types': 'off',
+			// 关闭属性名引号使用规则的检查。默认情况下，ESLint 可能会要求在对象属性名周围使用引号，这个配置项可以关闭这种检查。
+			'vue/quote-props': 'off',
+			// 关闭检查不规则空白字符的规则。默认情况下，ESLint 可能会检查代码中是否有不规则的空白字符，这个配置项可以关闭这种检查。
+			'vue/no-irregular-whitespace': 'off',
+			// 关闭 `prop` 名称大小写规则的检查。默认情况下，ESLint 可能会要求 `prop` 名称遵循特定的大小写规则，这个配置项可以关闭这种要求。
+			'vue/prop-name-casing': 'off',
+			// 关闭对保留组件名称的检查。默认情况下，ESLint 可能会禁止使用某些保留的组件名称，这个配置项允许使用这些名称。
+			'vue/no-reserved-component-names': 'off',
+		},
+	},
+
+	// 5. 通用规则
 	{
 		rules: {
-			// 缩进使用
-			indent: ['error', 'tab'],
-			// 使用单引号
-			quotes: ['error', 'single'],
-			// 不使用分号结尾
-			semi: ['error', 'never'],
+			'no-console': ['warn', { allow: ['warn', 'error'] }],
+			'no-debugger': 'warn',
+			'no-alert': 'error',
+			'no-var': 'error',
 			// 比较的时候使用严格等于
 			eqeqeq: ['error', 'smart'],
 			// 强制使用花括号的风格
 			curly: ['error', 'all'],
-			// 换行符
-			'linebreak-style': ['off', 'lf'],
 			// 要求 switch 语句中有 default 分支
 			'default-case': 'off',
 			// switch 冒号后要有空格
@@ -144,8 +166,6 @@ export default [
 			'block-scoped-var': 'error',
 			// 不允许自身比较
 			'no-self-compare': 'error',
-			// 空行最多不能超过两行
-			'no-multiple-empty-lines': ['error', { max: 2 }],
 			// 禁止修改const声明的变量
 			'no-const-assign': 'error',
 			// 禁止重复声明变量
@@ -154,34 +174,6 @@ export default [
 			'no-func-assign': 'error',
 			// 外部作用域中的变量不能与它所包含的作用域中的变量或参数同名
 			'no-shadow': 'error',
-			// 空格
-			// 操作符周围的空格
-			'space-infix-ops': ['error', { int32Hint: true }],
-			// 函数定义时括号前的空格
-			'space-before-function-paren': [
-				'off',
-				{ anonymous: 'never', named: 'never', asyncArrow: 'always' },
-			],
-			// 在块语句之前始终有一个空格
-			'space-before-blocks': ['error', 'always'],
-			// 要求模板字符串中的嵌入表达式周围空格的使用
-			'template-curly-spacing': ['off', 'never'],
-			// 对象字面量中冒号的前后空格
-			'key-spacing': ['error', { beforeColon: false, afterColon: true }],
-			// 数组内前后要求有空格
-			'array-bracket-spacing': ['off', 'always'],
-			// 对象内前后要求有空格
-			'object-curly-spacing': ['error', 'always'],
-			// 前头=> 前后都有空格
-			'arrow-spacing': ['error', { before: true, after: true }],
-			// 要求同一行内逗号后面有空格
-			'comma-spacing': ['error', { before: false, after: true }],
-			// 关键字前后的空格
-			'keyword-spacing': 'error',
-			// 一行最后不允许有空格
-			'no-trailing-spaces': 'error',
-			// 不允许出现多余的空格
-			'no-multi-spaces': 'error',
 		},
 	},
 	// 定义忽略内容
@@ -195,6 +187,7 @@ export default [
 			'yarn.lock',
 			'package-lock.json',
 			'deploy.js',
+			'.tmp/**/*',
 		],
 	},
 ]

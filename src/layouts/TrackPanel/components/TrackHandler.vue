@@ -67,7 +67,7 @@ const getFixLine = (x: number, distance = 10) => {
 
 // 设置吸附
 const adsorption = (x: number, lines: AdsorptionLine[]) => {
-	if (lines.length === 0) return
+	if (lines.length === 0) {return}
 
 	return lines.reduce(
 		(r, item) => (Math.abs(item.position - x) < Math.abs(r.position - x) ? item : r),
@@ -161,13 +161,13 @@ const getTrackItemCoords = () => {
 		track.list.flatMap((item, j) =>
 			i !== props.lineIndex || j !== props.itemIndex
 				? [
-						{
-							start: item.start,
-							end: item.end,
-							left: getGridPixel(store.trackScale, item.start),
-							right: getGridPixel(store.trackScale, item.end),
-						},
-					]
+					{
+						start: item.start,
+						end: item.end,
+						left: getGridPixel(store.trackScale, item.start),
+						right: getGridPixel(store.trackScale, item.end),
+					},
+				]
 				: [],
 		),
 	)
@@ -191,7 +191,7 @@ const mouseDownHandler = (event: MouseEvent, type: string) => {
 		type === 'left' ? trackItem.offsetLeft : trackItem.offsetLeft + trackItem.offsetWidth
 
 	const handleMouseMove = (documentEvent: MouseEvent) => {
-		if (!enableMove.value) return
+		if (!enableMove.value) {return}
 		const moveWidth = positionLeft.value - documentEvent.pageX
 		const lines = getFixLine(position - moveWidth)
 
@@ -218,28 +218,28 @@ const mouseDownHandler = (event: MouseEvent, type: string) => {
 </script>
 
 <template>
-	<div
-		ref="el"
-		v-show="isActive"
-		class="absolute left-0 right-0 top-0 bottom-0 border z-20"
-		:class="{ 'dark:border-gray-100 border-gray-600': isActive }"
-	>
-		<div
-			ref="handlerLeft"
-			class="cursor-c-resize flex flex-col justify-center absolute bottom-0 -top-px -bottom-px -left-2 text-center rounded-tl rounded-bl w-2 dark:bg-gray-100 bg-gray-600 dark:text-gray-800 text-gray-100"
-			@mousedown="mouseDownHandler($event, 'left')"
-		>
-			<span>|</span>
-		</div>
+  <div
+    v-show="isActive"
+    ref="el"
+    class="absolute left-0 right-0 top-0 bottom-0 border z-20"
+    :class="{ 'dark:border-gray-100 border-gray-600': isActive }"
+  >
+    <div
+      ref="handlerLeft"
+      class="cursor-c-resize flex flex-col justify-center absolute bottom-0 -top-px -bottom-px -left-2 text-center rounded-tl rounded-bl w-2 dark:bg-gray-100 bg-gray-600 dark:text-gray-800 text-gray-100"
+      @mousedown="mouseDownHandler($event, 'left')"
+    >
+      <span>|</span>
+    </div>
 
-		<div
-			ref="handlerRight"
-			class="cursor-c-resize flex flex-col justify-center absolute bottom-0 -top-px -bottom-px -right-2 text-center rounded-tr rounded-br w-2 dark:bg-gray-100 bg-gray-600 dark:text-gray-800 text-gray-100"
-			@mousedown="mouseDownHandler($event, 'right')"
-		>
-			<span>|</span>
-		</div>
-	</div>
+    <div
+      ref="handlerRight"
+      class="cursor-c-resize flex flex-col justify-center absolute bottom-0 -top-px -bottom-px -right-2 text-center rounded-tr rounded-br w-2 dark:bg-gray-100 bg-gray-600 dark:text-gray-800 text-gray-100"
+      @mousedown="mouseDownHandler($event, 'right')"
+    >
+      <span>|</span>
+    </div>
+  </div>
 </template>
 
 <style scoped></style>

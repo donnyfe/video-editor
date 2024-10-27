@@ -15,11 +15,11 @@ const computedIcon = computed(() => {
 </script>
 
 <template>
-	<div class="flex flex-col items-center cursor-pointer">
-		<component
-			class="w-6 h-6"
-			:is="computedIcon"
-		/>
-		<span v-if="props.showText">{{ props.name }}</span>
-	</div>
+  <div class="flex flex-col items-center cursor-pointer">
+    <component
+      :is="computedIcon"
+      class="w-6 h-6"
+    />
+    <span v-if="props.showText">{{ props.name }}</span>
+  </div>
 </template>
