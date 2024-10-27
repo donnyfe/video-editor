@@ -28,8 +28,10 @@ coverage
 
 *.tsbuildinfo
 
-dist
 
+dist
 # 临时文件
 .tmp
 
+deploy.js
+dist.tar.gz

@@ -38,15 +38,7 @@ export default [
 			},
 		},
 		/** @link https://eslint.vuejs.org/rules/ */
-
 		rules: {
-			// 'vue/first-attribute-linebreak': [
-			// 	'error',
-			// 	{
-			// 		singleline: 'beside',
-			// 		multiline: 'below',
-			// 	},
-			// ],
 			'vue/max-attributes-per-line': [
 				'error',
 				{
@@ -61,6 +53,16 @@ export default [
 					startTag: 'never',
 					endTag: 'never',
 					selfClosingTag: 'always',
+				},
+			],
+			// 添加 Sass 相关规则
+			'vue/style-compiler-options': [
+				'error',
+				{
+					sass: {
+						// 使用新的 JavaScript API
+						implementation: 'sass',
+					},
 				},
 			],
 			'vue/no-async-in-computed-properties': 'error',
@@ -126,8 +128,6 @@ export default [
 			curly: ['error', 'all'],
 			// 换行符
 			'linebreak-style': ['off', 'lf'],
-			// 禁止出现未使用过的变量
-			'no-unused-vars': 'error',
 			// 要求 switch 语句中有 default 分支
 			'default-case': 'off',
 			// switch 冒号后要有空格
@@ -180,13 +180,11 @@ export default [
 			'keyword-spacing': 'error',
 			// 一行最后不允许有空格
 			'no-trailing-spaces': 'error',
-
 			// 不允许出现多余的空格
 			'no-multi-spaces': 'error',
-			'no-unused-expressions': 'off',
 		},
 	},
-
+	// 定义忽略内容
 	{
 		ignores: [
 			'**/node_modules/**/*',
@@ -196,6 +194,7 @@ export default [
 			'.husky',
 			'yarn.lock',
 			'package-lock.json',
+			'deploy.js',
 		],
 	},
 ]
