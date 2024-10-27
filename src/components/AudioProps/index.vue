@@ -1,15 +1,13 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
+	import { reactive } from 'vue'
 
-const form = reactive({
-	scale: 0,
-})
+	const form = reactive({
+		scale: 0,
+	})
 </script>
 
 <template>
-	<div class="flex flex-center justify-start px-5 py-2 el-theme-text">
-		音频属性
-	</div>
+	<div class="flex flex-center justify-start px-5 py-2 el-theme-text">音频属性</div>
 	<el-form
 		ref="formRef"
 		:model="form"

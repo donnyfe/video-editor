@@ -58,8 +58,7 @@ export const useTrackStore = defineStore('trackStore', () => {
 	 */
 	function addTrack(resource: Resource) {
 		const line = trackList.find(
-			(item) =>
-				item.type === resource.type && !checkTrackListOverlap(item.list, resource).hasOverlap,
+			item => item.type === resource.type && !checkTrackListOverlap(item.list, resource).hasOverlap,
 		) as TrackListItem | undefined
 
 		if (line) {

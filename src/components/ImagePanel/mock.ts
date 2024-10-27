@@ -27,7 +27,7 @@ const datas = [
 	},
 ]
 
-datas.forEach((item) => {
+datas.forEach(item => {
 	item.id = uniqueId()
 })
 

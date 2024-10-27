@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import { getImageFromUrl } from '@/utils'
+	import { getImageFromUrl } from '@/utils'
 
-defineProps({
-	list: {
-		type: Array<{ id: string; src: string }>,
-		default: () => [],
-	},
-})
+	defineProps({
+		list: {
+			type: Array<{ id: string; src: string }>,
+			default: () => [],
+		},
+	})
 
-const emit = defineEmits(['select'])
+	const emit = defineEmits(['select'])
 
-async function handleClick(item: { id: string; src: string }) {
-	const file = await getImageFromUrl(item)
-	emit('select', file)
-}
+	async function handleClick(item: { id: string; src: string }) {
+		const file = await getImageFromUrl(item)
+		emit('select', file)
+	}
 </script>
 
 <template>
@@ -24,38 +24,35 @@ async function handleClick(item: { id: string; src: string }) {
 			class="flex-center align-start aspect-square rounded-4px overflow-hidden bg-#f2f2f2 dark:bg-black"
 			@click="handleClick(item)"
 		>
-			<el
-				-image
-				src="item.src"
-			/>
+			<el-image :src="item.src" />
 		</li>
 	</ul>
 </template>
 
 <style lang="scss" scoped>
-.list {
-	display: flex;
-	flex-wrap: wrap;
-	align-content: flex-start;
-	gap: 10px;
+	.list {
+		display: flex;
+		flex-wrap: wrap;
+		align-content: flex-start;
+		gap: 10px;
 
-	li {
-		position: relative;
-		width: 82px;
-		cursor: pointer;
+		li {
+			position: relative;
+			width: 82px;
+			cursor: pointer;
 
-		&:hover::after {
-			content: '';
-			position: absolute;
-			top: 0;
-			left: 0;
-			z-index: 999;
-			display: block;
-			width: 100%;
-			height: 100%;
-			border: 1px solid #409eff;
-			border-radius: 4px;
+			&:hover::after {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 0;
+				z-index: 999;
+				display: block;
+				width: 100%;
+				height: 100%;
+				border: 1px solid #409eff;
+				border-radius: 4px;
+			}
 		}
 	}
-}
 </style>

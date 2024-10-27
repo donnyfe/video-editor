@@ -1,72 +1,69 @@
 <script setup lang="ts">
-import { ref, toRaw, reactive, watch } from 'vue'
-import { storeToRefs } from 'pinia'
-import { useTrackStore } from '@/stores'
-import { TextTrack } from '@/classes'
+	import { ref, toRaw, reactive, watch } from 'vue'
+	import { storeToRefs } from 'pinia'
+	import { useTrackStore } from '@/stores'
+	import { TextTrack } from '@/classes'
 
-const activeCollapse = ref(['文字样式', '位置大小'])
+	const activeCollapse = ref(['文字样式', '位置大小'])
 
-const predefineColors = ref([
-	'#ff4500',
-	'#ff8c00',
-	'#ffd700',
-	'#90ee90',
-	'#00ced1',
-	'#1e90ff',
-	'#c71585',
-	'rgba(255, 69, 0, 0.68)',
-	'rgb(255, 120, 0)',
-	'hsv(51, 100, 98)',
-	'hsva(120, 40, 94, 0.5)',
-	'hsl(181, 100%, 37%)',
-	'hsla(209, 100%, 56%, 0.73)',
-	'#c7158577',
-])
+	const predefineColors = ref([
+		'#ff4500',
+		'#ff8c00',
+		'#ffd700',
+		'#90ee90',
+		'#00ced1',
+		'#1e90ff',
+		'#c71585',
+		'rgba(255, 69, 0, 0.68)',
+		'rgb(255, 120, 0)',
+		'hsv(51, 100, 98)',
+		'hsva(120, 40, 94, 0.5)',
+		'hsl(181, 100%, 37%)',
+		'hsla(209, 100%, 56%, 0.73)',
+		'#c7158577',
+	])
 
-const trackStore = useTrackStore()
-const { selectResource, selectedTrack, trackList } = storeToRefs(trackStore)
+	const trackStore = useTrackStore()
+	const { selectResource, selectedTrack, trackList } = storeToRefs(trackStore)
 
-const form = reactive({
-	content: '文本内容',
-	fontSize: 24,
-	fill: '#fff',
-	stroke: '#fff',
-	textBackgroundColor: '#fff',
-	scale: 100,
-	centerX: 0,
-	centerY: 0,
-})
+	const form = reactive({
+		content: '文本内容',
+		fontSize: 24,
+		fill: '#fff',
+		stroke: '#fff',
+		textBackgroundColor: '#fff',
+		scale: 100,
+		centerX: 0,
+		centerY: 0,
+	})
 
-if (selectResource.value && selectResource.value.type === 'text') {
-	Object.assign(form, { ...toRaw(selectResource.value) })
-}
+	if (selectResource.value && selectResource.value.type === 'text') {
+		Object.assign(form, { ...toRaw(selectResource.value) })
+	}
 
-// 监听轨道和资源变化
-watch(
-	[() => selectedTrack.value, () => selectResource.value],
-	(newValue) => {
-		const newResource = newValue[1] as TextTrack
-		if (newResource) {
-			Object.assign(form, { ...toRaw(newResource) })
-		}
-	},
-	{ immediate: true, deep: true, flush: 'post' },
-)
+	// 监听轨道和资源变化
+	watch(
+		[() => selectedTrack.value, () => selectResource.value],
+		newValue => {
+			const newResource = newValue[1] as TextTrack
+			if (newResource) {
+				Object.assign(form, { ...toRaw(newResource) })
+			}
+		},
+		{ immediate: true, deep: true, flush: 'post' },
+	)
 
-// 监听属性变化
-function onChange(key: string, value: any) {
-	const track = trackList.value[selectedTrack.value.line].list[selectedTrack.value.index] as Record<
-		string,
-		any
-	>
-	track[key] = value
-}
+	// 监听属性变化
+	function onChange(key: string, value: any) {
+		const track = trackList.value[selectedTrack.value.line].list[
+			selectedTrack.value.index
+		] as Record<string, any>
+		track[key] = value
+	}
 </script>
 
 <template>
-	<div class="flex flex-center justify-start px-5 py-2 el-theme-text">
-		文本属性
-	</div>
+	<div class="flex flex-center justify-start px-5 py-2 el-theme-text">文本属性</div>
 	<el-form
 		ref="formRef"
 		v-model="form"

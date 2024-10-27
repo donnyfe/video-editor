@@ -15,7 +15,7 @@ class MD5Worker {
 
 	public getFileMD5(file: File): Promise<string> {
 		return new Promise((resolve, reject) => {
-			this.worker.onmessage = (e) => {
+			this.worker.onmessage = e => {
 				if (e.data.md5) {
 					resolve(e.data.md5)
 				} else if (e.data.error) {

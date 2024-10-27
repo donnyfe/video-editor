@@ -1,45 +1,45 @@
 <script setup lang="ts">
-import { ref, watch, type PropType } from 'vue'
-import IconVideo from '@/components/Icons/IconVideo.vue'
-import IconAudio from '@/components/Icons/IconAudio.vue'
-import IconImage from '@/components/Icons/IconImage.vue'
-import IconText from '@/components/Icons/IconText.vue'
-import type { TrackListItem } from '@/types'
+	import { ref, watch, type PropType } from 'vue'
+	import IconVideo from '@/components/Icons/IconVideo.vue'
+	import IconAudio from '@/components/Icons/IconAudio.vue'
+	import IconImage from '@/components/Icons/IconImage.vue'
+	import IconText from '@/components/Icons/IconText.vue'
+	import type { TrackListItem } from '@/types'
 
-const props = defineProps({
-	listData: {
-		type: Array as PropType<TrackListItem[]>,
-		default() {
-			return []
+	const props = defineProps({
+		listData: {
+			type: Array as PropType<TrackListItem[]>,
+			default() {
+				return []
+			},
 		},
-	},
-	offsetTop: {
-		type: Number,
-		default: 0,
-	},
-})
+		offsetTop: {
+			type: Number,
+			default: 0,
+		},
+	})
 
-const componentMap = new Map([
-	['video', IconVideo],
-	['audio', IconAudio],
-	['text', IconText],
-	['image', IconImage],
-])
+	const componentMap = new Map([
+		['video', IconVideo],
+		['audio', IconAudio],
+		['text', IconText],
+		['image', IconImage],
+	])
 
-const TrackHeightMap = new Map([
-	['video', 'h-16'],
-	['audio', 'h-12'],
-	['text', 'h-6'],
-	['image', 'h-6'],
-])
+	const TrackHeightMap = new Map([
+		['video', 'h-16'],
+		['audio', 'h-12'],
+		['text', 'h-6'],
+		['image', 'h-6'],
+	])
 
-const iconList = ref()
-watch(
-	() => props.offsetTop,
-	() => {
-		iconList.value.scrollTop = props.offsetTop
-	},
-)
+	const iconList = ref()
+	watch(
+		() => props.offsetTop,
+		() => {
+			iconList.value.scrollTop = props.offsetTop
+		},
+	)
 </script>
 
 <template>

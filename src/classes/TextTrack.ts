@@ -153,7 +153,7 @@ export class TextTrack extends BaseTrack {
 		const lines = text.split('\n')
 		const lineHeight = size * 1.2
 		// 计算文本最大宽度和高度
-		const textWidth = Math.max(...lines.map((line) => ctx.measureText(line).width))
+		const textWidth = Math.max(...lines.map(line => ctx.measureText(line).width))
 		const textHeight = lines.length * lineHeight
 
 		if (backgroundColor) {

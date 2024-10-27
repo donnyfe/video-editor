@@ -1,90 +1,90 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
-import { useResizeObserver } from '@vueuse/core'
-import IconVideo from '@/components/Icons/IconVideo.vue'
-import { usePlayerStore } from '@/stores'
-import { useCheckTrackIsPlaying } from '@/hooks'
-import LoadingTrack from '@/components/LoadingTrack.vue'
-import { videoDecoder, getUniformSubarray } from '@/utils'
-import type { FrameThumbnails } from '@/utils'
+	import { computed, ref, watch } from 'vue'
+	import { useResizeObserver } from '@vueuse/core'
+	import IconVideo from '@/components/Icons/IconVideo.vue'
+	import { usePlayerStore } from '@/stores'
+	import { useCheckTrackIsPlaying } from '@/hooks'
+	import LoadingTrack from '@/components/LoadingTrack.vue'
+	import { videoDecoder, getUniformSubarray } from '@/utils'
+	import type { FrameThumbnails } from '@/utils'
 
-const props = defineProps({
-	trackItem: {
-		type: Object,
-		default() {
-			return {
-				showWidth: '0px',
-				showLeft: '0px',
-			}
+	const props = defineProps({
+		trackItem: {
+			type: Object,
+			default() {
+				return {
+					showWidth: '0px',
+					showLeft: '0px',
+				}
+			},
 		},
-	},
-})
-const playStore = usePlayerStore()
-playStore.ingLoadingCount++
+	})
+	const playStore = usePlayerStore()
+	playStore.ingLoadingCount++
 
-const container = ref()
-const loading = ref(true)
-const waveFileUrl = ref('')
-const waveStyle = computed(() => {
-	const { start, end, offsetL, offsetR, frameCount } = props.trackItem
-	const showFrameCount = end - start
+	const container = ref()
+	const loading = ref(true)
+	const waveFileUrl = ref('')
+	const waveStyle = computed(() => {
+		const { start, end, offsetL, offsetR, frameCount } = props.trackItem
+		const showFrameCount = end - start
 
-	return {
-		// transform: `scaleX(${(frameCount / showFrameCount).toFixed(2)})`,
-		transformOrigin: 'left top',
-		left: `-${(offsetL / frameCount) * 100}%`,
-		right: `-${(offsetR / frameCount) * 100}%`,
-		width: `${(frameCount / showFrameCount) * 100}%`,
+		return {
+			// transform: `scaleX(${(frameCount / showFrameCount).toFixed(2)})`,
+			transformOrigin: 'left top',
+			left: `-${(offsetL / frameCount) * 100}%`,
+			right: `-${(offsetR / frameCount) * 100}%`,
+			width: `${(frameCount / showFrameCount) * 100}%`,
+		}
+	})
+	const imgs = ref<string[]>([])
+
+	async function initVideo() {
+		const { source } = props.trackItem
+		// 获取视频轨道缩略图
+		const thumbnails = await videoDecoder.thumbnails(source)
+
+		imgs.value = (thumbnails as FrameThumbnails[]).map(({ img }) => URL.createObjectURL(img))
+
+		/**
+		 * TODO: 视频声音波形图
+		 */
+		loading.value = false
+		playStore.ingLoadingCount--
 	}
-})
-const imgs = ref<string[]>([])
 
-async function initVideo() {
-	const { source } = props.trackItem
-	// 获取视频轨道缩略图
-	const thumbnails = await videoDecoder.thumbnails(source)
+	const el = ref()
 
-	imgs.value = (thumbnails as FrameThumbnails[]).map(({ img }) => URL.createObjectURL(img))
+	const containerWidth = ref<number>(100)
 
-	/**
-	 * TODO: 视频声音波形图
-	 */
-	loading.value = false
-	playStore.ingLoadingCount--
-}
+	useResizeObserver(el, entries => {
+		const entry = entries[0]
+		const { width } = entry.contentRect
+		containerWidth.value = width
+	})
 
-const el = ref()
+	const visibleThumbnails = computed(() => {
+		if (imgs.value.length === 0) {
+			return []
+		}
+		const { start, end, frameCount } = props.trackItem
+		const showFrameCount = end - start
+		const num = Math.ceil((containerWidth.value * frameCount) / showFrameCount / 50)
+		return getUniformSubarray(imgs.value, num)
+	})
 
-const containerWidth = ref<number>(100)
+	watch(
+		() => {
+			return props.trackItem.source
+		},
+		initVideo,
+		{
+			immediate: true,
+			flush: 'post',
+		},
+	)
 
-useResizeObserver(el, (entries) => {
-	const entry = entries[0]
-	const { width } = entry.contentRect
-	containerWidth.value = width
-})
-
-const visibleThumbnails = computed(() => {
-	if (imgs.value.length === 0) {
-		return []
-	}
-	const { start, end, frameCount } = props.trackItem
-	const showFrameCount = end - start
-	const num = Math.ceil((containerWidth.value * frameCount) / showFrameCount / 50)
-	return getUniformSubarray(imgs.value, num)
-})
-
-watch(
-	() => {
-		return props.trackItem.source
-	},
-	initVideo,
-	{
-		immediate: true,
-		flush: 'post',
-	},
-)
-
-useCheckTrackIsPlaying(props)
+	useCheckTrackIsPlaying(props)
 </script>
 
 <template>
@@ -111,7 +111,7 @@ useCheckTrackIsPlaying(props)
 				alt=""
 				class="image-item"
 				draggable="false"
-			>
+			/>
 		</div>
 		<div class="leading-3 pl-2 overflow-hidden h-3 bg-gray-700 relative">
 			<img
@@ -120,7 +120,7 @@ useCheckTrackIsPlaying(props)
 				class="absolute left-0 right-0 top-0 bottom-0 h-full min-w-full"
 				:style="waveStyle"
 				alt=""
-			>
+			/>
 		</div>
 		<LoadingTrack
 			v-show="loading"
@@ -130,10 +130,10 @@ useCheckTrackIsPlaying(props)
 </template>
 
 <style scope>
-.image-item {
-	display: inline-block;
-	width: 50px;
-	object-fit: cover;
-	height: 100%;
-}
+	.image-item {
+		display: inline-block;
+		width: 50px;
+		object-fit: cover;
+		height: 100%;
+	}
 </style>

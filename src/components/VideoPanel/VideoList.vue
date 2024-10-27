@@ -1,7 +1,4 @@
-<script setup lang="ts">
-
-
-</script>
+<script setup lang="ts"></script>
 
 <template>
 	<ul class="video-list flex flex-center justify-center flex-wrap">
@@ -31,9 +28,9 @@
 </template>
 
 <style lang="scss" scoped>
-ul {
-	margin: 0;
-	padding: 0;
-	list-style: none;
-}
+	ul {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
 </style>

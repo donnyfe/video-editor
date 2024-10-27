@@ -1,20 +1,20 @@
 <script setup lang="ts">
-import IconText from '@/components/Icons/IconText.vue'
-import { useCheckTrackIsPlaying } from '@/hooks'
+	import IconText from '@/components/Icons/IconText.vue'
+	import { useCheckTrackIsPlaying } from '@/hooks'
 
-const props = defineProps({
-	trackItem: {
-		type: Object,
-		default() {
-			return {
-				width: '0px',
-				left: '0px',
-			}
+	const props = defineProps({
+		trackItem: {
+			type: Object,
+			default() {
+				return {
+					width: '0px',
+					left: '0px',
+				}
+			},
 		},
-	},
-})
+	})
 
-useCheckTrackIsPlaying(props)
+	useCheckTrackIsPlaying(props)
 </script>
 
 <template>

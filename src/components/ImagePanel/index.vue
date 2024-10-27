@@ -1,73 +1,73 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { uniqueId } from 'lodash-es'
-import type { UploadUserFile } from 'element-plus'
-import { UploadFilled } from '@element-plus/icons-vue'
-import { ImageTrack } from '@/classes'
-import ImageList from './ImageList.vue'
-import { useTrackStore, usePlayerStore } from '@/stores'
-import { decodeImage } from '@/utils'
-import type { Frames } from '@/types'
-import { datas } from './mock'
-import MD5Worker from '@/utils/MD5Worker'
+	import { ref } from 'vue'
+	import { uniqueId } from 'lodash-es'
+	import type { UploadUserFile } from 'element-plus'
+	import { UploadFilled } from '@element-plus/icons-vue'
+	import { ImageTrack } from '@/classes'
+	import ImageList from './ImageList.vue'
+	import { useTrackStore, usePlayerStore } from '@/stores'
+	import { decodeImage } from '@/utils'
+	import type { Frames } from '@/types'
+	import { datas } from './mock'
+	import MD5Worker from '@/utils/MD5Worker'
 
-const trackStore = useTrackStore()
-const playerStore = usePlayerStore()
+	const trackStore = useTrackStore()
+	const playerStore = usePlayerStore()
 
-const imageList = ref<{ id: string; src: string }[]>(datas)
+	const imageList = ref<{ id: string; src: string }[]>(datas)
 
-function onSelect(file: File) {
-	dillImage(file)
-}
-
-function onUpload(userFile: UploadUserFile) {
-	const file = userFile.raw as File
-	// 添加图片
-	imageList.value.push({
-		id: uniqueId(),
-		src: URL.createObjectURL(file),
-	})
-	// 处理图像
-	dillImage(file)
-}
-
-/**
- * 处理图像
- * @param file
- */
-async function dillImage(file: File) {
-	console.time('生成md5耗时')
-	const md5 = await MD5Worker.getInstance().getFileMD5(file)
-	console.timeEnd('生成md5耗时')
-
-	// 解码图像
-	const frames = (await decodeImage(md5, file)) as Frames[]
-
-	// 添加轨道
-	addTrack(md5, file, frames)
-}
-
-/**
- * 添加轨道
- * @param md5
- * @param file
- * @param frames
- */
-function addTrack(md5: string, file: File, frames: Frames) {
-	const width = frames[0].codedWidth
-	const height = frames[0].codedHeight
-	const trackOptions = {
-		id: md5,
-		url: URL.createObjectURL(file),
-		name: file.name,
-		format: file.type,
-		width,
-		height,
+	function onSelect(file: File) {
+		dillImage(file)
 	}
-	const imageTrack = new ImageTrack(trackOptions, playerStore.playFrame)
-	imageTrack.resize({ width: playerStore.playerWidth, height: playerStore.playerHeight })
-	trackStore.addTrack(imageTrack)
-}
+
+	function onUpload(userFile: UploadUserFile) {
+		const file = userFile.raw as File
+		// 添加图片
+		imageList.value.push({
+			id: uniqueId(),
+			src: URL.createObjectURL(file),
+		})
+		// 处理图像
+		dillImage(file)
+	}
+
+	/**
+	 * 处理图像
+	 * @param file
+	 */
+	async function dillImage(file: File) {
+		console.time('生成md5耗时')
+		const md5 = await MD5Worker.getInstance().getFileMD5(file)
+		console.timeEnd('生成md5耗时')
+
+		// 解码图像
+		const frames = (await decodeImage(md5, file)) as Frames[]
+
+		// 添加轨道
+		addTrack(md5, file, frames)
+	}
+
+	/**
+	 * 添加轨道
+	 * @param md5
+	 * @param file
+	 * @param frames
+	 */
+	function addTrack(md5: string, file: File, frames: Frames) {
+		const width = frames[0].codedWidth
+		const height = frames[0].codedHeight
+		const trackOptions = {
+			id: md5,
+			url: URL.createObjectURL(file),
+			name: file.name,
+			format: file.type,
+			width,
+			height,
+		}
+		const imageTrack = new ImageTrack(trackOptions, playerStore.playFrame)
+		imageTrack.resize({ width: playerStore.playerWidth, height: playerStore.playerHeight })
+		trackStore.addTrack(imageTrack)
+	}
 </script>
 
 <template>
@@ -87,9 +87,7 @@ function addTrack(md5: string, file: File, frames: Frames) {
 					<el-icon class="el-icon--upload">
 						<UploadFilled />
 					</el-icon>
-					<div class="el-upload__text">
-						拖拽文件到此处 或 <em>点击上传</em>
-					</div>
+					<div class="el-upload__text">拖拽文件到此处 或 <em>点击上传</em></div>
 				</el-upload>
 
 				<div class="flex-1 overflow-hidden">

@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import { computed, reactive } from 'vue'
-import SplitLine from '@/layouts/SplitLine.vue'
-import TrackControl from './TrackControl.vue'
-import TrackList from './TrackList.vue'
-import { useGlobalStore, useTrackStore } from '@/stores'
+	import { computed, reactive } from 'vue'
+	import SplitLine from '@/layouts/SplitLine.vue'
+	import TrackControl from './TrackControl.vue'
+	import TrackList from './TrackList.vue'
+	import { useGlobalStore, useTrackStore } from '@/stores'
 
-const globalStore = useGlobalStore()
-const trackStore = useTrackStore()
+	const globalStore = useGlobalStore()
+	const trackStore = useTrackStore()
 
-const panelStyle = computed(() => ({
-	height: `${globalStore.controlsPanelHeight}px`,
-}))
+	const panelStyle = computed(() => ({
+		height: `${globalStore.controlsPanelHeight}px`,
+	}))
 
-const limitSize = reactive({
-	minHeight: 200,
-	maxHeight: document.body.getBoundingClientRect().height / 2,
-})
+	const limitSize = reactive({
+		minHeight: 200,
+		maxHeight: document.body.getBoundingClientRect().height / 2,
+	})
 </script>
 
 <template>

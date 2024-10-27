@@ -36,7 +36,7 @@ export function createStereoPanner(context: AudioContext, pan: number = 0): Ster
 
 // 连接节点
 export function connectNodes(source: AudioNode, ...destinations: AudioNode[]): void {
-	destinations.forEach((dest) => source.connect(dest))
+	destinations.forEach(dest => source.connect(dest))
 }
 
 // 播放音频

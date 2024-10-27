@@ -11,7 +11,7 @@ export function checkTrackItemOverlap(trackList: any[], checkItem: any) {
 	let overLapIndex = -1
 	let insertIndex = 0
 	const hasOverlap = trackList
-		.filter((item) => item.id !== checkItem.id)
+		.filter(item => item.id !== checkItem.id)
 		.some((trackItem, index) => {
 			const { start, end } = trackItem
 			/**
@@ -53,7 +53,7 @@ export const getCurrentTrackItemList = <T>(
 ): T[] => {
 	const trackItems: T[] = []
 	trackList.forEach(({ list }) => {
-		list.forEach((trackItem) => {
+		list.forEach(trackItem => {
 			const { start, end } = trackItem
 			if (start <= currentFrame && end >= currentFrame && isOfType(trackItem)) {
 				trackItems.push(trackItem)

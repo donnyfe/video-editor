@@ -67,7 +67,7 @@ export function getTextRect({
 	const lineHeight = fontSize * 1.2 // Adjust line height as needed
 
 	// 测量文本宽度且取最大值
-	const textWidth = Math.max(...lines.map((line) => ctx.measureText(line).width))
+	const textWidth = Math.max(...lines.map(line => ctx.measureText(line).width))
 	// 计算文本总高度
 	const totalHeight = lines.length * lineHeight
 

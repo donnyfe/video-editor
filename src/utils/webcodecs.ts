@@ -170,15 +170,15 @@ class VideoDecoder {
 	clearCache(id: string) {
 		const cache = this.#frameCache.get(id)
 		if (cache) {
-			cache.forEach((frame) => frame.close())
+			cache.forEach(frame => frame.close())
 			cache.clear()
 		}
 	}
 
 	// 清理所有缓存
 	clearAllCaches() {
-		this.#frameCache.forEach((cache) => {
-			cache.forEach((frame) => frame.close())
+		this.#frameCache.forEach(cache => {
+			cache.forEach(frame => frame.close())
 			cache.clear()
 		})
 		this.#frameCache.clear()
@@ -202,14 +202,14 @@ export function decodeVideo(id: string, file: File) {
 				type: file.type,
 				stream: file.stream(),
 			})
-			.then((clip) => {
+			.then(clip => {
 				console.timeEnd('解析视频耗时')
 				if (!clip) {
 					return ElMessage.error('解析视频失败')
 				}
 				resolve(clip)
 			})
-			.catch((err) => {
+			.catch(err => {
 				reject(err)
 			})
 	})
@@ -258,14 +258,14 @@ export function decodeAudio(id: string, file: File): Promise<any> {
 		console.time('解析音频耗时')
 		audioDecoder
 			.decode({ id, stream: file.stream(), type: file.type })
-			.then((frames) => {
+			.then(frames => {
 				console.timeEnd('解析音频耗时')
 				if (!frames) {
 					return ElMessage.error('解析音频失败')
 				}
 				resolve(frames)
 			})
-			.catch((err) => {
+			.catch(err => {
 				reject(err)
 			})
 	})
@@ -320,14 +320,14 @@ export function decodeImage(id: string, file: File): Promise<any> {
 		console.time('解析图像耗时')
 		imageDecoder
 			.decode({ id, stream: file.stream(), type: file.type })
-			.then((frames) => {
+			.then(frames => {
 				console.timeEnd('解析图像耗时')
 				if (!frames) {
 					return ElMessage.error('解析图像失败')
 				}
 				resolve(frames)
 			})
-			.catch((err) => {
+			.catch(err => {
 				reject(err)
 			})
 	})

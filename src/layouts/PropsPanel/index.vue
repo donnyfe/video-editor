@@ -1,42 +1,44 @@
 <script setup lang="ts">
-import { computed, reactive, watch, ref } from 'vue'
-import SplitLine from '@/layouts/SplitLine.vue'
-import IconPropsEmpty from '@/components/Icons/IconPropsEmpty.vue'
-import { useGlobalStore, useTrackStore } from '@/stores'
-import resourceTypes from './resourceTypes'
+	import { computed, reactive, watch, ref } from 'vue'
+	import SplitLine from '@/layouts/SplitLine.vue'
+	import IconPropsEmpty from '@/components/Icons/IconPropsEmpty.vue'
+	import { useGlobalStore, useTrackStore } from '@/stores'
+	import resourceTypes from './resourceTypes'
 
-const globalStore = useGlobalStore()
-const trackStore = useTrackStore()
+	const globalStore = useGlobalStore()
+	const trackStore = useTrackStore()
 
-const panelStyle = computed(() => {
-	return {
-		width: `${globalStore.propsPanelWidth}px`,
+	const panelStyle = computed(() => {
+		return {
+			width: `${globalStore.propsPanelWidth}px`,
+		}
+	})
+
+	const limitSize = reactive({
+		minWidth: 200,
+		maxWidth: document.body.getBoundingClientRect().width / 2,
+	})
+
+	const resourceType = ref('')
+
+	const hasSelectedTrack = ref(false)
+	const selectResource = computed(() => trackStore.selectResource)
+
+	function renderPropsPanel(resource: any) {
+		if (!resource || !resource.type) {
+			return
+		}
+		resourceType.value = resource.type
 	}
-})
 
-const limitSize = reactive({
-	minWidth: 200,
-	maxWidth: document.body.getBoundingClientRect().width / 2,
-})
-
-const resourceType = ref('')
-
-const hasSelectedTrack = ref(false)
-const selectResource = computed(() => trackStore.selectResource)
-
-function renderPropsPanel(resource: any) {
-	if (!resource || !resource.type) {return}
-	resourceType.value = resource.type
-}
-
-watch(selectResource, (newResource) => {
-	if (newResource) {
-		hasSelectedTrack.value = true
-		renderPropsPanel(newResource)
-	} else {
-		hasSelectedTrack.value = false
-	}
-})
+	watch(selectResource, newResource => {
+		if (newResource) {
+			hasSelectedTrack.value = true
+			renderPropsPanel(newResource)
+		} else {
+			hasSelectedTrack.value = false
+		}
+	})
 </script>
 
 <template>

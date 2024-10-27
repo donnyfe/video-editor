@@ -85,7 +85,7 @@ export function getPlaylist(videoElement: HTMLVideoElement): HTMLSourceElement[]
 // 切换到下一个视频源
 export function switchToNextSource(videoElement: HTMLVideoElement): void {
 	const sources = getPlaylist(videoElement)
-	const currentIndex = sources.findIndex((source) => source.src === videoElement.currentSrc)
+	const currentIndex = sources.findIndex(source => source.src === videoElement.currentSrc)
 	const nextIndex = (currentIndex + 1) % sources.length
 	videoElement.src = sources[nextIndex].src
 	videoElement.play()
@@ -103,7 +103,7 @@ export function addTextTrack(
 
 // 获取当前活动的字幕轨道
 export function getActiveTextTrack(videoElement: HTMLVideoElement): TextTrack | null {
-	return Array.from(videoElement.textTracks).find((track) => track.mode === 'showing') || null
+	return Array.from(videoElement.textTracks).find(track => track.mode === 'showing') || null
 }
 
 // 设置播放质量
@@ -310,7 +310,7 @@ export function isFullscreenSupported(videoElement: HTMLVideoElement): boolean {
 // 切换全屏模式
 export function toggleFullscreen(element: HTMLElement): void {
 	if (!document.fullscreenElement) {
-		element.requestFullscreen().catch((err) => {
+		element.requestFullscreen().catch(err => {
 			console.error(`全屏请求失败: ${err.message}`)
 		})
 	} else {

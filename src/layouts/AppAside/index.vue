@@ -1,25 +1,25 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import AsideItem from './AsideItem.vue'
-import type { MenuItem } from '@/types'
+	import { ref } from 'vue'
+	import AsideItem from './AsideItem.vue'
+	import type { MenuItem } from '@/types'
 
-const emit = defineEmits({
-	toggle: (data: MenuItem) => typeof data === 'object',
-})
+	const emit = defineEmits({
+		toggle: (data: MenuItem) => typeof data === 'object',
+	})
 
-const menuItems: MenuItem[] = [
-	{ name: '视频', type: 'video' },
-	{ name: '音频', type: 'audio' },
-	{ name: '文字', type: 'text' },
-	{ name: '贴纸', type: 'image' },
-]
+	const menuItems: MenuItem[] = [
+		{ name: '视频', type: 'video' },
+		{ name: '音频', type: 'audio' },
+		{ name: '文字', type: 'text' },
+		{ name: '贴纸', type: 'image' },
+	]
 
-const activeType = ref<string>(menuItems[0].type)
+	const activeType = ref<string>(menuItems[0].type)
 
-function toggle(item: MenuItem) {
-	activeType.value = item.type
-	emit('toggle', item)
-}
+	function toggle(item: MenuItem) {
+		activeType.value = item.type
+		emit('toggle', item)
+	}
 </script>
 
 <template>
@@ -51,13 +51,13 @@ function toggle(item: MenuItem) {
 </template>
 
 <style lang="scss" scoped>
-.aside-item {
-	border-radius: 4px;
-	// background: #fff;
-	// color: var(--el-color-primary);
-}
+	.aside-item {
+		border-radius: 4px;
+		// background: #fff;
+		// color: var(--el-color-primary);
+	}
 
-.aside-item.is-active {
-	@apply bg-white dark:bg-dark color-[var(--el-color-primary)] dark:color-white;
-}
+	.aside-item.is-active {
+		@apply bg-white dark:bg-dark color-[var(--el-color-primary)] dark:color-white;
+	}
 </style>

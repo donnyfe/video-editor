@@ -1,108 +1,109 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
-import { VideoPlay, VideoPause } from '@element-plus/icons-vue'
-import { usePlayerStore, useTrackStore } from '@/stores'
-import {
-	formatPlayerTime,
-	preciseInterval,
-	getCurrentTrackItemList,
-	isOfCanPlayType,
-} from '@/utils'
-
-const props = defineProps({
-	disable: {
-		type: Boolean,
-		default: false,
-	},
-})
-const store = usePlayerStore()
-const trackStore = useTrackStore()
-
-const playTime = computed(() => {
-	return formatPlayerTime(store.playFrame)
-})
-const allTime = computed(() => {
-	return formatPlayerTime(trackStore.frameCount)
-})
-let playTimer = ref()
-const timeStamp = 1000 / 30
-// 视频暂停
-const pauseVideo = () => {
-	if (props.disable) {
-		return
-	}
-	store.isPause = true
-	playTimer.value?.cancel()
-
-	const trackItemList = getCurrentTrackItemList(
-		trackStore.trackList,
-		store.playFrame,
+	import { ref, computed, watch } from 'vue'
+	import { VideoPlay, VideoPause } from '@element-plus/icons-vue'
+	import { usePlayerStore, useTrackStore } from '@/stores'
+	import {
+		formatPlayerTime,
+		preciseInterval,
+		getCurrentTrackItemList,
 		isOfCanPlayType,
-	)
-	trackItemList.forEach((item) => {
-		item?.pause()
+	} from '@/utils'
+
+	const props = defineProps({
+		disable: {
+			type: Boolean,
+			default: false,
+		},
 	})
-}
+	const store = usePlayerStore()
+	const trackStore = useTrackStore()
 
-/**
- * 开始播放
- */
-function startPlay() {
-	if (props.disable) {
-		return
+	const playTime = computed(() => {
+		return formatPlayerTime(store.playFrame)
+	})
+	const allTime = computed(() => {
+		return formatPlayerTime(trackStore.frameCount)
+	})
+	let playTimer = ref()
+	const timeStamp = 1000 / 30
+	// 视频暂停
+	const pauseVideo = () => {
+		if (props.disable) {
+			return
+		}
+		store.isPause = true
+		playTimer.value?.cancel()
+
+		const trackItemList = getCurrentTrackItemList(
+			trackStore.trackList,
+			store.playFrame,
+			isOfCanPlayType,
+		)
+		trackItemList.forEach(item => {
+			item?.pause()
+		})
 	}
-	if (store.playFrame >= trackStore.frameCount) {
-		store.playFrame = 0
+
+	/**
+	 * 开始播放
+	 */
+	function startPlay() {
+		if (props.disable) {
+			return
+		}
+		if (store.playFrame >= trackStore.frameCount) {
+			store.playFrame = 0
+		}
+		store.isPause = false
+		playTimer.value?.cancel()
+		playTimer.value = preciseInterval(() => {
+			store.playFrame++
+			if (store.playFrame === trackStore.frameCount) {
+				pauseVideo()
+			}
+		}, timeStamp)
 	}
-	store.isPause = false
-	playTimer.value?.cancel()
-	playTimer.value = preciseInterval(() => {
-		store.playFrame++
-		if (store.playFrame === trackStore.frameCount) {
-			pauseVideo()
-		}
-	}, timeStamp)
-}
-// 在一些操作时，需要暂停播放
-watch(
-	() => store.isPause,
-	() => {
-		if (store.isPause) {
-			pauseVideo()
-		}
-	},
-)
-watch(
-	() => store.playFrame,
-	() => {
-		if (!store.isPause) {
-			// 播放声音，查询当前帧的数据
-			const trackItemList = getCurrentTrackItemList(
-				trackStore.trackList,
-				store.playFrame,
-				isOfCanPlayType,
-			)
-			trackItemList.forEach((item) => {
-				item?.play(store.playFrame)
-			})
-		}
-	},
-)
+	// 在一些操作时，需要暂停播放
+	watch(
+		() => store.isPause,
+		() => {
+			if (store.isPause) {
+				pauseVideo()
+			}
+		},
+	)
+	watch(
+		() => store.playFrame,
+		() => {
+			if (!store.isPause) {
+				// 播放声音，查询当前帧的数据
+				const trackItemList = getCurrentTrackItemList(
+					trackStore.trackList,
+					store.playFrame,
+					isOfCanPlayType,
+				)
+				trackItemList.forEach(item => {
+					item?.play(store.playFrame)
+				})
+			}
+		},
+	)
 
-const aspectRatioList = [
-	{ label: '16:9', value: '16:9' },
-	{ label: '9:16', value: '9:16' },
-]
+	const aspectRatioList = [
+		{ label: '16:9', value: '16:9' },
+		{ label: '9:16', value: '9:16' },
+	]
 
-function onChangeAspectRatio(val: string) {
-	store.aspectRatio = val
-}
+	function onChangeAspectRatio(val: string) {
+		store.aspectRatio = val
+	}
 </script>
 
 <template>
 	<div class="flex flex-center pl-4 pr-4 h-8 border-t dark:border-darker border-gray-300">
 		<div class="h-full text-xs leading-8">
-			<span class="text-[var(--el-color-primary)] mr-1 w-20 inline-block">{{ playTime }}</span>/<span class="ml-2 w-20">{{ allTime }}</span>
+			<span class="text-[var(--el-color-primary)] mr-1 w-20 inline-block">{{ playTime }}</span
+			>/<span class="ml-2 w-20">{{ allTime }}</span>
 		</div>
 
 		<div class="flex items-center m-auto">

@@ -24,7 +24,7 @@ export function formatFileSize(bytes: number) {
 export const compareSize = (size: number, target: string): boolean => {
 	const k = 1024
 	const sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
-	const i = sizes.findIndex((item) => item === target.replace(/\d+/, ''))
+	const i = sizes.findIndex(item => item === target.replace(/\d+/, ''))
 	return size > parseInt(target) * k ** i
 }
 
@@ -130,7 +130,7 @@ export const selectFile = (options: FileUploadOptions): Promise<File[]> => {
 			// 获取文件列表
 			if (files) {
 				const length = files.length
-				files = files.filter((file) => {
+				files = files.filter(file => {
 					if (options.max) {
 						return !compareSize((file as File).size, options.max)
 					} else {

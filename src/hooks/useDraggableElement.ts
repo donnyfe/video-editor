@@ -40,7 +40,7 @@ export class DraggableElement {
 
 	private createHandles(): void {
 		const handlePositions = ['nw', 'n', 'ne', 'w', 'e', 'sw', 's', 'se', 'rotate']
-		handlePositions.forEach((position) => {
+		handlePositions.forEach(position => {
 			const handle = document.createElement('div')
 			handle.className = `handle handle-${position}`
 			handle.style.display = 'none'
@@ -147,7 +147,7 @@ export class DraggableElement {
 	}
 
 	private toggleHandles(): void {
-		this.handles.forEach((handle) => {
+		this.handles.forEach(handle => {
 			handle.style.display = handle.style.display === 'none' ? 'block' : 'none'
 		})
 	}

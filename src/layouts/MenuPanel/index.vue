@@ -1,46 +1,46 @@
 <script setup lang="ts">
-import { ref, watch, computed, defineEmits, defineProps } from 'vue'
-import IconDArrowLeft from '@/components/Icons/IconDArrowLeft.vue'
-import resourceTypes from './resourceTypes'
+	import { ref, watch, computed, defineEmits, defineProps } from 'vue'
+	import IconDArrowLeft from '@/components/Icons/IconDArrowLeft.vue'
+	import resourceTypes from './resourceTypes'
 
-const props = defineProps({
-	acitve: {
-		type: String,
-		default: '',
-	},
-	title: {
-		type: String,
-		default: '',
-	},
-	visible: {
-		type: Boolean,
-		default: true,
-	},
-})
+	const props = defineProps({
+		acitve: {
+			type: String,
+			default: '',
+		},
+		title: {
+			type: String,
+			default: '',
+		},
+		visible: {
+			type: Boolean,
+			default: true,
+		},
+	})
 
-const emit = defineEmits({
-	collapse(visible: boolean) {
-		return visible !== null
-	},
-})
+	const emit = defineEmits({
+		collapse(visible: boolean) {
+			return visible !== null
+		},
+	})
 
-const visible = ref(props.visible)
+	const visible = ref(props.visible)
 
-watch(
-	() => props.visible,
-	(newVal) => {
-		visible.value = newVal
-	},
-)
+	watch(
+		() => props.visible,
+		newVal => {
+			visible.value = newVal
+		},
+	)
 
-function toggle() {
-	visible.value = !visible.value
-	emit('collapse', visible.value)
-}
+	function toggle() {
+		visible.value = !visible.value
+		emit('collapse', visible.value)
+	}
 
-const resourcePanel = computed(() => {
-	return resourceTypes[props.acitve as keyof typeof resourceTypes]
-})
+	const resourcePanel = computed(() => {
+		return resourceTypes[props.acitve as keyof typeof resourceTypes]
+	})
 </script>
 
 <template>
