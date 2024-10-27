@@ -23,31 +23,31 @@ function toggle(item: MenuItem) {
 </script>
 
 <template>
-  <div class="app-aside w-64px h-full pl-2 py-2 flex flex-col justify-between el-theme">
-    <div class="px-2 py-2 h-full flex flex-col bg-[var(--el-color-primary)] rounded-lg">
-      <div
-        v-for="item in menuItems"
-        :key="item.type"
-        class="aside-item py-3 hover:cursor-pointer select-none"
-        :class="
-          activeType === item.type
-            ? 'is-active text-dark dark:text-white'
-            : 'text-white dark:text-dark'
-        "
-        @click.prevent="toggle(item)"
-      >
-        <el-tooltip
-          :content="item.name"
-          placement="right"
-        >
-          <AsideItem
-            :type="item.type"
-            :name="item.name"
-          />
-        </el-tooltip>
-      </div>
-    </div>
-  </div>
+	<div class="app-aside w-64px h-full pl-2 py-2 flex flex-col justify-between el-theme">
+		<div class="px-2 py-2 h-full flex flex-col bg-[var(--el-color-primary)] rounded-lg">
+			<div
+				v-for="item in menuItems"
+				:key="item.type"
+				class="aside-item py-3 hover:cursor-pointer select-none"
+				:class="
+					activeType === item.type
+						? 'is-active text-dark dark:text-white'
+						: 'text-white dark:text-dark'
+				"
+				@click.prevent="toggle(item)"
+			>
+				<el-tooltip
+					:content="item.name"
+					placement="right"
+				>
+					<AsideItem
+						:type="item.type"
+						:name="item.name"
+					/>
+				</el-tooltip>
+			</div>
+		</div>
+	</div>
 </template>
 
 <style lang="scss" scoped>

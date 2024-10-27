@@ -218,28 +218,28 @@ const mouseDownHandler = (event: MouseEvent, type: string) => {
 </script>
 
 <template>
-  <div
-    v-show="isActive"
-    ref="el"
-    class="absolute left-0 right-0 top-0 bottom-0 border z-20"
-    :class="{ 'dark:border-gray-100 border-gray-600': isActive }"
-  >
-    <div
-      ref="handlerLeft"
-      class="cursor-c-resize flex flex-col justify-center absolute bottom-0 -top-px -bottom-px -left-2 text-center rounded-tl rounded-bl w-2 dark:bg-gray-100 bg-gray-600 dark:text-gray-800 text-gray-100"
-      @mousedown="mouseDownHandler($event, 'left')"
-    >
-      <span>|</span>
-    </div>
+	<div
+		v-show="isActive"
+		ref="el"
+		class="absolute left-0 right-0 top-0 bottom-0 border z-20"
+		:class="{ 'dark:border-gray-100 border-gray-600': isActive }"
+	>
+		<div
+			ref="handlerLeft"
+			class="cursor-c-resize flex flex-col justify-center absolute bottom-0 -top-px -bottom-px -left-2 text-center rounded-tl rounded-bl w-2 dark:bg-gray-100 bg-gray-600 dark:text-gray-800 text-gray-100"
+			@mousedown="mouseDownHandler($event, 'left')"
+		>
+			<span>|</span>
+		</div>
 
-    <div
-      ref="handlerRight"
-      class="cursor-c-resize flex flex-col justify-center absolute bottom-0 -top-px -bottom-px -right-2 text-center rounded-tr rounded-br w-2 dark:bg-gray-100 bg-gray-600 dark:text-gray-800 text-gray-100"
-      @mousedown="mouseDownHandler($event, 'right')"
-    >
-      <span>|</span>
-    </div>
-  </div>
+		<div
+			ref="handlerRight"
+			class="cursor-c-resize flex flex-col justify-center absolute bottom-0 -top-px -bottom-px -right-2 text-center rounded-tr rounded-br w-2 dark:bg-gray-100 bg-gray-600 dark:text-gray-800 text-gray-100"
+			@mousedown="mouseDownHandler($event, 'right')"
+		>
+			<span>|</span>
+		</div>
+	</div>
 </template>
 
 <style scoped></style>

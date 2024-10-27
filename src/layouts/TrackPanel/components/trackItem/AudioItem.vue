@@ -91,23 +91,23 @@ useCheckTrackIsPlaying(props)
 </script>
 
 <template>
-  <div class="flex flex-col rounded overflow-hidden h-full">
-    <div
-      class="flex items-center text-xs pl-2 overflow-hidden h-5 leading-5 bg-blue-500 bg-opacity-50 text-gray-100"
-    >
-      <IconAudio class="inline-block mr-2 shrink-0" />
-      <span class="mr-4 shrink-0">{{ `${trackItem.name}.${trackItem.format}` }}</span>
-    </div>
-    <div class="overflow-hidden bg-blue-900 bg-opacity-60 flex-1 relative">
-      <div
-        ref="waveRef"
-        class="absolute"
-        :style="waveStyle"
-      />
-    </div>
-    <LoadingTrack
-      v-show="loading"
-      class="pl-12 bg-opacity-70"
-    />
-  </div>
+	<div class="flex flex-col rounded overflow-hidden h-full">
+		<div
+			class="flex items-center text-xs pl-2 overflow-hidden h-5 leading-5 bg-blue-500 bg-opacity-50 text-gray-100"
+		>
+			<IconAudio class="inline-block mr-2 shrink-0" />
+			<span class="mr-4 shrink-0">{{ `${trackItem.name}.${trackItem.format}` }}</span>
+		</div>
+		<div class="overflow-hidden bg-blue-900 bg-opacity-60 flex-1 relative">
+			<div
+				ref="waveRef"
+				class="absolute"
+				:style="waveStyle"
+			/>
+		</div>
+		<LoadingTrack
+			v-show="loading"
+			class="pl-12 bg-opacity-70"
+		/>
+	</div>
 </template>

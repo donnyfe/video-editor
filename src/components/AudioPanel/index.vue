@@ -48,14 +48,16 @@ function addTrack(id: string, file: File, clip: AudioClip) {
 
 <template>
 	<div class="audio-panel mx-4 my-4">
-		<el-upload ref="uploadRef"
+		<el-upload
+			ref="uploadRef"
 			class="upload-demo"
 			drag
 			accept=".mp3,.wav"
 			:multiple="false"
 			:auto-upload="false"
 			:show-file-list="false"
-			:on-change="onUpload">
+			:on-change="onUpload"
+		>
 			<el-icon class="el-icon--upload">
 				<UploadFilled />
 			</el-icon>

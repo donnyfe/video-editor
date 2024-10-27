@@ -27,6 +27,7 @@ coverage
 *.sw?
 
 *.tsbuildinfo
+.prettierrc.json
 
 
 dist

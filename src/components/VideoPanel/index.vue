@@ -53,31 +53,31 @@ function addTrack(id: string, file: File, clip: MP4Clip) {
 </script>
 
 <template>
-  <div class="video-panel mx-4 my-4">
-    <el-upload
-      ref="uploadRef"
-      class="video-uploader"
-      drag
-      accept=".mp4"
-      :multiple="false"
-      :auto-upload="false"
-      :on-change="onUpload"
-    >
-      <el-icon class="el-icon--upload">
-        <UploadFilled />
-      </el-icon>
-      <div class="el-upload__text">
-        拖拽文件到此处 或 <em>点击上传</em>
-      </div>
-      <template #tip>
-        <div class="el-upload__tip">
-          提示: 文件应小于500MB
-        </div>
-      </template>
-    </el-upload>
+	<div class="video-panel mx-4 my-4">
+		<el-upload
+			ref="uploadRef"
+			class="video-uploader"
+			drag
+			accept=".mp4"
+			:multiple="false"
+			:auto-upload="false"
+			:on-change="onUpload"
+		>
+			<el-icon class="el-icon--upload">
+				<UploadFilled />
+			</el-icon>
+			<div class="el-upload__text">
+				拖拽文件到此处 或 <em>点击上传</em>
+			</div>
+			<template #tip>
+				<div class="el-upload__tip">
+					提示: 文件应小于500MB
+				</div>
+			</template>
+		</el-upload>
 
-    <VideoList />
-  </div>
+		<VideoList />
+	</div>
 </template>
 
 <style lang="scss" scoped></style>

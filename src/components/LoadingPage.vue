@@ -1,15 +1,15 @@
 <template>
-  <div class="loading-overlay">
-    <div class="progress-bar">
-      <div
-        class="progress"
-        :style="{ width: `${progress}%` }"
-      />
-    </div>
-    <p class="progress-text">
-      正在加载中...{{ progress }}%
-    </p>
-  </div>
+	<div class="loading-overlay">
+		<div class="progress-bar">
+			<div
+				class="progress"
+				:style="{ width: `${progress}%` }"
+			/>
+		</div>
+		<p class="progress-text">
+			正在加载中...{{ progress }}%
+		</p>
+	</div>
 </template>
 
 <script setup lang="ts">

@@ -57,19 +57,19 @@ onMounted(() => {
 </script>
 
 <template>
-  <div
-    ref="canvasContainer"
-    class="canvas-container bg-black"
-  >
-    <canvas
-      id="editorCanvas"
-      ref="editorCanvas"
-      class="editor-canvas"
-      :style="{ width: `${playerWidth}px`, height: `${playerHeight}px` }"
-    />
+	<div
+		ref="canvasContainer"
+		class="canvas-container bg-black"
+	>
+		<canvas
+			id="editorCanvas"
+			ref="editorCanvas"
+			class="editor-canvas"
+			:style="{ width: `${playerWidth}px`, height: `${playerHeight}px` }"
+		/>
 
-    <CanvasCover :style="{ width: `${playerWidth}px`, height: `${playerHeight}px` }" />
-  </div>
+		<CanvasCover :style="{ width: `${playerWidth}px`, height: `${playerHeight}px` }" />
+	</div>
 </template>
 
 <style lang="scss" scoped>

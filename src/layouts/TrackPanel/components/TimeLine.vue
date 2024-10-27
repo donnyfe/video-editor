@@ -112,15 +112,15 @@ onUnmounted(() => {})
 </script>
 
 <template>
-  <div
-    ref="timelineWrapper"
-    class="sticky top-0 left-0 right-0 h-5 text-center leading-5 text-sm z-20"
-  >
-    <canvas
-      ref="timeLine"
-      :style="canvasStyle"
-      v-bind="canvasSize"
-      @click="handleClick"
-    />
-  </div>
+	<div
+		ref="timelineWrapper"
+		class="sticky top-0 left-0 right-0 h-5 text-center leading-5 text-sm z-20"
+	>
+		<canvas
+			ref="timeLine"
+			:style="canvasStyle"
+			v-bind="canvasSize"
+			@click="handleClick"
+		/>
+	</div>
 </template>

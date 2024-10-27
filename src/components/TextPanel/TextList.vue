@@ -34,30 +34,30 @@ function onChange() {
 </script>
 
 <template>
-  <div class="flex justify-end align-center">
-    <el-text
-      type="info"
-      class="cursor-pointer"
-      @click="onChange"
-    >
-      换一批
-    </el-text>
-  </div>
-  <div class="overflow-y-auto h-full scrollbar-width-none">
-    <ul class="list w-full">
-      <li
-        v-for="(item, index) in datas"
-        :key="index"
-        class="relative w-80px h-80px flex-center justify-center mx-1 my-1 bg-#f2f2f2 dark:bg-black rounded-4px el-theme"
-        @click="selectedText(item)"
-      >
-        <span
-          class="text"
-          :style="calcTextStyle(item)"
-        >花字</span>
-      </li>
-    </ul>
-  </div>
+	<div class="flex justify-end align-center">
+		<el-text
+			type="info"
+			class="cursor-pointer"
+			@click="onChange"
+		>
+			换一批
+		</el-text>
+	</div>
+	<div class="overflow-y-auto h-full scrollbar-width-none">
+		<ul class="list w-full">
+			<li
+				v-for="(item, index) in datas"
+				:key="index"
+				class="relative w-80px h-80px flex-center justify-center mx-1 my-1 bg-#f2f2f2 dark:bg-black rounded-4px el-theme"
+				@click="selectedText(item)"
+			>
+				<span
+					class="text"
+					:style="calcTextStyle(item)"
+				>花字</span>
+			</li>
+		</ul>
+	</div>
 </template>
 
 <style lang="scss" scoped>

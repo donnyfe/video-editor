@@ -165,36 +165,36 @@ watch(
 </script>
 
 <template>
-  <div
-    ref="canvasCover"
-    class="canvas-cover"
-  >
-    <div
-      v-for="(item, index) in movableList"
-      :key="item.id"
-      class="segment-widget absolute"
-      :data-eleId="item.id"
-      :data-lineIndex="item.lineIndex"
-      :data-itemIndex="item.itemIndex"
-      :style="{
-        zIndex: 999 - index,
-        top: `${item.top}px`,
-        left: `${item.left}px`,
-        width: `${item.w}px`,
-        height: `${item.h}px`,
-        transform: `translate(${item.x}px, ${item.y}px) scale(${item.scale})`,
-      }"
-      @click.stop="selectItem(item.id)"
-      @mousedown="mousedown($event, item.id)"
-    />
+	<div
+		ref="canvasCover"
+		class="canvas-cover"
+	>
+		<div
+			v-for="(item, index) in movableList"
+			:key="item.id"
+			class="segment-widget absolute"
+			:data-eleId="item.id"
+			:data-lineIndex="item.lineIndex"
+			:data-itemIndex="item.itemIndex"
+			:style="{
+				zIndex: 999 - index,
+				top: `${item.top}px`,
+				left: `${item.left}px`,
+				width: `${item.w}px`,
+				height: `${item.h}px`,
+				transform: `translate(${item.x}px, ${item.y}px) scale(${item.scale})`,
+			}"
+			@click.stop="selectItem(item.id)"
+			@mousedown="mousedown($event, item.id)"
+		/>
 
-    <Moveable
-      ref="moveable"
-      v-bind="moveableOptions"
-      @drag="onDrag"
-      @scale="onScale"
-    />
-  </div>
+		<Moveable
+			ref="moveable"
+			v-bind="moveableOptions"
+			@drag="onDrag"
+			@scale="onScale"
+		/>
+	</div>
 </template>
 
 <style lang="scss" scoped>

@@ -28,16 +28,16 @@ function onCollapse(visible: boolean) {
 </script>
 
 <template>
-  <div class="flex h-full overflow-hidden relative">
-    <AppAside @toggle="toggle" />
+	<div class="flex h-full overflow-hidden relative">
+		<AppAside @toggle="toggle" />
 
-    <MenuPanel
-      :title="selected.name"
-      :acitve="selected.type"
-      :visible="globalStore.showMenuPanel"
-      @collapse="onCollapse"
-    />
-  </div>
+		<MenuPanel
+			:title="selected.name"
+			:acitve="selected.type"
+			:visible="globalStore.showMenuPanel"
+			@collapse="onCollapse"
+		/>
+	</div>
 </template>
 
 <style lang="scss" scoped></style>

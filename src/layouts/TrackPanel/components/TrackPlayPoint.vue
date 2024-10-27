@@ -59,16 +59,16 @@ document.addEventListener('mouseup', onMouseUp)
 </script>
 
 <template>
-  <div
-    id="trackPlayPoint"
-    class="z-30 w-px absolute -top-5 bottom-0 bg-gray-700 dark:bg-gray-100 transition-transform duration-75"
-    :style="trackStyle"
-    @mousedown="onMouseDown"
-  >
-    <span
-      class="playPoint block border-1 border-gray-600 bg-gray-600 h-3 w-2.5 dark:border-gray-100 dark:bg-gray-100 sticky top-0 right-0 left-0 cursor-move"
-    />
-  </div>
+	<div
+		id="trackPlayPoint"
+		class="z-30 w-px absolute -top-5 bottom-0 bg-gray-700 dark:bg-gray-100 transition-transform duration-75"
+		:style="trackStyle"
+		@mousedown="onMouseDown"
+	>
+		<span
+			class="playPoint block border-1 border-gray-600 bg-gray-600 h-3 w-2.5 dark:border-gray-100 dark:bg-gray-100 sticky top-0 right-0 left-0 cursor-move"
+		/>
+	</div>
 </template>
 
 <style lang="scss" scoped>

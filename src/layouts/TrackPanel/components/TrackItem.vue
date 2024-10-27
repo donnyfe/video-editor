@@ -83,25 +83,25 @@ const itemStyle = computed(() => {
 </script>
 
 <template>
-  <div
-    class="trackItem absolute text-left text-sm top-0"
-    :class="[TrackHeightMap.get(props.trackItem.type), isDragState ? 'z-50 isDrag' : 'z-10']"
-    :style="[itemStyle]"
-    :data-type="props.trackItem.type"
-    :data-line="lineIndex"
-    :data-index="itemIndex"
-    @click="setSelectTrack"
-  >
-    <!-- 操作手柄 -->
-    <TrackHandler
-      :is-active="isActive"
-      :line-index="lineIndex"
-      :item-index="itemIndex"
-    />
-    <!-- 容器 -->
-    <component
-      :is="componentMap.get(trackItem.type)"
-      :track-item="trackItem"
-    />
-  </div>
+	<div
+		class="trackItem absolute text-left text-sm top-0"
+		:class="[TrackHeightMap.get(props.trackItem.type), isDragState ? 'z-50 isDrag' : 'z-10']"
+		:style="[itemStyle]"
+		:data-type="props.trackItem.type"
+		:data-line="lineIndex"
+		:data-index="itemIndex"
+		@click="setSelectTrack"
+	>
+		<!-- 操作手柄 -->
+		<TrackHandler
+			:is-active="isActive"
+			:line-index="lineIndex"
+			:item-index="itemIndex"
+		/>
+		<!-- 容器 -->
+		<component
+			:is="componentMap.get(trackItem.type)"
+			:track-item="trackItem"
+		/>
+	</div>
 </template>

@@ -145,46 +145,46 @@ function splitTrack() {
 </script>
 
 <template>
-  <div class="w-full flex-between pl-4 pr-10 pb-1 h-10 border-b border-b-solid border-gray-300">
-    <div class="h-9 w-32 flex flex-row flex-nowrap items-center justify-around">
-      <div
-        v-for="item of icons"
-        :key="item.title"
-        @click="handlerIcon(item)"
-      >
-        <el-tooltip
-          :disabled="item.disable"
-          class="bg-gray-400"
-          :effect="globalStore.isDark ? 'dark' : 'light'"
-          :content="item.title"
-          placement="bottom-start"
-        >
-          <component
-            :is="item.icon"
-            class="focus:outline-0"
-            :class="item.disable ? 'cursor-not-allowed text-gray-400' : ''"
-          />
-        </el-tooltip>
-      </div>
-    </div>
+	<div class="w-full flex-between pl-4 pr-10 pb-1 h-10 border-b border-b-solid border-gray-300">
+		<div class="h-9 w-32 flex flex-row flex-nowrap items-center justify-around">
+			<div
+				v-for="item of icons"
+				:key="item.title"
+				@click="handlerIcon(item)"
+			>
+				<el-tooltip
+					:disabled="item.disable"
+					class="bg-gray-400"
+					:effect="globalStore.isDark ? 'dark' : 'light'"
+					:content="item.title"
+					placement="bottom-start"
+				>
+					<component
+						:is="item.icon"
+						class="focus:outline-0"
+						:class="item.disable ? 'cursor-not-allowed text-gray-400' : ''"
+					/>
+				</el-tooltip>
+			</div>
+		</div>
 
-    <div class="flex w-52 justify-center items-center">
-      <IconSub
-        class="slider-icon mr-4"
-        @click="changeScale(-10)"
-      />
+		<div class="flex w-52 justify-center items-center">
+			<IconSub
+				class="slider-icon mr-4"
+				@click="changeScale(-10)"
+			/>
 
-      <el-slider
-        v-model="modelValue"
-        v-bind="sliderProps"
-      />
+			<el-slider
+				v-model="modelValue"
+				v-bind="sliderProps"
+			/>
 
-      <IconAdd
-        class="slider-icon ml-4"
-        @click="changeScale(10)"
-      />
-    </div>
-  </div>
+			<IconAdd
+				class="slider-icon ml-4"
+				@click="changeScale(10)"
+			/>
+		</div>
+	</div>
 </template>
 
 <style lang="scss" scoped>

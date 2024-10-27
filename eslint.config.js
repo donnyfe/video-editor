@@ -74,8 +74,9 @@ export default [
 		},
 		/** @link https://eslint.vuejs.org/rules/ */
 		rules: {
+			'vue/html-indent': ['error', 'tab'],
 			// <script setup> 变量检查
-			'vue/script-setup-uses-vars': 'error', // <script setup> 变量检查
+			'vue/script-setup-uses-vars': 'error',
 			// 未使用组件检查
 			'vue/no-unused-components': 'error',
 			// props 不可变性检查
@@ -184,10 +185,11 @@ export default [
 			'**/types/**/*.d.ts',
 			'.vscode',
 			'.husky',
+			'.tmp/**/*',
 			'yarn.lock',
 			'package-lock.json',
+			'.prettierrc.json',
 			'deploy.js',
-			'.tmp/**/*',
 		],
 	},
 ]

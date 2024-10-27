@@ -1,14 +1,14 @@
 {
-  "$schema": "https://json.schemastore.org/prettierrc", // 使用 JSON Schema 进行配置验证,这是一个好习惯
-  "semi": false,                    // 不使用分号,符合现代 JS 风格
-  "tabWidth": 2,                   // 2空格缩进,这是一个常用的标准
-  "singleQuote": true,             // 使用单引号,可以减少字符数
-  "printWidth": 100,               // 行长度限制为100,这是一个比较合理的值
-  "trailingComma": "all",          // 尾随逗号,有利于 git diff
-  "singleAttributePerLine": true,   // HTML/JSX 属性单行显示,提高可读性
-	"bracketSpacing": true,  // 对象字面量中的括号添加空格
-	"arrowParens": "avoid",  // 当箭头函数仅有一个参数时可以省略括号
-	"jsxSingleQuote": true,    // JSX 中也使用单引号
-  "bracketSameLine": false,   // JSX 标签的 > 换行
-	"vueIndentScriptAndStyle": true  // Vue 文件中的 script 和 style 标签内的内容缩进
+	"$schema": "https://json.schemastore.org/prettierrc",
+	"semi": false,
+	"tabWidth": 2,
+	"singleQuote": true,
+	"printWidth": 100,
+	"trailingComma": "all",
+	"singleAttributePerLine": true,
+	"bracketSpacing": true,
+	"arrowParens": "avoid",
+	"jsxSingleQuote": true,
+	"bracketSameLine": false,
+	"vueIndentScriptAndStyle": true
 }

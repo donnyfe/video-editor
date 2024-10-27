@@ -17,19 +17,19 @@ async function handleClick(item: { id: string; src: string }) {
 </script>
 
 <template>
-  <ul class="list w-full h-full overflow-auto">
-    <li
-      v-for="(item, index) in list"
-      :key="index"
-      class="flex-center align-start aspect-square rounded-4px overflow-hidden bg-#f2f2f2 dark:bg-black"
-      @click="handleClick(item)"
-    >
-      <el
-        -image
-        src="item.src"
-      />
-    </li>
-  </ul>
+	<ul class="list w-full h-full overflow-auto">
+		<li
+			v-for="(item, index) in list"
+			:key="index"
+			class="flex-center align-start aspect-square rounded-4px overflow-hidden bg-#f2f2f2 dark:bg-black"
+			@click="handleClick(item)"
+		>
+			<el
+				-image
+				src="item.src"
+			/>
+		</li>
+	</ul>
 </template>
 
 <style lang="scss" scoped>

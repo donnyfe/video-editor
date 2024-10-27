@@ -100,45 +100,45 @@ function onChangeAspectRatio(val: string) {
 </script>
 
 <template>
-  <div class="flex flex-center pl-4 pr-4 h-8 border-t dark:border-darker border-gray-300">
-    <div class="h-full text-xs leading-8">
-      <span class="text-[var(--el-color-primary)] mr-1 w-20 inline-block">{{ playTime }}</span>/<span class="ml-2 w-20">{{ allTime }}</span>
-    </div>
+	<div class="flex flex-center pl-4 pr-4 h-8 border-t dark:border-darker border-gray-300">
+		<div class="h-full text-xs leading-8">
+			<span class="text-[var(--el-color-primary)] mr-1 w-20 inline-block">{{ playTime }}</span>/<span class="ml-2 w-20">{{ allTime }}</span>
+		</div>
 
-    <div class="flex items-center m-auto">
-      <ElIcon
-        :size="24"
-        class="cursor-pointer box-content"
-        :class="[disable ? 'cursor-not-allowed' : 'cursor-pointer']"
-      >
-        <VideoPause
-          v-show="!store.isPause"
-          @click="pauseVideo"
-        />
-        <VideoPlay
-          v-show="store.isPause"
-          @click="startPlay"
-        />
-      </ElIcon>
-    </div>
+		<div class="flex items-center m-auto">
+			<ElIcon
+				:size="24"
+				class="cursor-pointer box-content"
+				:class="[disable ? 'cursor-not-allowed' : 'cursor-pointer']"
+			>
+				<VideoPause
+					v-show="!store.isPause"
+					@click="pauseVideo"
+				/>
+				<VideoPlay
+					v-show="store.isPause"
+					@click="startPlay"
+				/>
+			</ElIcon>
+		</div>
 
-    <div class="w-22 flex items-center justify-end">
-      <el-select
-        v-model="store.aspectRatio"
-        placeholder="选择比例"
-        @change="onChangeAspectRatio"
-      >
-        <el-option
-          v-for="item in aspectRatioList"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        >
-          <span>{{ item.label }}</span>
-        </el-option>
-      </el-select>
-    </div>
-  </div>
+		<div class="w-22 flex items-center justify-end">
+			<el-select
+				v-model="store.aspectRatio"
+				placeholder="选择比例"
+				@change="onChangeAspectRatio"
+			>
+				<el-option
+					v-for="item in aspectRatioList"
+					:key="item.value"
+					:label="item.label"
+					:value="item.value"
+				>
+					<span>{{ item.label }}</span>
+				</el-option>
+			</el-select>
+		</div>
+	</div>
 </template>
 
 <style lang="scss" scoped></style>

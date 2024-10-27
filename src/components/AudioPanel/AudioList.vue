@@ -49,41 +49,41 @@ const selectAudio = (index: number) => {
 </script>
 
 <template>
-  <div class="audio-playlist">
-    <ul class="audio-playlist__list">
-      <li
-        v-for="(track, index) in audioList"
-        :key="index"
-        :class="[
-          'audio-playlist__item',
-          { 'audio-playlist__item--active': currentAudioIndex === index },
-        ]"
-        @click="selectAudio(index)"
-      >
-        <img
-          :src="track.coverUrl"
-          :alt="track.title"
-          class="audio-playlist__cover"
-        >
-        <div class="audio-playlist__info">
-          <span class="audio-playlist__title">{{ track.title }}</span>
-          <span class="audio-playlist__duration">{{ formattedDuration(track.duration) }}</span>
-        </div>
-        <button class="audio-playlist__play-btn">
-          <VideoPlay
-            v-if="currentAudioIndex !== index"
-            size="8"
-            color="#ffffff"
-          />
-          <VideoPause
-            v-else
-            size="8"
-            color="#ffffff"
-          />
-        </button>
-      </li>
-    </ul>
-  </div>
+	<div class="audio-playlist">
+		<ul class="audio-playlist__list">
+			<li
+				v-for="(track, index) in audioList"
+				:key="index"
+				:class="[
+					'audio-playlist__item',
+					{ 'audio-playlist__item--active': currentAudioIndex === index },
+				]"
+				@click="selectAudio(index)"
+			>
+				<img
+					:src="track.coverUrl"
+					:alt="track.title"
+					class="audio-playlist__cover"
+				>
+				<div class="audio-playlist__info">
+					<span class="audio-playlist__title">{{ track.title }}</span>
+					<span class="audio-playlist__duration">{{ formattedDuration(track.duration) }}</span>
+				</div>
+				<button class="audio-playlist__play-btn">
+					<VideoPlay
+						v-if="currentAudioIndex !== index"
+						size="8"
+						color="#ffffff"
+					/>
+					<VideoPause
+						v-else
+						size="8"
+						color="#ffffff"
+					/>
+				</button>
+			</li>
+		</ul>
+	</div>
 </template>
 
 <style lang="scss" scoped>

@@ -4,8 +4,8 @@
 </script>
 
 <template>
-  <ul class="video-list flex flex-center justify-center flex-wrap">
-    <!-- <li class="video-list__item w-90% h-120px mb-4 border-1px border-solid el-theme-border bg-dark"
+	<ul class="video-list flex flex-center justify-center flex-wrap">
+		<!-- <li class="video-list__item w-90% h-120px mb-4 border-1px border-solid el-theme-border bg-dark"
 			v-for="(item, index) in videoList"
 		:key="index">
 			<video class="wh-full"
@@ -14,7 +14,7 @@
 			</video>
 		</li> -->
 
-    <!-- <li class="video-list__item w-90% h-120px mb-4 border-1px border-solid el-theme-border bg-dark">
+		<!-- <li class="video-list__item w-90% h-120px mb-4 border-1px border-solid el-theme-border bg-dark">
 			<video ref="videoRef"
 				class="wh-full"
 				src="./test.mp4"
@@ -27,7 +27,7 @@
 				controls>
 			</video>
 		</li> -->
-  </ul>
+	</ul>
 </template>
 
 <style lang="scss" scoped>
