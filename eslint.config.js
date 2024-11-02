@@ -13,11 +13,11 @@ export default [
 				...globals.browser,
 				...globals.node,
 				...globals.worker,
-				...globals.es2021,
+				...globals.es2021
 				/** custom */
 				// ...
-			},
-		},
+			}
+		}
 	},
 
 	// 2. JavaScript 文件配置
@@ -25,13 +25,12 @@ export default [
 	{
 		files: ['**/*.{mjs,cjs,js}'],
 		plugins: {
-			prettier: prettierPlugin,
+			prettier: prettierPlugin
 		},
 		rules: {
-			...prettierPlugin.configs.recommended.rules,
 			// 关闭 与prettier冲突的 规则
-			...eslintConfigPrettier.rules,
-		},
+			...eslintConfigPrettier.rules
+		}
 	},
 
 	// 3. typescript 配置
@@ -41,7 +40,7 @@ export default [
 		languageOptions: {
 			ecmaVersion: 'latest',
 			sourceType: 'module',
-			parser: tseslint.parser,
+			parser: tseslint.parser
 		},
 		/** @link https://typescript-eslint.io/rules/ */
 		rules: {
@@ -52,12 +51,13 @@ export default [
 			// 允许未使用的表达式
 			'@typescript-eslint/no-unused-expressions': 'off',
 			// 允许使用async-promise-executor
-			'@typescript-eslint/no-async-promise-executor': 'off',
-		},
+			'@typescript-eslint/no-async-promise-executor': 'off'
+		}
 	},
 
 	// 4.  vue 配置
 	...pluginVue.configs['flat/recommended'],
+
 	{
 		files: ['**/*.vue'],
 		languageOptions: {
@@ -68,81 +68,117 @@ export default [
 				parser: tseslint.parser, // 用于解析 <script> 中的 TypeScript
 				ecmaFeatures: {
 					jsx: true,
-					tsx: true,
-				},
-			},
+					tsx: true
+				}
+			}
 		},
 		/** @link https://eslint.vuejs.org/rules/ */
 		rules: {
-			'vue/html-indent': ['error', 'tab'],
-			// <script setup> 变量检查
-			'vue/script-setup-uses-vars': 'error',
-			// 未使用组件检查
-			'vue/no-unused-components': 'error',
-			// props 不可变性检查
-			'vue/no-mutating-props': 'error',
-			// 组件名大小写
-			'vue/component-definition-name-casing': ['error', 'PascalCase'],
+			// 关闭对 `v-model` 参数使用的规则。
+			'vue/no-v-model-argument': 'off',
 			// 模板中组件名大小写
 			'vue/component-name-in-template-casing': ['error', 'PascalCase'],
-			// 组件选项名大小写
-			'vue/component-options-name-casing': ['error', 'PascalCase'],
-			// 自定义事件名大小写
-			'vue/custom-event-name-casing': ['error', 'camelCase'],
-			// defineMacros 顺序
-			'vue/define-macros-order': [
-				'error',
-				{
-					order: ['defineProps', 'defineEmits'],
-				},
-			],
-			// 限制单行属性数量
-			'vue/max-attributes-per-line': [
-				'error',
-				{
-					singleline: { max: 2 },
-					multiline: { max: 1 },
-				},
-			],
-			// 要求HTML标签闭合
+			// HTML标签闭合括号的空格
 			'vue/html-closing-bracket-spacing': [
 				'error',
 				{
 					startTag: 'never',
 					endTag: 'never',
-					selfClosingTag: 'always',
-				},
+					selfClosingTag: 'always'
+				}
 			],
+			// 限制单行属性数量
+			// 'vue/max-attributes-per-line': [
+			// 	'error',
+			// 	{
+			// 		singleline: { max: 2 },
+			// 		multiline: { max: 1 }
+			// 	}
+			// ],
+			// 第一个属性的换行
+			'vue/first-attribute-linebreak': [
+				'error',
+				{
+					singleline: 'ignore',
+					multiline: 'below' // below | ignore | off
+				}
+			],
+			// HTML标签闭合括号的换行
+			'vue/html-closing-bracket-newline': [
+				'error',
+				{
+					singleline: 'never',
+					multiline: 'always' // never 强制闭合括号在同一行
+				}
+			],
+			// 禁止重复的属性名
+			'vue/no-duplicate-attributes': [
+				'error',
+				{
+					allowCoexistClass: true,
+					allowCoexistStyle: true
+				}
+			],
+			/**
+			 * component 组件相关规则
+			 */
+			// <script setup> 变量检查
+			'vue/script-setup-uses-vars': 'error',
+			// 未使用组件检查
+			'vue/no-unused-components': 'error',
+			// 组件名大小写
+			'vue/component-definition-name-casing': ['error', 'PascalCase'],
+			// 组件选项名大小写
+			'vue/component-options-name-casing': ['error', 'PascalCase'],
+			// 自定义事件名大小写
+			'vue/custom-event-name-casing': ['error', 'camelCase'],
+			// 关闭组件名称必须是多单词的规则。
+			'vue/multi-word-component-names': 'off',
+			// 关闭对保留组件名称的检查。
+			'vue/no-reserved-component-names': 'off',
+			// defineMacros 顺序
+			'vue/define-macros-order': [
+				'error',
+				{
+					order: ['defineProps', 'defineEmits']
+				}
+			],
+			/**
+			 * props 模板相关规则
+			 */
+			// 关闭 `prop` 名称大小写规则的检查。
+			'vue/prop-name-casing': 'off',
+			// 关闭要求组件 `prop` 必须有默认值的规则。
+			'vue/require-default-prop': 'off',
+			// 关闭要求组件 `prop` 必须有类型定义的规则。
+			'vue/require-prop-types': 'off',
+			// props 不可变性检查
+			'vue/no-mutating-props': 'error',
+			/**
+			 * 其它规则
+			 */
 			// 不允许在计算属性中使用async
 			'vue/no-async-in-computed-properties': 'error',
 			// 不允许使用多余的括号
 			'vue/no-extra-parens': ['error', 'all'],
 			// 要求多行三元运算符的换行
 			'vue/multiline-ternary': ['error', 'always-multiline'],
-			// 关闭操作符换行规则的检查。默认ESLint会要求你在操作符前后换行，配置项可关闭这种检查。
+			// 关闭操作符换行规则的检查。
 			'vue/operator-linebreak': 'off',
-			// 关闭组件名称必须是多单词的规则。默认情况下，ESLint 可能会要求组件名称由多个单词组成，这个配置项允许单词少于两个的组件名称。
-			'vue/multi-word-component-names': 'off',
-			// 关闭对 `v-model` 参数使用的规则。默认情况下，ESLint 可能会对 `v-model` 的参数使用进行检查，这个配置项可以关闭这种检查。
-			'vue/no-v-model-argument': 'off',
-			// 关闭要求组件 `prop` 必须有默认值的规则。默认情况下，ESLint 可能会要求每个 `prop` 都有一个默认值，这个配置项允许没有默认值的 `prop`。
-			'vue/require-default-prop': 'off',
-			// 关闭要求组件 `prop` 必须有类型定义的规则。默认情况下，ESLint 可能会要求每个 `prop` 都有一个类型定义，这个配置项允许没有类型定义的 `prop`。
-			'vue/require-prop-types': 'off',
-			// 关闭属性名引号使用规则的检查。默认情况下，ESLint 可能会要求在对象属性名周围使用引号，这个配置项可以关闭这种检查。
+			// 关闭属性名引号使用规则的检查。
 			'vue/quote-props': 'off',
-			// 关闭检查不规则空白字符的规则。默认情况下，ESLint 可能会检查代码中是否有不规则的空白字符，这个配置项可以关闭这种检查。
+			// 关闭检查不规则空白字符的规则。
 			'vue/no-irregular-whitespace': 'off',
-			// 关闭 `prop` 名称大小写规则的检查。默认情况下，ESLint 可能会要求 `prop` 名称遵循特定的大小写规则，这个配置项可以关闭这种要求。
-			'vue/prop-name-casing': 'off',
-			// 关闭对保留组件名称的检查。默认情况下，ESLint 可能会禁止使用某些保留的组件名称，这个配置项允许使用这些名称。
-			'vue/no-reserved-component-names': 'off',
-		},
+
+			// 关闭 与prettier冲突的 规则
+			...eslintConfigPrettier.rules
+		}
 	},
 
 	// 5. 通用规则
 	{
 		rules: {
+			indent: 'off',
 			'no-console': ['warn', { allow: ['warn', 'error'] }],
 			'no-debugger': 'warn',
 			'no-alert': 'error',
@@ -174,8 +210,8 @@ export default [
 			// 禁止重复的函数声明
 			'no-func-assign': 'error',
 			// 外部作用域中的变量不能与它所包含的作用域中的变量或参数同名
-			'no-shadow': 'error',
-		},
+			'no-shadow': 'error'
+		}
 	},
 	// 定义忽略内容
 	{
@@ -189,7 +225,7 @@ export default [
 			'yarn.lock',
 			'package-lock.json',
 			'.prettierrc.json',
-			'deploy.js',
-		],
-	},
+			'deploy.js'
+		]
+	}
 ]
