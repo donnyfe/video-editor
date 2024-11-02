@@ -25,7 +25,7 @@
 		// 添加图片
 		imageList.value.push({
 			id: uniqueId(),
-			src: URL.createObjectURL(file),
+			src: URL.createObjectURL(file)
 		})
 		// 处理图像
 		dillImage(file)
@@ -62,7 +62,7 @@
 			name: file.name,
 			format: file.type,
 			width,
-			height,
+			height
 		}
 		const imageTrack = new ImageTrack(trackOptions, playerStore.playFrame)
 		imageTrack.resize({ width: playerStore.playerWidth, height: playerStore.playerHeight })
@@ -87,7 +87,10 @@
 					<el-icon class="el-icon--upload">
 						<UploadFilled />
 					</el-icon>
-					<div class="el-upload__text">拖拽文件到此处 或 <em>点击上传</em></div>
+					<div class="el-upload__text">
+						拖拽文件到此处 或
+						<em>点击上传</em>
+					</div>
 				</el-upload>
 
 				<div class="flex-1 overflow-hidden">

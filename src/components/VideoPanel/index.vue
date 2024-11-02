@@ -42,7 +42,7 @@
 			format: file.type,
 			width,
 			height,
-			duration,
+			duration
 		}
 
 		// 创建视频轨道
@@ -66,7 +66,10 @@
 			<el-icon class="el-icon--upload">
 				<UploadFilled />
 			</el-icon>
-			<div class="el-upload__text">拖拽文件到此处 或 <em>点击上传</em></div>
+			<div class="el-upload__text">
+				拖拽文件到此处 或
+				<em>点击上传</em>
+			</div>
 			<template #tip>
 				<div class="el-upload__tip">提示: 文件应小于500MB</div>
 			</template>

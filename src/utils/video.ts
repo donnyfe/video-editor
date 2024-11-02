@@ -44,7 +44,7 @@ export function isSupportedVideoFormat(format: string): boolean {
 export function getVideoSize(videoElement: HTMLVideoElement): { width: number; height: number } {
 	return {
 		width: videoElement.videoWidth,
-		height: videoElement.videoHeight,
+		height: videoElement.videoHeight
 	}
 }
 
@@ -96,7 +96,7 @@ export function addTextTrack(
 	videoElement: HTMLVideoElement,
 	kind: TextTrackKind,
 	label: string,
-	language: string,
+	language: string
 ): TextTrack {
 	return videoElement.addTextTrack(kind, label, language)
 }
@@ -120,7 +120,7 @@ export function getPlayedRanges(videoElement: HTMLVideoElement): { start: number
 	for (let i = 0; i < played.length; i++) {
 		ranges.push({
 			start: played.start(i),
-			end: played.end(i),
+			end: played.end(i)
 		})
 	}
 	return ranges
@@ -146,7 +146,7 @@ export function getNetworkState(videoElement: HTMLVideoElement): number {
 // 设置视频预加载模式
 export function setPreloadMode(
 	videoElement: HTMLVideoElement,
-	mode: 'none' | 'metadata' | 'auto',
+	mode: 'none' | 'metadata' | 'auto'
 ): void {
 	videoElement.preload = mode
 }
@@ -166,14 +166,14 @@ export function isBuffering(videoElement: HTMLVideoElement): boolean {
 
 // 获取视频缓冲状态
 export function getBufferedRanges(
-	videoElement: HTMLVideoElement,
+	videoElement: HTMLVideoElement
 ): { start: number; end: number }[] {
 	const buffered = videoElement.buffered
 	const ranges = []
 	for (let i = 0; i < buffered.length; i++) {
 		ranges.push({
 			start: buffered.start(i),
-			end: buffered.end(i),
+			end: buffered.end(i)
 		})
 	}
 	return ranges
@@ -325,7 +325,7 @@ export function supportsPictureInPicture(): boolean {
 
 // 进入画中画模式
 export function enterPictureInPicture(
-	videoElement: HTMLVideoElement,
+	videoElement: HTMLVideoElement
 ): Promise<PictureInPictureWindow> {
 	if (supportsPictureInPicture()) {
 		return videoElement.requestPictureInPicture()

@@ -37,7 +37,7 @@
 			url: URL.createObjectURL(file), // 返回一个blob URL，可以用来引用内存中的文件数据。
 			name: file.name,
 			format: file.type,
-			duration,
+			duration
 		}
 
 		// 创建音频轨道
@@ -62,7 +62,10 @@
 				<UploadFilled />
 			</el-icon>
 
-			<div class="el-upload__text">拖拽文件到此处 或 <em>点击上传</em></div>
+			<div class="el-upload__text">
+				拖拽文件到此处 或
+				<em>点击上传</em>
+			</div>
 
 			<template #tip>
 				<div class="el-upload__tip">提示: 文件应小于500MB</div>

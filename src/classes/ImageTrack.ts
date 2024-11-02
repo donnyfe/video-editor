@@ -32,7 +32,7 @@ export class ImageTrack extends BaseTrack {
 				this.getDrawX(size.width),
 				this.getDrawY(size.height),
 				this.drawWidth,
-				this.drawHeight,
+				this.drawHeight
 			)
 		}
 	}
@@ -53,7 +53,7 @@ export class ImageTrack extends BaseTrack {
 
 		spr.time = {
 			offset: this.start * UnitFrame2μs,
-			duration: this.frameCount * UnitFrame2μs,
+			duration: this.frameCount * UnitFrame2μs
 		}
 
 		spr.rect.w = this.drawWidth * outputRatio

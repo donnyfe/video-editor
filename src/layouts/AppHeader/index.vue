@@ -39,7 +39,7 @@
 			['2:1', { width: 1080, height: 2160 }],
 			['9:16', { width: 1080, height: 1920 }],
 			['3:4', { width: 960, height: 1280 }],
-			['1:1', { width: 1080, height: 1080 }],
+			['1:1', { width: 1080, height: 1080 }]
 		])
 		// 根据纵横比选择输出尺寸
 		const outputSize = outputSizeMap.get(playerStore.aspectRatio)
@@ -53,10 +53,10 @@
 					(toRaw(track) as Resource).combine(
 						{
 							width: playerStore.playerWidth,
-							height: playerStore.playerHeight,
+							height: playerStore.playerHeight
 						},
-						outputRatio,
-					),
+						outputRatio
+					)
 				)
 			}
 		}
@@ -65,14 +65,14 @@
 
 		const com = new Combinator({
 			...outputSize,
-			bgColor: 'black',
+			bgColor: 'black'
 		})
 
 		await Promise.all(
 			sprites.map((sprite, index) => {
 				sprite.zIndex = 999 - index
 				return com.addSprite(sprite)
-			}),
+			})
 		)
 
 		console.time('合成耗时')

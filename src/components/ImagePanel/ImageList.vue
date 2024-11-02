@@ -4,8 +4,8 @@
 	defineProps({
 		list: {
 			type: Array<{ id: string; src: string }>,
-			default: () => [],
-		},
+			default: () => []
+		}
 	})
 
 	const emit = defineEmits(['select'])

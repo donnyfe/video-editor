@@ -8,12 +8,12 @@
 		isActive: Boolean,
 		lineIndex: {
 			type: Number,
-			default: 0,
+			default: 0
 		},
 		itemIndex: {
 			type: Number,
-			default: 0,
-		},
+			default: 0
+		}
 	})
 
 	const store = useTrackStore()
@@ -36,7 +36,7 @@
 		minStart: 0,
 		maxStart: 0,
 		minEnd: 0,
-		maxEnd: 0,
+		maxEnd: 0
 	})
 
 	const enableMove = ref(false)
@@ -73,7 +73,7 @@
 
 		return lines.reduce(
 			(r, item) => (Math.abs(item.position - x) < Math.abs(r.position - x) ? item : r),
-			{ position: Number.MAX_SAFE_INTEGER, frame: 0 },
+			{ position: Number.MAX_SAFE_INTEGER, frame: 0 }
 		)
 	}
 
@@ -94,7 +94,7 @@
 			minStart: beforeTrack?.end ?? 0,
 			maxStart: trackItem.end - 1,
 			minEnd: trackItem.start + 1,
-			maxEnd: afterTrack?.start ?? 30 * 60 * 60,
+			maxEnd: afterTrack?.start ?? 30 * 60 * 60
 		}
 
 		if (isVA) {
@@ -122,7 +122,7 @@
 			minStart,
 			maxStart,
 			minEnd,
-			maxEnd,
+			maxEnd
 		} = handlerData.value
 		const originWidth = originEnd - originStart
 		const leftMaxWidth = offsetL + originWidth
@@ -167,11 +167,11 @@
 								start: item.start,
 								end: item.end,
 								left: getGridPixel(store.trackScale, item.start),
-								right: getGridPixel(store.trackScale, item.end),
-							},
+								right: getGridPixel(store.trackScale, item.end)
+							}
 						]
-					: [],
-			),
+					: []
+			)
 		)
 	}
 

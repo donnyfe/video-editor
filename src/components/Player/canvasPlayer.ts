@@ -23,7 +23,7 @@ export class CanvasPlayer {
 			[
 				() => this.trackStore.trackList,
 				() => this.playerStore.aspectRatio,
-				() => this.playerStore.playFrame,
+				() => this.playerStore.playFrame
 			],
 			(newVal, oldVal) => {
 				if (newVal[1] !== oldVal[1]) {
@@ -32,7 +32,7 @@ export class CanvasPlayer {
 				}
 				this.drawCanvas()
 			},
-			{ deep: true },
+			{ deep: true }
 		)
 	}
 
@@ -66,7 +66,7 @@ export class CanvasPlayer {
 		})
 		await taskList.reduce(
 			(chain, nextPromise) => chain.then(() => nextPromise()),
-			Promise.resolve(),
+			Promise.resolve()
 		)
 		// 顺序绘制，保证视频在底部
 		this.drawToPlayerCanvas(offCanvas)
@@ -76,7 +76,7 @@ export class CanvasPlayer {
 	drawToRenderCanvas(
 		ctx: OffscreenCanvasRenderingContext2D,
 		trackItem: Record<string, any>,
-		frameIndex: number,
+		frameIndex: number
 	) {
 		const width = this.playerStore.playerWidth
 		const height = this.playerStore.playerHeight

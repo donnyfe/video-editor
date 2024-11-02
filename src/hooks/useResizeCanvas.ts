@@ -6,7 +6,7 @@ const { aspectRatio, playerWidth, playerHeight } = storeToRefs(playerStore)
 
 export function useResizeCanvas({
 	containerWidth,
-	containerHeight,
+	containerHeight
 }: {
 	containerWidth: number
 	containerHeight: number

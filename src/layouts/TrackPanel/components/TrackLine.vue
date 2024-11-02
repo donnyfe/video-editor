@@ -6,29 +6,29 @@
 	const props = defineProps({
 		isMain: {
 			type: Boolean,
-			default: false,
+			default: false
 		},
 		lineType: {
 			type: String,
-			default: '',
+			default: ''
 		},
 		lineIndex: {
 			type: Number,
-			default: 0,
+			default: 0
 		},
 		lineData: {
 			type: Array as PropType<Record<string, any>[]>,
 			default() {
 				return []
-			},
-		},
+			}
+		}
 	})
 
 	const TrackHeightMap = new Map([
 		['video', 'h-16'],
 		['audio', 'h-12'],
 		['text', 'h-6'],
-		['image', 'h-6'],
+		['image', 'h-6']
 	])
 
 	const store = useTrackStore()
@@ -44,7 +44,7 @@
 		:class="[
 			TrackHeightMap.get(lineType),
 			isActive ? 'dark:bg-gray-700 bg-gray-400 bg-opacity-20' : 'bg-gray-200 bg-opacity-10',
-			isMain ? 'bg-blue-500 bg-opacity-20' : '',
+			isMain ? 'bg-blue-500 bg-opacity-20' : ''
 		]"
 		:data-index="lineIndex"
 		:data-type="lineType"

@@ -15,24 +15,24 @@ export const useTrackStore = defineStore('trackStore', () => {
 		dragType: '',
 		dragPoint: {
 			x: 0,
-			y: 0,
+			y: 0
 		},
 		// 吸附辅助线
 		fixLines: [] as AdsorptionLine[][],
 		moveX: 0,
-		moveY: 0,
+		moveY: 0
 	})
 
 	// 行内移动
 	const moveTrackData = reactive({
 		lineIndex: -1,
-		itemIndex: -1,
+		itemIndex: -1
 	})
 
 	// 选中轨道中的资源(索引), -1表示未选中
 	const selectedTrack = reactive({
 		line: -1,
-		index: -1,
+		index: -1
 	})
 
 	// 选中资源元素
@@ -47,7 +47,7 @@ export const useTrackStore = defineStore('trackStore', () => {
 		return trackList.reduce((res, { list }) => {
 			return Math.max(
 				list.reduce((max, track) => Math.max(max, track.end), 0),
-				res,
+				res
 			)
 		}, 0)
 	})
@@ -58,7 +58,7 @@ export const useTrackStore = defineStore('trackStore', () => {
 	 */
 	function addTrack(resource: Resource) {
 		const line = trackList.find(
-			item => item.type === resource.type && !checkTrackListOverlap(item.list, resource).hasOverlap,
+			item => item.type === resource.type && !checkTrackListOverlap(item.list, resource).hasOverlap
 		) as TrackListItem | undefined
 
 		if (line) {
@@ -127,6 +127,6 @@ export const useTrackStore = defineStore('trackStore', () => {
 		selectResource, // 选中资源元素
 		addTrack, // 添加轨道
 		removeTrack, // 删除轨道
-		selectTrackById, // 根据id选择轨道
+		selectTrackById // 根据id选择轨道
 	}
 })

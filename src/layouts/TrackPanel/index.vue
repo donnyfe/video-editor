@@ -9,12 +9,12 @@
 	const trackStore = useTrackStore()
 
 	const panelStyle = computed(() => ({
-		height: `${globalStore.controlsPanelHeight}px`,
+		height: `${globalStore.controlsPanelHeight}px`
 	}))
 
 	const limitSize = reactive({
 		minHeight: 200,
-		maxHeight: document.body.getBoundingClientRect().height / 2,
+		maxHeight: document.body.getBoundingClientRect().height / 2
 	})
 </script>
 

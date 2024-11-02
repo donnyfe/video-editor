@@ -46,7 +46,7 @@ const getGridSize = (scale: number): number => {
 		// 切换比例：最小单位为6秒 一大格为 1分钟
 		[20, 40],
 		[10, 25],
-		[0, 10],
+		[0, 10]
 	])
 	return scaleNum.get(scale) || 100
 }
@@ -95,7 +95,7 @@ export class TimeLine {
 		const { ratio, textScale, textSize } = this.canvasConfigs
 		return {
 			x: text.length * 5 * textScale * ratio,
-			y: ((textSize / ratio) * textScale) / ratio / 2,
+			y: ((textSize / ratio) * textScale) / ratio / 2
 		}
 	}
 	/**
@@ -275,7 +275,7 @@ export class TimeLine {
 export const drawTimeLine = (
 	canvas: HTMLCanvasElement,
 	userConfigs: UserConfig,
-	canvasConfigs: CanvasConfig,
+	canvasConfigs: CanvasConfig
 ) => {
 	const timeLineDrawer = new TimeLine(canvas, userConfigs, canvasConfigs)
 	timeLineDrawer.draw()

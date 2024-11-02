@@ -13,7 +13,7 @@ export async function loadAudioBuffer(context: AudioContext, url: string): Promi
 // 创建音频源节点
 export function createAudioSource(
 	context: AudioContext,
-	buffer: AudioBuffer,
+	buffer: AudioBuffer
 ): AudioBufferSourceNode {
 	const source = context.createBufferSource()
 	source.buffer = buffer

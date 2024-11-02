@@ -4,7 +4,7 @@
 
 	const state = reactive({
 		zIndex: 3000,
-		size: 'small',
+		size: 'small'
 	})
 
 	const isLoading = ref(true)

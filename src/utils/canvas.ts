@@ -14,24 +14,28 @@ const getGridSize = (scale: number): number => {
 		// 切换比例：最小单位为6秒 一大格为 1分钟
 		[20, 40],
 		[10, 25],
-		[0, 10],
+		[0, 10]
 	])
 	return scaleNum.get(scale) || 100
 }
-
-// 获取当前scale下的单元格像素
+/**
+ * 获取当前缩放下的单元格像素
+ * @param scale 缩放比例
+ * @param frameCount 帧数
+ * @returns 单元格像素
+ */
 export const getGridPixel = (scale: number, frameCount: number) => {
 	const gridPixel = getGridSize(scale)
-	let trackWidth = gridPixel * frameCount
+	let width = gridPixel * frameCount
 	if (scale < 70) {
 		// 1秒一格
-		trackWidth = trackWidth / 30
+		width = width / 30
 	}
 	if (scale < 30) {
 		// 6秒一格
-		trackWidth = trackWidth / 6
+		width = width / 6
 	}
-	return trackWidth
+	return width
 }
 
 // 获取选中点的帧坐标

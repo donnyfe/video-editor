@@ -8,10 +8,10 @@
 			default() {
 				return {
 					width: '0px',
-					left: '0px',
+					left: '0px'
 				}
-			},
-		},
+			}
+		}
 	})
 
 	watch(
@@ -21,8 +21,8 @@
 		() => {},
 		{
 			immediate: true,
-			flush: 'post',
-		},
+			flush: 'post'
+		}
 	)
 
 	useCheckTrackIsPlaying(props)

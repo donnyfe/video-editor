@@ -9,7 +9,7 @@
 
 	const selected = ref<MenuItem>({
 		type: 'video',
-		name: '视频',
+		name: '视频'
 	})
 
 	const toggle = (item: MenuItem) => {

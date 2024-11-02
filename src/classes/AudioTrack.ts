@@ -43,7 +43,7 @@ export class AudioTrack extends BaseTrack {
 		const clip = await splitClip(audio, {
 			offsetL: this.offsetL,
 			offsetR: this.offsetR,
-			frameCount: this.frameCount,
+			frameCount: this.frameCount
 		})
 		if (!clip) {
 			throw new Error('clip is not ready')
@@ -52,7 +52,7 @@ export class AudioTrack extends BaseTrack {
 		// TODO：需要支持裁剪
 		spr.time = {
 			offset: this.start * UnitFrame2μs,
-			duration: (this.end - this.start) * UnitFrame2μs,
+			duration: (this.end - this.start) * UnitFrame2μs
 		}
 
 		return spr

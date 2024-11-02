@@ -4,14 +4,14 @@
 	import type { MenuItem } from '@/types'
 
 	const emit = defineEmits({
-		toggle: (data: MenuItem) => typeof data === 'object',
+		toggle: (data: MenuItem) => typeof data === 'object'
 	})
 
 	const menuItems: MenuItem[] = [
 		{ name: '视频', type: 'video' },
 		{ name: '音频', type: 'audio' },
 		{ name: '文字', type: 'text' },
-		{ name: '贴纸', type: 'image' },
+		{ name: '贴纸', type: 'image' }
 	]
 
 	const activeType = ref<string>(menuItems[0].type)

@@ -9,17 +9,17 @@
 		// 开始坐标
 		start: {
 			type: Number,
-			default: 0,
+			default: 0
 		},
 		// 步进，与视频fps同步
 		step: {
 			type: Number,
-			default: 30,
+			default: 30
 		},
 		// 时间轴缩放比例
 		scale: {
 			type: Number,
-			default: 0,
+			default: 0
 		},
 		// 选中元素时在时间轴中高亮显示
 		focusPosition: {
@@ -27,16 +27,16 @@
 			default() {
 				return {
 					start: 0, // 起始帧数
-					end: 0, // 结束帧数
+					end: 0 // 结束帧数
 				}
-			},
-		},
+			}
+		}
 	})
 
 	const emits = defineEmits({
 		select(val: number) {
 			return val !== null
-		},
+		}
 	})
 
 	const timelineWrapper = ref<HTMLDivElement>()
@@ -56,18 +56,18 @@
 		shortColor: isDark.value ? '#9CA3AF' : '#6B7280', // 短线段颜色
 		textColor: isDark.value ? '#E5E7EB' : '#374151', // 文字颜色
 		subTextColor: isDark.value ? '#9CA3AF' : '#6B7280', // 小文字颜色
-		focusColor: isDark.value ? '#6D28D9' : '#C4B5FD', // 选中元素区间
+		focusColor: isDark.value ? '#6D28D9' : '#C4B5FD' // 选中元素区间
 	}))
 
 	const canvasSize = reactive({
 		width: 0,
-		height: 0,
+		height: 0
 	})
 
 	const canvasStyle = computed(() => {
 		return {
 			width: `${canvasSize.width / canvasConfigs.value.ratio}px`,
-			height: `${canvasSize.height / canvasConfigs.value.ratio}px`,
+			height: `${canvasSize.height / canvasConfigs.value.ratio}px`
 		}
 	})
 
@@ -76,7 +76,7 @@
 		drawTimeLine(
 			timeLine.value as HTMLCanvasElement,
 			{ ...props } as UserConfig,
-			{ ...canvasSize, ...canvasConfigs.value } as CanvasConfig,
+			{ ...canvasSize, ...canvasConfigs.value } as CanvasConfig
 		)
 	}
 

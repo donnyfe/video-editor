@@ -7,13 +7,13 @@
 	const playerStore = usePlayerStore()
 
 	const offsetLine = {
-		left: 10,
+		left: 10
 	}
 
 	const trackStyle = computed(() => {
 		return {
 			left: `${offsetLine.left}px`,
-			transform: `translate(${getGridPixel(trackStore.trackScale, playerStore.playFrame)}px, 0px)`,
+			transform: `translate(${getGridPixel(trackStore.trackScale, playerStore.playFrame)}px, 0px)`
 		}
 	})
 
@@ -36,7 +36,7 @@
 			const frame = getSelectFrame(
 				event.pageX - offsetLine.left - rect.left,
 				trackStore.trackScale,
-				FPS,
+				FPS
 			)
 
 			const targetFrame = frame - 1

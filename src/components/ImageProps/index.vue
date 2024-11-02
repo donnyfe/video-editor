@@ -13,7 +13,7 @@
 	const form = reactive({
 		scale: 100,
 		centerX: 0,
-		centerY: 0,
+		centerY: 0
 	})
 
 	if (selectResource.value && selectResource.value.type === 'image') {
@@ -29,7 +29,7 @@
 				Object.assign(form, { ...toRaw(newResource) })
 			}
 		},
-		{ immediate: true, deep: true, flush: 'post' },
+		{ immediate: true, deep: true, flush: 'post' }
 	)
 
 	// 监听属性变化

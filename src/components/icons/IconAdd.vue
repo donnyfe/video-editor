@@ -13,6 +13,7 @@
 			stroke-width="4"
 			stroke-linejoin="round"
 		/>
+
 		<path
 			d="M24 16V32"
 			stroke="currentColor"
@@ -20,6 +21,7 @@
 			stroke-linecap="round"
 			stroke-linejoin="round"
 		/>
+
 		<path
 			d="M16 24L32 24"
 			stroke="currentColor"

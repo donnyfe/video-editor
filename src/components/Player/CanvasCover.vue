@@ -41,8 +41,8 @@
 					h,
 					scale: scaleFactor,
 					left: playerStore.playerWidth / 2 - w / 2,
-					top: playerStore.playerHeight / 2 - h / 2,
-				},
+					top: playerStore.playerHeight / 2 - h / 2
+				}
 			]
 		})
 
@@ -76,14 +76,14 @@
 		rotatable: false, // 是否可旋转
 		throttleRotate: 0.1,
 		elementGuidelines: [],
-		pinchable: false, // 捏合开关
+		pinchable: false // 捏合开关
 	}
 
 	const moveableOptions = reactive({
 		target: moveTarget,
 		className: 'target-move',
 		container: canvasCover.value,
-		...defaultMoveOptions,
+		...defaultMoveOptions
 	})
 
 	function selectItem(eleId: string) {
@@ -168,7 +168,7 @@
 				moveable.value.updateRect()
 			}
 		},
-		{ immediate: true, flush: 'post' },
+		{ immediate: true, flush: 'post' }
 	)
 </script>
 
@@ -190,7 +190,7 @@
 				left: `${item.left}px`,
 				width: `${item.w}px`,
 				height: `${item.h}px`,
-				transform: `translate(${item.x}px, ${item.y}px) scale(${item.scale})`,
+				transform: `translate(${item.x}px, ${item.y}px) scale(${item.scale})`
 			}"
 			@click.stop="selectItem(item.id)"
 			@mousedown="mousedown($event, item.id)"

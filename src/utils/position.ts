@@ -9,6 +9,6 @@ interface Point {
 export function calcLeftTopByCenter(center: Point, width: number, height: number) {
 	return {
 		left: center.x - width / 2,
-		top: center.y - height / 2,
+		top: center.y - height / 2
 	}
 }

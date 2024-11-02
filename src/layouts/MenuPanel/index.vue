@@ -6,22 +6,22 @@
 	const props = defineProps({
 		acitve: {
 			type: String,
-			default: '',
+			default: ''
 		},
 		title: {
 			type: String,
-			default: '',
+			default: ''
 		},
 		visible: {
 			type: Boolean,
-			default: true,
-		},
+			default: true
+		}
 	})
 
 	const emit = defineEmits({
 		collapse(visible: boolean) {
 			return visible !== null
-		},
+		}
 	})
 
 	const visible = ref(props.visible)
@@ -30,7 +30,7 @@
 		() => props.visible,
 		newVal => {
 			visible.value = newVal
-		},
+		}
 	)
 
 	function toggle() {

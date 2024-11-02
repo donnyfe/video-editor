@@ -23,7 +23,7 @@ export function calcTextStyle(item: TextItem) {
 	const style = {
 		color: item.fill,
 		textShadow: '',
-		backgroundColor: '',
+		backgroundColor: ''
 	}
 	const strokeWidth = item.strokeWidth || 2
 	const strokeColor = item.stroke
@@ -52,7 +52,7 @@ interface TextOptions {
 export function getTextRect({
 	text = 'Hello World',
 	fontSize = 40,
-	fontFamily = 'Arial',
+	fontFamily = 'Arial'
 }: TextOptions) {
 	const padding = 4
 	const canvas = new OffscreenCanvas(1000, 1000)
@@ -75,6 +75,6 @@ export function getTextRect({
 		width: textWidth + padding * 2,
 		height: totalHeight + padding * 2,
 		lineHeight,
-		lines,
+		lines
 	}
 }

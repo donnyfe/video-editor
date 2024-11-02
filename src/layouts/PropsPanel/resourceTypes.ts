@@ -7,5 +7,5 @@ export default {
 	video: VideoProps,
 	audio: AudioProps,
 	image: ImageProps,
-	text: TextProps,
+	text: TextProps
 }

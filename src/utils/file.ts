@@ -93,7 +93,7 @@ export const writeFileByBlob = async (id: string, stream?: ReadableStream<Uint8A
 export async function createFileWriter(extName = 'mp4'): Promise<FileSystemWritableFileStream> {
 	if ('showSaveFilePicker' in window) {
 		const fileHandle = await window.showSaveFilePicker({
-			suggestedName: `WebAV-export-${Date.now()}.${extName}`,
+			suggestedName: `WebAV-export-${Date.now()}.${extName}`
 		})
 		return fileHandle.createWritable()
 	} else {

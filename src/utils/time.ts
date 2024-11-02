@@ -39,7 +39,7 @@ export function formatTime(time: number) {
 		s,
 		m,
 		h,
-		str: `${h === 0 ? '' : `${h < 10 ? '0' : ''}${h}:`}${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`,
+		str: `${h === 0 ? '' : `${h < 10 ? '0' : ''}${h}:`}${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`
 	}
 }
 
@@ -73,6 +73,6 @@ export function preciseInterval(callback: () => void, interval: number) {
 	return {
 		cancel: () => {
 			stop = true
-		},
+		}
 	}
 }

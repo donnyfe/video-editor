@@ -2,7 +2,7 @@
 	import { reactive } from 'vue'
 
 	const form = reactive({
-		scale: 0,
+		scale: 0
 	})
 </script>
 

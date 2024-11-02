@@ -6,9 +6,9 @@ const router = createRouter({
 		{
 			path: '/',
 			name: 'home',
-			component: () => import('../views/editor.vue'),
-		},
-	],
+			component: () => import('../views/editor.vue')
+		}
+	]
 })
 
 router.beforeEach((to, from, next) => {

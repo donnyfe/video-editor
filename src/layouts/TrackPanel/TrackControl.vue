@@ -12,14 +12,14 @@
 	const props = defineProps({
 		modelValue: {
 			type: Number,
-			default: 30,
-		},
+			default: 30
+		}
 	})
 
 	const emit = defineEmits({
 		'update:modelValue': val => {
 			return val !== null
-		},
+		}
 	})
 
 	const modelValue = computed({
@@ -28,7 +28,7 @@
 		},
 		set(value) {
 			emit('update:modelValue', value)
-		},
+		}
 	})
 
 	const globalStore = useGlobalStore()
@@ -41,7 +41,7 @@
 		size: 'small',
 		step: 10,
 		max: 100,
-		min: 0,
+		min: 0
 	})
 
 	/**
@@ -65,26 +65,26 @@
 			type: 'undo',
 			title: '撤销',
 			disable: true,
-			icon: IconUndo,
+			icon: IconUndo
 		},
 		{
 			type: 'redo',
 			title: '前进',
 			disable: true,
-			icon: IconRedo,
+			icon: IconRedo
 		},
 		{
 			type: 'split',
 			title: '分割',
 			disable: trackStore.selectedTrack.line === -1 && trackStore.selectedTrack.index === -1,
-			icon: IconSplit,
+			icon: IconSplit
 		},
 		{
 			type: 'delete',
 			title: '删除',
 			disable: trackStore.selectedTrack.line === -1 && trackStore.selectedTrack.index === -1,
-			icon: IconDelete,
-		},
+			icon: IconDelete
+		}
 	])
 
 	function handlerIcon(item: Record<string, any>) {
@@ -137,7 +137,7 @@
 
 			videoTrack.resize({
 				width: playerStore.playerWidth,
-				height: playerStore.playerHeight,
+				height: playerStore.playerHeight
 			})
 			trackStore.addTrack(videoTrack)
 		}

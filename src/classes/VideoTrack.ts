@@ -38,7 +38,7 @@ export class VideoTrack extends BaseTrack {
 					this.getDrawX(size.width),
 					this.getDrawY(size.height),
 					this.drawWidth,
-					this.drawHeight,
+					this.drawHeight
 				)
 			} else {
 				console.warn(`未能获取帧 ${frame} 的数据`)
@@ -83,7 +83,7 @@ export class VideoTrack extends BaseTrack {
 		const clip = await splitClip(video as MP4Clip, {
 			offsetL: this.offsetL,
 			offsetR: this.offsetR,
-			frameCount: this.frameCount,
+			frameCount: this.frameCount
 		})
 		if (!clip) {
 			throw new Error('clip is not ready')

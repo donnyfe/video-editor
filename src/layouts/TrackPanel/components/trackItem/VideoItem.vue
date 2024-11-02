@@ -14,10 +14,10 @@
 			default() {
 				return {
 					showWidth: '0px',
-					showLeft: '0px',
+					showLeft: '0px'
 				}
-			},
-		},
+			}
+		}
 	})
 	const playStore = usePlayerStore()
 	playStore.ingLoadingCount++
@@ -34,7 +34,7 @@
 			transformOrigin: 'left top',
 			left: `-${(offsetL / frameCount) * 100}%`,
 			right: `-${(offsetR / frameCount) * 100}%`,
-			width: `${(frameCount / showFrameCount) * 100}%`,
+			width: `${(frameCount / showFrameCount) * 100}%`
 		}
 	})
 	const imgs = ref<string[]>([])
@@ -80,8 +80,8 @@
 		initVideo,
 		{
 			immediate: true,
-			flush: 'post',
-		},
+			flush: 'post'
+		}
 	)
 
 	useCheckTrackIsPlaying(props)

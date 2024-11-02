@@ -10,39 +10,39 @@
 	const props = defineProps({
 		trackType: {
 			type: String,
-			default: '',
+			default: ''
 		},
 		lineIndex: {
 			type: Number,
-			default: 0,
+			default: 0
 		},
 		itemIndex: {
 			type: Number,
-			default: 0,
+			default: 0
 		},
 		trackItem: {
 			type: Object,
 			default() {
 				return {
 					width: '0px',
-					left: '0px',
+					left: '0px'
 				}
-			},
-		},
+			}
+		}
 	})
 
 	const componentMap = new Map<string, any>([
 		['video', VideoItem],
 		['audio', AudioItem],
 		['text', TextItem],
-		['image', ImageItem],
+		['image', ImageItem]
 	])
 
 	const TrackHeightMap = new Map([
 		['video', 'h-16'],
 		['audio', 'h-12'],
 		['text', 'h-6'],
-		['image', 'h-6'],
+		['image', 'h-6']
 	])
 
 	const store = useTrackStore()
@@ -72,12 +72,12 @@
 			return {
 				width: props.trackItem.showWidth,
 				left: `${parseInt(props.trackItem.showLeft) + store.dragData.moveX}px`,
-				top: `${store.dragData.moveY}px`,
+				top: `${store.dragData.moveY}px`
 			}
 		}
 		return {
 			width: props.trackItem.showWidth,
-			left: props.trackItem.showLeft,
+			left: props.trackItem.showLeft
 		}
 	})
 </script>

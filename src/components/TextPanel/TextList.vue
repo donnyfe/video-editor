@@ -16,7 +16,7 @@
 			styles.push({
 				fill: generateRandomColor(),
 				stroke: Math.random() > 0.5 ? generateRandomColor() : undefined,
-				textBackgroundColor: Math.random() > 0.7 ? generateRandomColor() : undefined,
+				textBackgroundColor: Math.random() > 0.7 ? generateRandomColor() : undefined
 			})
 		}
 		return styles
@@ -44,54 +44,57 @@
 		</el-text>
 	</div>
 	<div class="overflow-y-auto h-full scrollbar-width-none">
-		<ul class="list w-full">
+		<ul class="text-list w-full">
 			<li
 				v-for="(item, index) in datas"
 				:key="index"
-				class="relative w-80px h-80px flex-center justify-center mx-1 my-1 bg-#f2f2f2 dark:bg-black rounded-4px el-theme"
+				class="text-list__item relative w-80px h-80px flex-center justify-center mx-1 my-1 bg-#f2f2f2 dark:bg-black rounded-4px el-theme"
 				@click="selectedText(item)"
 			>
 				<span
-					class="text"
+					class="text-list__text"
 					:style="calcTextStyle(item)"
-					>花字</span
 				>
+					花字
+				</span>
 			</li>
 		</ul>
 	</div>
 </template>
 
 <style lang="scss" scoped>
-	.list {
+	.text-list {
 		display: flex;
 		flex-wrap: wrap;
 
-		li {
+		&__item {
 			font-weight: 500;
 			font-size: 16px;
 			cursor: pointer;
 
-			&:hover::after {
-				content: '';
-				position: absolute;
-				top: 0;
-				left: 0;
-				z-index: 999;
-				border-radius: 4px;
-				display: block;
-				width: 100%;
-				height: 100%;
-				border: 1px solid #409eff;
+			&:hover {
+				&::after {
+					content: '';
+					position: absolute;
+					top: 0;
+					left: 0;
+					z-index: 999;
+					border-radius: 4px;
+					display: block;
+					width: 100%;
+					height: 100%;
+					border: 1px solid var(--el-color-primary);
+				}
 			}
 		}
-	}
 
-	.text {
-		display: inline-block;
-		padding: 5px;
-		border-radius: 8px;
-		line-height: 1;
-		font-size: 32px;
-		font-weight: 800;
+		&__text {
+			display: inline-block;
+			padding: 5px;
+			border-radius: 8px;
+			line-height: 1;
+			font-size: 32px;
+			font-weight: 800;
+		}
 	}
 </style>

@@ -8,10 +8,10 @@
 			default() {
 				return {
 					width: '0px',
-					left: '0px',
+					left: '0px'
 				}
-			},
-		},
+			}
+		}
 	})
 
 	useCheckTrackIsPlaying(props)

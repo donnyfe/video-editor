@@ -32,6 +32,6 @@ export const useGlobalStore = defineStore('globalStore', () => {
 		propsPanelWidth,
 		controlsPanelHeight,
 		showMenuPanel,
-		activeResourceType,
+		activeResourceType
 	}
 })

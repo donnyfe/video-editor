@@ -1,5 +1,4 @@
 export * from './other'
-export * from './dom'
 export * from './math'
 export * from './time'
 export * from './random'

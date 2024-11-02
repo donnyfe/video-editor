@@ -27,7 +27,7 @@ interface SplitClipOptions {
 
 export const splitClip = async (
 	source: AudioClip | MP4Clip,
-	{ offsetL, offsetR, frameCount }: SplitClipOptions,
+	{ offsetL, offsetR, frameCount }: SplitClipOptions
 ) => {
 	if (offsetL === 0 && offsetR === 0) {
 		return source
@@ -200,7 +200,7 @@ export function decodeVideo(id: string, file: File) {
 			.decode({
 				id,
 				type: file.type,
-				stream: file.stream(),
+				stream: file.stream()
 			})
 			.then(clip => {
 				console.timeEnd('解析视频耗时')

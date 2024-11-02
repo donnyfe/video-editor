@@ -87,7 +87,7 @@ export class TextTrack extends BaseTrack {
 		const { width, height } = getTextRect({
 			text: this.content,
 			fontSize: this.fontSize,
-			fontFamily: this.fontFamily,
+			fontFamily: this.fontFamily
 		})
 		// 计算文本宽高
 		this.height = height
@@ -97,7 +97,7 @@ export class TextTrack extends BaseTrack {
 	// 绘制圆角矩形
 	drawRoundRect(
 		ctx: CanvasContext,
-		{ x, y, width, height, radius, color, borderColor, borderWidth }: DrawRoundRectOptions,
+		{ x, y, width, height, radius, color, borderColor, borderWidth }: DrawRoundRectOptions
 	) {
 		// 开始一个新的绘图路径
 		ctx.beginPath()
@@ -164,7 +164,7 @@ export class TextTrack extends BaseTrack {
 				radius,
 				x: x,
 				y: y,
-				scale: this.scale,
+				scale: this.scale
 			})
 		}
 

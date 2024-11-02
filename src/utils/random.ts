@@ -22,16 +22,16 @@ export function randomKey(randomFlag: boolean, min: number, max: number): string
 	return str
 }
 
-/**
- *  获取随机ID，组件拖到预览视图后就会被设置个ID
- * */
-export function getId(prefix = 't') {
-	return `${prefix ? `${prefix}-` : ''}${getRandom(5)}${getRandom(3)}-${getRandom(4)}`
-}
-
 // 生成 16 进制指定长度的字符串
 function getRandom(len: number) {
 	return Math.floor((1 + Math.random()) * 16 ** len)
 		.toString(16)
 		.substring(1)
+}
+
+/**
+ *  获取随机ID，组件拖到预览视图后就会被设置个ID
+ * */
+export function getId(prefix = 't') {
+	return `${prefix ? `${prefix}-` : ''}${getRandom(5)}${getRandom(3)}-${getRandom(4)}`
 }

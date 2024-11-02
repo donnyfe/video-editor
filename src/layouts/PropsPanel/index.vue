@@ -10,13 +10,13 @@
 
 	const panelStyle = computed(() => {
 		return {
-			width: `${globalStore.propsPanelWidth}px`,
+			width: `${globalStore.propsPanelWidth}px`
 		}
 	})
 
 	const limitSize = reactive({
 		minWidth: 200,
-		maxWidth: document.body.getBoundingClientRect().width / 2,
+		maxWidth: document.body.getBoundingClientRect().width / 2
 	})
 
 	const resourceType = ref('')

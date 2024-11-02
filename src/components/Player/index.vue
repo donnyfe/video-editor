@@ -9,12 +9,12 @@
 	defineProps({
 		width: {
 			type: Number,
-			default: 0,
+			default: 0
 		},
 		height: {
 			type: Number,
-			default: 0,
-		},
+			default: 0
+		}
 	})
 
 	const canvasContainer = ref<HTMLDivElement | null>(null)
@@ -44,14 +44,14 @@
 		() => {
 			updateCanvasSize()
 		},
-		{ flush: 'post' },
+		{ flush: 'post' }
 	)
 
 	onMounted(() => {
 		updateCanvasSize()
 
 		new CanvasPlayer({
-			player: editorCanvas.value,
+			player: editorCanvas.value
 		})
 	})
 </script>

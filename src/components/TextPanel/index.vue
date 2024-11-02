@@ -17,7 +17,7 @@
 			content: '文本内容',
 			fontSize: 24,
 			fontFamily: 'Arial',
-			...style,
+			...style
 		}
 
 		const textTrack = new TextTrack(textOptions, playerStore.playFrame)

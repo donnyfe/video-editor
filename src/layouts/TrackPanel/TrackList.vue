@@ -18,14 +18,14 @@
 
 	const offsetLine = {
 		left: 10, // 容器 margin, 为了显示拖拽手柄
-		right: 200,
+		right: 200
 	}
 	const startX = ref(-offsetLine.left) // 与容器padding对齐
 	const startY = ref(0) // 左侧icons对齐
 	const trackScale = computed(() => trackStore.trackScale) // 轨道默认缩放
 
 	const trackStyle = computed(() => ({
-		width: getGridPixel(trackScale.value, trackStore.frameCount) + offsetLine.right,
+		width: getGridPixel(trackScale.value, trackStore.frameCount) + offsetLine.right
 	}))
 
 	const defaultFps = ref(30) // 帧率
@@ -44,13 +44,13 @@
 					...item,
 					showWidth: `${getGridPixel(trackScale.value, item.end - item.start)}px`,
 					showLeft: `${getGridPixel(trackScale.value, item.start)}px`,
-					time: isVideo(line.type) ? `${formatTime(time * 1000 || 0).str}` : '',
+					time: isVideo(line.type) ? `${formatTime(time * 1000 || 0).str}` : ''
 				}
 			})
 
 			return {
 				...line,
-				list,
+				list
 			}
 		})
 	})
@@ -97,7 +97,7 @@
 		const style = window.getComputedStyle(element)
 		return {
 			left: parseInt(style.left),
-			right: parseInt(style.left) + parseInt(style.width),
+			right: parseInt(style.left) + parseInt(style.width)
 		}
 	}
 
@@ -131,7 +131,7 @@
 			start: dragItem.start,
 			end: dragItem.end,
 			left: getGridPixel(trackStore.trackScale, dragItem.start),
-			right: getGridPixel(trackStore.trackScale, dragItem.end),
+			right: getGridPixel(trackStore.trackScale, dragItem.end)
 		}
 
 		// 获取非当前位置的trackItem元素的left、right值
@@ -144,7 +144,7 @@
 						start: item.start,
 						end: item.end,
 						left: getGridPixel(trackStore.trackScale, item.start),
-						right: getGridPixel(trackStore.trackScale, item.end),
+						right: getGridPixel(trackStore.trackScale, item.end)
 					})
 				}
 			}
@@ -154,7 +154,7 @@
 	function isOverlap(
 		dragItem: any,
 		line: Record<string, any>,
-		{ start, end }: { start: number; end: number },
+		{ start, end }: { start: number; end: number }
 	) {
 		if (dragItem.type !== line.type) {
 			return { overlap: true, index: 0 }
@@ -292,7 +292,7 @@
 	// 设置吸附
 	function setAdsorption(
 		{ left, right }: Record<string, number>,
-		lines: Record<string, number>[][],
+		lines: Record<string, number>[][]
 	) {
 		fixPosition = { left: 0, right: 0, start: 0, end: 0 }
 		if (lines[0].length === 0 && lines[1].length === 0) {
@@ -330,7 +330,7 @@
 				? getSelectFrame(insertInfo.right, trackStore.trackScale, 30) -
 						(dragInfo.end - dragInfo.start)
 				: getSelectFrame(insertInfo.left, trackStore.trackScale, 30),
-			0,
+			0
 		)
 
 		// 移动元素到新为止
@@ -353,14 +353,14 @@
 			// 插入新行
 			trackStore.trackList.splice(insertInfo.insertIndex, 0, {
 				type: newTrackItem.type,
-				list: [newTrackItem],
+				list: [newTrackItem]
 			})
 		} else {
 			// 插入当前行
 			trackStore.trackList[insertInfo.insertIndex].list.splice(
 				insertInfo.itemIndex,
 				0,
-				newTrackItem,
+				newTrackItem
 			)
 		}
 		// 删除store.trackList中，list为空的元素
@@ -399,6 +399,10 @@
 		trackStore.dragData.moveX = 0
 		trackStore.dragData.moveY = 0
 	}
+
+	const fixLines = computed(() => {
+		return trackStore.dragData.fixLines.reduce((r, item) => r.concat(item), [])
+	})
 </script>
 
 <template>
@@ -453,7 +457,7 @@
 					>
 						<TrackLine
 							:class="[
-								dropLineIndex === lineIndex ? (insertBefore ? 'showLine-t' : 'showLine-b') : '',
+								dropLineIndex === lineIndex ? (insertBefore ? 'showLine-t' : 'showLine-b') : ''
 							]"
 							:line-type="lineData.type"
 							:is-active="trackStore.selectedTrack.line === lineIndex"
@@ -469,10 +473,7 @@
 
 				<template v-if="trackListData.length !== 0">
 					<div
-						v-for="(line, index) in trackStore.dragData.fixLines.reduce(
-							(r, item) => r.concat(item),
-							[],
-						)"
+						v-for="(line, index) in fixLines"
 						:key="index"
 						class="z-30 w-px absolute -top-5 bottom-0 bg-yellow-300 dark:bg-yellow-300 pointer-events-none"
 						:style="{ left: `${line.position + 10}px` }"

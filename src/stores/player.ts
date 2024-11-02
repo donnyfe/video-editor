@@ -12,10 +12,10 @@ export const usePlayerStore = defineStore('playerStore', () => {
 		playFrame: 0, // 当前播放帧
 		existVideo: false,
 		frameCount: 0, // 要播放的总帧数
-		playTargetTrackMap: new Map(), // 当前播放的元素集合
+		playTargetTrackMap: new Map() // 当前播放的元素集合
 	})
 
 	return {
-		...toRefs(playerConfig),
+		...toRefs(playerConfig)
 	}
 })

@@ -27,7 +27,7 @@ export class DraggableElement {
 			width: element.offsetWidth,
 			height: element.offsetHeight,
 			scale: 1,
-			rotation: 0,
+			rotation: 0
 		}
 		this.init()
 	}

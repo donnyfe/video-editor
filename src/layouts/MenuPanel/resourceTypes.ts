@@ -7,5 +7,5 @@ export default {
 	video: VideoPanel,
 	audio: AudioPanel,
 	image: ImagePanel,
-	text: TextPanel,
+	text: TextPanel
 }

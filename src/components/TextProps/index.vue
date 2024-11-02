@@ -20,7 +20,7 @@
 		'hsva(120, 40, 94, 0.5)',
 		'hsl(181, 100%, 37%)',
 		'hsla(209, 100%, 56%, 0.73)',
-		'#c7158577',
+		'#c7158577'
 	])
 
 	const trackStore = useTrackStore()
@@ -34,7 +34,7 @@
 		textBackgroundColor: '#fff',
 		scale: 100,
 		centerX: 0,
-		centerY: 0,
+		centerY: 0
 	})
 
 	if (selectResource.value && selectResource.value.type === 'text') {
@@ -50,7 +50,7 @@
 				Object.assign(form, { ...toRaw(newResource) })
 			}
 		},
-		{ immediate: true, deep: true, flush: 'post' },
+		{ immediate: true, deep: true, flush: 'post' }
 	)
 
 	// 监听属性变化

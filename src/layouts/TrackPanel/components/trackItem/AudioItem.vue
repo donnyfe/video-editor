@@ -12,10 +12,10 @@
 			default() {
 				return {
 					showWidth: '0px',
-					showLeft: '0px',
+					showLeft: '0px'
 				}
-			},
-		},
+			}
+		}
 	})
 
 	const waveOptions = {
@@ -42,7 +42,7 @@
 		audioRate: 0.1,
 		autoScroll: true,
 		autoCenter: true,
-		sampleRate: 8000,
+		sampleRate: 8000
 	}
 
 	const store = usePlayerStore()
@@ -55,7 +55,7 @@
 			transform: `scaleX(${(frameCount / showFrameCount).toFixed(2)})`,
 			transformOrigin: 'left top',
 			left: `-${(offsetL / showFrameCount) * 100}%`,
-			right: `-${(offsetR / showFrameCount) * 100}%`,
+			right: `-${(offsetR / showFrameCount) * 100}%`
 		}
 	})
 	const loading = ref(true)
@@ -65,7 +65,7 @@
 		WaveSurfer.create({
 			container: waveRef.value,
 			url: props.trackItem.source.url,
-			...waveOptions,
+			...waveOptions
 		} as unknown as WaveSurferOptions)
 
 		loading.value = false
@@ -84,8 +84,8 @@
 			}
 		},
 		{
-			immediate: true,
-		},
+			immediate: true
+		}
 	)
 	useCheckTrackIsPlaying(props)
 </script>

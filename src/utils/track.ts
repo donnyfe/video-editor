@@ -36,7 +36,7 @@ export function checkTrackItemOverlap(trackList: any[], checkItem: any) {
 	return {
 		hasOverlap,
 		overLapIndex,
-		insertIndex,
+		insertIndex
 	}
 }
 
@@ -49,7 +49,7 @@ export function isOfCanPlayType(value: unknown): value is VideoTrack | AudioTrac
 export const getCurrentTrackItemList = <T>(
 	trackList: TrackListItem[],
 	currentFrame: number,
-	isOfType: TypeGuard<T>,
+	isOfType: TypeGuard<T>
 ): T[] => {
 	const trackItems: T[] = []
 	trackList.forEach(({ list }) => {
@@ -99,7 +99,7 @@ export function checkTrackListOverlap(trackList: Resource[], checkItem: Resource
 	return {
 		hasOverlap,
 		overLapIndex,
-		insertIndex,
+		insertIndex
 	}
 }
 
@@ -116,7 +116,7 @@ export function calcTrackItemAttr(trackItem: Record<string, any>, canvasSize: Si
 		type,
 		text = '默认文本',
 		fontSize = 40,
-		style,
+		style
 	} = trackItem
 	const { width: playerW, height: playerH } = canvasSize
 	let defaultW = playerW
@@ -157,7 +157,7 @@ export function calcTrackItemAttr(trackItem: Record<string, any>, canvasSize: Si
 		text,
 		fontSize,
 		// color: style.fill,
-		style,
+		style
 	}
 }
 
@@ -171,7 +171,7 @@ export function calcTrackItemAttr(trackItem: Record<string, any>, canvasSize: Si
 export function computedItemShowArea(
 	trackItem: Record<string, any>,
 	canvasSize: { width: number; height: number },
-	trackAttr: Record<string, any>,
+	trackAttr: Record<string, any>
 ) {
 	const { left = 0, top = 0, scale = 100, text, fontSize } = trackAttr
 	const { width, height, type } = trackItem
@@ -216,6 +216,6 @@ export function computedItemShowArea(
 		defaultW,
 		defaultH,
 		diffW,
-		diffH,
+		diffH
 	}
 }

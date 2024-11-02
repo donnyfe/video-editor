@@ -4,19 +4,19 @@
 	const props = defineProps({
 		disabled: {
 			type: Boolean,
-			default: false,
+			default: false
 		},
 		newWidth: {
 			type: Number,
-			default: 0,
+			default: 0
 		},
 		newHeight: {
 			type: Number,
-			default: 0,
+			default: 0
 		},
 		direction: {
 			type: String,
-			default: 'horizontal',
+			default: 'horizontal'
 		},
 		limitSize: {
 			type: Object,
@@ -25,10 +25,10 @@
 					minHeight: 0,
 					maxHeight: 999999,
 					minWidth: 0,
-					maxWidth: 999999,
+					maxWidth: 999999
 				}
-			},
-		},
+			}
+		}
 	})
 
 	const emit = defineEmits({
@@ -38,7 +38,7 @@
 		},
 		'update:newHeight': val => {
 			return val !== null
-		},
+		}
 	})
 
 	const newWidthValue = computed({
@@ -47,7 +47,7 @@
 		},
 		set(newValue) {
 			emit('update:newWidth', newValue)
-		},
+		}
 	})
 	const newHeightValue = computed({
 		get() {
@@ -55,7 +55,7 @@
 		},
 		set(newValue) {
 			emit('update:newHeight', newValue)
-		},
+		}
 	})
 
 	const splitLineEl = ref()
@@ -65,7 +65,7 @@
 	// 定位数据缓存
 	const posState = {
 		left: 0,
-		top: 0,
+		top: 0
 	}
 
 	let enableMove = false
@@ -129,7 +129,7 @@
 		class="flex absolute justify-center items-center hover:bg-[var(--el-color-primary)]"
 		:class="[
 			disabled ? 'cursor-no-drop' : isVertical ? 'cursor-col-resize' : 'cursor-row-resize',
-			isVertical ? 'w-0.5 h-full flex-col' : 'h-0.5 w-full flex-row',
+			isVertical ? 'w-0.5 h-full flex-col' : 'h-0.5 w-full flex-row'
 		]"
 		@mouseenter="mouseEnterHandler"
 		@mouseleave="mouseLeaveHandler"

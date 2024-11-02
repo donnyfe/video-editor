@@ -6,14 +6,14 @@
 		formatPlayerTime,
 		preciseInterval,
 		getCurrentTrackItemList,
-		isOfCanPlayType,
+		isOfCanPlayType
 	} from '@/utils'
 
 	const props = defineProps({
 		disable: {
 			type: Boolean,
-			default: false,
-		},
+			default: false
+		}
 	})
 	const store = usePlayerStore()
 	const trackStore = useTrackStore()
@@ -37,7 +37,7 @@
 		const trackItemList = getCurrentTrackItemList(
 			trackStore.trackList,
 			store.playFrame,
-			isOfCanPlayType,
+			isOfCanPlayType
 		)
 		trackItemList.forEach(item => {
 			item?.pause()
@@ -70,7 +70,7 @@
 			if (store.isPause) {
 				pauseVideo()
 			}
-		},
+		}
 	)
 	watch(
 		() => store.playFrame,
@@ -80,18 +80,18 @@
 				const trackItemList = getCurrentTrackItemList(
 					trackStore.trackList,
 					store.playFrame,
-					isOfCanPlayType,
+					isOfCanPlayType
 				)
 				trackItemList.forEach(item => {
 					item?.play(store.playFrame)
 				})
 			}
-		},
+		}
 	)
 
 	const aspectRatioList = [
 		{ label: '16:9', value: '16:9' },
-		{ label: '9:16', value: '9:16' },
+		{ label: '9:16', value: '9:16' }
 	]
 
 	function onChangeAspectRatio(val: string) {
@@ -102,8 +102,9 @@
 <template>
 	<div class="flex flex-center pl-4 pr-4 h-8 border-t dark:border-darker border-gray-300">
 		<div class="h-full text-xs leading-8">
-			<span class="text-[var(--el-color-primary)] mr-1 w-20 inline-block">{{ playTime }}</span
-			>/<span class="ml-2 w-20">{{ allTime }}</span>
+			<span class="text-[var(--el-color-primary)] mr-1 w-20 inline-block">{{ playTime }}</span>
+			<span>/</span>
+			<span class="ml-2 w-20">{{ allTime }}</span>
 		</div>
 
 		<div class="flex items-center m-auto">
