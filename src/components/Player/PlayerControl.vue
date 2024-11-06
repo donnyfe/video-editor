@@ -115,10 +115,12 @@
 			>
 				<VideoPause
 					v-show="!store.isPause"
+					class="text-[var(--el-color-primary)]"
 					@click="pauseVideo"
 				/>
 				<VideoPlay
 					v-show="store.isPause"
+					class="text-[var(--el-color-primary)]"
 					@click="startPlay"
 				/>
 			</ElIcon>

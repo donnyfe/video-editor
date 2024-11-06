@@ -9,6 +9,7 @@ const UnitFrame2μs = 1e6 / baseFps
 
 export class VideoTrack extends BaseTrack {
 	audio: HTMLAudioElement | null = null
+	private animationFrameId: number | null = null
 
 	constructor(source: VideoSource, cutFrame: number) {
 		super('video', source.name)

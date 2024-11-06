@@ -16,7 +16,7 @@ export interface FrameThumbnails {
 	ts: number
 }
 
-const baseFps = 20
+const baseFps = 30
 const UnitFrame2μs = 1e6 / baseFps
 
 interface SplitClipOptions {
@@ -116,7 +116,6 @@ class VideoDecoder {
 		console.time('生成缩略图耗时')
 		const thumbnails = await clip.thumbnails(50, { step: 1e6 })
 		console.timeEnd('生成缩略图耗时')
-		console.log('生成缩略图数量: ', thumbnails.length)
 
 		this.#thumbnailsMap.set(source.id, thumbnails)
 
@@ -146,23 +145,42 @@ class VideoDecoder {
 		}
 
 		// 如果缓存中没有，则解码新帧
-		// tick时间获取帧，可能存在着一时间帧为空的情况，修改为在范围内寻找帧,前几帧可能为空，所以限定小时间为/30秒
-		const time = Math.max(((frameIndex - 1) / baseFps) * 1e6, (5 / baseFps) * 1e6)
-		const frame = await clip.tick(time)
+		const time = this.#calculateFrameTime(frameIndex)
+		const frame = await this.#findNearestFrame(clip, time, frameIndex)
 
-		if (frame.video) {
-			// 将新帧添加到缓存
-			cache.set(frameIndex, frame.video)
-
-			// 如果缓存超过最大限制，删除最旧的帧
-			if (cache.size > this.MAX_CACHED_FRAMES) {
-				const oldestKey = cache.keys().next().value as number
-				cache.delete(oldestKey)
-			}
+		if (frame?.video) {
+			this.#updateFrameCache(cache, frameIndex, frame.video)
 			return frame.video
-		} else {
-			console.warn(`未能获取帧 ${frameIndex} 的数据`)
-			return null
+		}
+
+		console.warn(`未能获取帧 ${frameIndex} 的数据`)
+		return null
+	}
+
+	// 帧时间计算方法
+	#calculateFrameTime(frameIndex: number) {
+		return Math.max(((frameIndex - 1) / baseFps) * 1e6, (5 / baseFps) * 1e6)
+	}
+
+	// 帧查找方法
+	async #findNearestFrame(clip: MP4Clip, time: number) {
+		const frame = await clip.tick(time)
+		if (!frame?.video) {
+			// 如果没找到帧,可以尝试在附近时间范围内查找
+			const searchRange = 1e6 / baseFps // 一帧的时间范围
+			return await clip.tick(time + searchRange)
+		}
+		return frame
+	}
+
+	// 缓存更新方法
+	#updateFrameCache(cache: Map<number, VideoFrame>, frameIndex: number, frame: VideoFrame) {
+		cache.set(frameIndex, frame)
+		if (cache.size > this.MAX_CACHED_FRAMES) {
+			const oldestKey = cache.keys().next().value as number
+			const oldFrame = cache.get(oldestKey)
+			oldFrame?.close() // 确保释放资源
+			cache.delete(oldestKey)
 		}
 	}
 

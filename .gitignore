@@ -31,6 +31,6 @@ coverage
 dist
 # 临时文件
 .tmp
+.env
 
-deploy.js
 dist.tar.gz
