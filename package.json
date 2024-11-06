@@ -20,7 +20,7 @@
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
-    "deploy": "vite build && node ./deploy.js",
+    "deploy": "vite build && node ./deploy/index.js",
     "preview": "vite preview",
     "test:unit": "vitest",
     "build-only": "vite build",
@@ -53,6 +53,7 @@
     "@vitejs/plugin-vue-jsx": "^4.0.1",
     "@vue/test-utils": "^2.4.6",
     "@vue/tsconfig": "^0.5.1",
+    "dotenv": "^16.4.5",
     "eslint": "^9.13.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
