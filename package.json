@@ -20,7 +20,7 @@
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
-    "deploy": "vite build && node ./deploy/index.js",
+    "deploy": "vite build && node ./scripts/deploy/index.js",
     "preview": "vite preview",
     "test:unit": "vitest",
     "build-only": "vite build",

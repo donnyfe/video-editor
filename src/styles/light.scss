@@ -1,0 +1,44 @@
+:root {
+	--el-color-primary: #00bdbd;
+	--el-color-primary-light-3: #00bdbd;
+	--el-color-primary-light-5: #00bdbd;
+
+	--el-bg-color: #fafafa;
+	--el-bg-color-dark: #111;
+	--el-button-bg-color: #00bdbd;
+	--el-button-bg-dark-color: #111;
+	--el-button-hover-bg-color: #111;
+	--el-button-text-color: #fff;
+
+	--el-switch-on-color: #333;
+	--el-switch-off-color: #fafafa;
+
+	--el-collapse-header-bg-color: #fafafa;
+	--el-collapse-content-bg-color: #fafafa;
+}
+
+
+.el-button {
+	background: var(--el-bg-color-dark);
+}
+.el-button:hover {
+	background: var(--el-bg-color-dark);
+	border-color: var(--el-color-primary);
+	color: var(--el-button-text-color);
+}
+
+.el-switch.is-checked .el-switch__core {
+	background: var(--el-switch-on-color);
+}
+
+.el-collapse {
+	.el-collapse-item__header {
+		background: var(--el-collapse-header-bg-color);
+	}
+	.el-collapse-item__content {
+		background: var(--el-collapse-content-bg-color);
+	}
+	.el-collapse-item__wrap {
+		background: var(--el-collapse-content-bg-color);
+	}
+}

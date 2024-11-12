@@ -75,7 +75,7 @@ export class ServerDeploy extends BaseDeploy {
 					await Promise.all(
 						files.map(async file => {
 							const filePath = path.join(
-								path.resolve(dirname(fileURLToPath(import.meta.url)), '..'),
+								path.resolve(dirname(fileURLToPath(import.meta.url)), '../../'),
 								file
 							)
 
